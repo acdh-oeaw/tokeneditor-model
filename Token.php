@@ -165,12 +165,12 @@ class Token {
 			while($value = self::$valuesQuery->fetch(\PDO::FETCH_OBJ)){
 				$user  = $this->createTeiFeature('user', $value->user_id);
 				$date  = $this->createTeiFeature('date', $value->date);
-				$xpath = $this->createTeiFeature('property_xpath', $xpath);
+				$xpth  = $this->createTeiFeature('property_xpath', $xpath);
 				$val   = $this->createTeiFeature('value', $value->value);
 				$fs    = $this->createTeiFeatureSet();
 				$fs->appendChild($user);
 				$fs->appendChild($date);
-				$fs->appendChild($xpath);
+				$fs->appendChild($xpth);
 				$fs->appendChild($val);
 				if($prop->nodeType !== XML_ELEMENT_NODE){
 					$prop->parentNode->appendChild($fs);
