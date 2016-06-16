@@ -49,7 +49,7 @@ class DOMDocument extends TokenIterator {
 		if($this->pos < $this->tokens->length){
 			$doc = new \DOMDocument();
 			$tokenNode = $doc->importNode($this->tokens->item($this->pos), true);
-			$this->token = new \model\Token($tokenNode, $this->document);
+			$this->token = new \acdhOeaw\tokeneditor\Token($tokenNode, $this->document);
 		}
 	}
 
@@ -73,7 +73,7 @@ class DOMDocument extends TokenIterator {
 	 * 
 	 * @param \model\Token $new
 	 */
-	public function replaceToken(\model\Token $new){
+	public function replaceToken(\acdhOeaw\tokeneditor\Token $new){
 		$old = $this->tokens->item($new->getId() - 1);
 		$new = $this->dom->importNode($new->getNode(), true);
 		$old->parentNode->replaceChild($new, $old);

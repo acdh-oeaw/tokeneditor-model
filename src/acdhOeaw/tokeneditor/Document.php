@@ -64,7 +64,7 @@ class Document implements \IteratorAggregate {
 			$this->chooseTokenIterator();
 		}else{
 			if(!in_array($iteratorClass, array(self::DOM_DOCUMENT, self::XML_READER, self::PDO))){
-				throw new \InvalidArgumentException('tokenIteratorClass should be one of \model\Datafile::DOM_DOCUMENT, \model\Datafile::XML_READER or \model\Datafile::PDO');
+				throw new \InvalidArgumentException('tokenIteratorClass should be one of \acdhOeaw\tokeneditor\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditor\Datafile::XML_READER or \acdhOeaw\tokeneditor\Datafile::PDO');
 			}
 			$this->tokenIteratorClassName = $iteratorClass;
 		}
@@ -89,7 +89,7 @@ class Document implements \IteratorAggregate {
 			$this->chooseTokenIterator();
 		}else{
 			if(!in_array($iteratorClass, array(self::DOM_DOCUMENT, self::XML_READER))){
-				throw new \InvalidArgumentException('tokenIteratorClass should be one of \model\Datafile::DOM_DOCUMENT or \model\Datafile::XML_READER');
+				throw new \InvalidArgumentException('tokenIteratorClass should be one of \acdhOeaw\tokeneditor\Datafile::DOM_DOCUMENT or \acdhOeaw\tokeneditor\Datafile::XML_READER');
 			}
 			$this->tokenIteratorClassName = $iteratorClass;
 		}

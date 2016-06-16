@@ -67,7 +67,7 @@ class PDO extends TokenIterator {
 		if($this->token !== false){
 			$tokenDom = new \DOMDocument();
 			$tokenDom->loadXml($this->token);
-			$this->token = new \model\Token($tokenDom->documentElement, $this->document);
+			$this->token = new \acdhOeaw\tokeneditor\Token($tokenDom->documentElement, $this->document);
 		}
 	}
 
@@ -110,7 +110,7 @@ class PDO extends TokenIterator {
 	 * @param \model\Token $new
 	 * @throws \BadMethodCallException
 	 */
-	public function replaceToken(\model\Token $new) {
+	public function replaceToken(\acdhOeaw\tokeneditor\Token $new) {
 		throw new \BadMethodCallException('replaceToken() is not not implemented for this TokenIterator class');
 	}
 }

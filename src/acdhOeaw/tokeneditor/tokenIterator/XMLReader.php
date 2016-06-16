@@ -106,7 +106,7 @@ class XMLReader extends TokenIterator {
 		if($res){
 			$tokenDom = new \DOMDocument();
 			$tokenDom->loadXml($this->reader->readOuterXml());
-			$this->token = new \model\Token($tokenDom->documentElement, $this->document);
+			$this->token = new \acdhOeaw\tokeneditor\Token($tokenDom->documentElement, $this->document);
 		}
 	}
 	
@@ -143,7 +143,7 @@ class XMLReader extends TokenIterator {
 	 * 
 	 * @param \model\Token $new
 	 */
-	public function replaceToken(\model\Token $new){
+	public function replaceToken(\acdhOeaw\tokeneditor\Token $new){
 		if($new->getId() != $this->token->getId()){
 			throw new \RuntimeException('Only current token can be replaced when you are using XMLReader token iterator');
 		}

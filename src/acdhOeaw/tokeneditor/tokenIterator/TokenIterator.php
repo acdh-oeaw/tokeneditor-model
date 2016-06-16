@@ -74,5 +74,5 @@ abstract class TokenIterator implements \Iterator {
 	}
 	
 	abstract public function export($path);
-	abstract public function replaceToken(\model\Token $new);
+	abstract public function replaceToken(\acdhOeaw\tokeneditor\Token $new);
 }
