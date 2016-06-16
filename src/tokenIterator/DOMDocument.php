@@ -18,7 +18,7 @@
  */
 
 
-namespace model\tokenIterator;
+namespace acdh-oeaw\tokeneditor\tokenIterator;
 
 /**
  * Basic token iterator class using DOM parser (DOMDocument).

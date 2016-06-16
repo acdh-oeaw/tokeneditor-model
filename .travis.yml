@@ -1,0 +1,22 @@
+language: php
+php:
+  - 5.3
+
+services:
+  - postgresql
+
+addons:
+  postgresql: "9.4"
+
+install:
+  - composer require satooshi/php-coveralls
+
+before_script:
+  - createuser -U postgres root
+  - createdb -U postgres -O root tokeneditor
+  - psql -f db_schema.sql tokeneditor
+  - mkdir -p build/logs
+
+after_success:
+  - php vendor/bin/coveralls -v
+

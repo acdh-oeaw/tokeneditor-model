@@ -18,7 +18,7 @@
  */
 
 
-namespace model\tokenIterator;
+namespace acdh-oeaw\tokeneditor\tokenIterator;
 
 /**
  * Token iterator class using relational database backend.

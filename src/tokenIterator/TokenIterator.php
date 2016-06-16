@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace model\tokenIterator;
+namespace acdh-oeaw\tokeneditor\tokenIterator;
 
 /**
  * Description of TokenIterator

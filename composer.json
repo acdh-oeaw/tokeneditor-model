@@ -1,0 +1,28 @@
+{
+    "name": "acdh-oeaw/tokeneditor-model",
+    "type": "library",
+    "description": "Classes implementing tokeneditor data model",
+    "keywords": [],
+    "homepage": "https://github.com/acdh-oeaw/tokeneditor-model",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mateusz Żółtak",
+            "email": "mateusz.zoltak@oeaw.ac.at",
+            "role": "Developer" 
+        },
+        {
+            "name": "Barbara Krautgartner",
+            "email": "barbara.krautgartner@oeaw.ac.at",
+            "role": "Developer" 
+        }
+    ],
+    "require": {
+        "php": ">=5.3" 
+    },
+    "autoload": {
+        "psr-4": {
+            "acdh-oeaw\\tokeneditor": "src" 
+        }
+    }
+}
