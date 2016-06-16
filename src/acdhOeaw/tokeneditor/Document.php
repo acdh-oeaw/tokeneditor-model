@@ -25,9 +25,9 @@ namespace acdhOeaw\tokeneditor;
  * @author zozlak
  */
 class Document implements \IteratorAggregate {
-	const DOM_DOCUMENT = '\model\tokenIterator\DOMDocument';
-	const XML_READER = '\model\tokenIterator\XMLReader';
-	const PDO = '\model\tokenIterator\PDO';
+	const DOM_DOCUMENT = '\acdhOeaw\tokeneditor\tokenIterator\DOMDocument';
+	const XML_READER = '\acdhOeaw\tokeneditor\tokenIterator\XMLReader';
+	const PDO = '\acdhOeaw\tokeneditor\tokenIterator\PDO';
 
 	private $path;
 	private $name;
