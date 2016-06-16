@@ -2,16 +2,13 @@
 
 namespace model;
 
-require_once 'util/ClassLoader.php';
-new \util\ClassLoader('php/src');
-
 /**
  * Description of ImportExportWorkflowTest
  *
  * @author zozlak
  */
 class ImportExportWorkflowTest extends \PHPUnit_Framework_TestCase {
-	static private $saveDir = 'php/docStorage';
+	static private $saveDir = 'build';
 	static private $connSettings = 'pgsql: dbname=tokeneditor';
 	static private $PDO;
 	static private $validInPlace = <<<RES
@@ -74,7 +71,7 @@ RES;
 	
 	public function testDefaultInPlace(){
 		$doc = new Document(self::$PDO);
-		$doc->loadFile('sample_data/testtext.xml', 'sample_data/testtext-schema.xml', 'test');
+		$doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
 		$doc->save(self::$saveDir);
 		$docId = $doc->getId();
 		$this->docsToClean[] = $docId;
@@ -90,7 +87,7 @@ RES;
 	
 	public function testDefaultFull(){
 		$doc = new Document(self::$PDO);
-		$doc->loadFile('sample_data/testtext.xml', 'sample_data/testtext-schema.xml', 'test');
+		$doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
 		$doc->save(self::$saveDir);
 		$docId = $doc->getId();
 		$this->docsToClean[] = $docId;
@@ -108,7 +105,7 @@ RES;
 
 	public function testXMLReader(){
 		$doc = new Document(self::$PDO);
-		$doc->loadFile('sample_data/testtext.xml', 'sample_data/testtext-schema.xml', 'test', Document::XML_READER);
+		$doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::XML_READER);
 		$doc->save(self::$saveDir);
 		$docId = $doc->getId();
 		$this->docsToClean[] = $docId;
@@ -123,7 +120,7 @@ RES;
 
 	public function testPDO(){
 		$doc = new Document(self::$PDO);
-		$doc->loadFile('sample_data/testtext.xml', 'sample_data/testtext-schema.xml', 'test', Document::PDO);
+		$doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::PDO);
 		$doc->save(self::$saveDir);
 		$docId = $doc->getId();
 		$this->docsToClean[] = $docId;
@@ -138,7 +135,7 @@ RES;
 	
 	public function testDOMDocument(){
 		$doc = new Document(self::$PDO);
-		$doc->loadFile('sample_data/testtext.xml', 'sample_data/testtext-schema.xml', 'test', Document::DOM_DOCUMENT);
+		$doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::DOM_DOCUMENT);
 		$doc->save(self::$saveDir);
 		$docId = $doc->getId();
 		$this->docsToClean[] = $docId;
