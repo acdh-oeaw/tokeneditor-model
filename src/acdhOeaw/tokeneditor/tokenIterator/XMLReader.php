@@ -41,7 +41,7 @@ class XMLReader extends TokenIterator {
 	 * @param type $export
 	 * @throws \RuntimeException
 	 */
-	public function __construct($xmlPath, \model\Document $document, $export = false){
+	public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document, $export = false){
 		parent::__construct($xmlPath, $document);
 
 		$this->reader = new \XMLReader();

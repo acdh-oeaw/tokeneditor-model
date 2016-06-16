@@ -38,7 +38,7 @@ class PDO extends TokenIterator {
 	 * @param \model\Schema $schema
 	 * @param \PDO $PDO
 	 */
-	public function __construct($xmlPath, \model\Document $document){
+	public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document){
 		parent::__construct($xmlPath, $document);
 		$this->PDO = $this->document->getPDO();
 		

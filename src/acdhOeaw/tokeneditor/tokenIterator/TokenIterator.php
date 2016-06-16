@@ -44,7 +44,7 @@ abstract class TokenIterator implements \Iterator {
 	 * @param \model\Schema $schema
 	 * @param \PDO $PDO
 	 */
-	public function __construct($xmlPath, \model\Document $document){
+	public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document){
 		$this->xmlPath = $xmlPath;
 		$this->document = $document;
 	}

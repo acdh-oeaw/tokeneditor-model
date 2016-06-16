@@ -36,7 +36,7 @@ class DOMDocument extends TokenIterator {
 	 * 
 	 * @param type $path
 	 */
-	public function __construct($xmlPath, \model\Document $document) {
+	public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document) {
 		parent::__construct($xmlPath, $document);
 	}
 	
