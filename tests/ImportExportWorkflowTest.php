@@ -22,7 +22,7 @@ RES;
 
 	private $docsToClean = array();
 	
-	static public function setUpBeforeClass() {
+	static public function setUpBeforeClass() {        
 		self::$PDO = new \PDO(self::$connSettings);
 		self::$PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		self::$PDO->beginTransaction();
