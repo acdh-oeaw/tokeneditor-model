@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
  * Copyright (C) 2015 ACDH
@@ -20,35 +20,36 @@
 namespace acdhOeaw\tokeneditor;
 
 class TokenCollection {
-	private $PDO;
-	private $tokenIdFilter;
-	private $tokenValueFilter;
-	private $filters = array();
-	
-	public function __construct(PDO $PDO) {
-		$this->PDO = $PDO;
-	}
-	
-	public function setTokenIdFilter($id){
-		$this->tokenIdFilter = $id;
-	}
-	
-	public function setTokenValueFilter($val){
-		$this->tokenValueFilter = $val;
-	}
-	
-	/**
-	 * 
-	 * @param type $prop property xpath
-	 * @param type $val filter value
-	 */
-	public function addFilter($prop, $val){
-		$this->filters[$prop] = $val;
-	}
-	
-	public function generateJSON($documentId, $userId, $pageSize = 1000, $offset = 0) {
-		list($filterQuery, $filterParam) = $this->getFilters($documentId, $userId);
-		$queryStr = "
+
+    private $PDO;
+    private $tokenIdFilter;
+    private $tokenValueFilter;
+    private $filters = array();
+
+    public function __construct(PDO $PDO) {
+        $this->PDO = $PDO;
+    }
+
+    public function setTokenIdFilter($id) {
+        $this->tokenIdFilter = $id;
+    }
+
+    public function setTokenValueFilter($val) {
+        $this->tokenValueFilter = $val;
+    }
+
+    /**
+     * 
+     * @param type $prop property xpath
+     * @param type $val filter value
+     */
+    public function addFilter($prop, $val) {
+        $this->filters[$prop] = $val;
+    }
+
+    public function generateJSON($documentId, $userId, $pageSize = 1000, $offset = 0) {
+        list($filterQuery, $filterParam) = $this->getFilters($documentId, $userId);
+        $queryStr = "
 			WITH filter AS (" . $filterQuery . ")
 			SELECT
 				json_build_object(
@@ -98,17 +99,17 @@ class TokenCollection {
 				GROUP BY 1, 2 
 				ORDER BY token_id 
 			) t";
-		$query = $this->PDO->prepare($queryStr);
-		$params = array_merge($filterParam, array($pageSize, $offset, $userId, $pageSize, $offset));
-		$query->execute($params);				
-		$result = $query->fetch(PDO::FETCH_COLUMN);
-		
-		return $result;
-	}
+        $query = $this->PDO->prepare($queryStr);
+        $params = array_merge($filterParam, array($pageSize, $offset, $userId, $pageSize, $offset));
+        $query->execute($params);
+        $result = $query->fetch(PDO::FETCH_COLUMN);
 
-	public function getTokensOnly($documentId, $userId, $pageSize = 1000, $offset = 0){
-		list($filterQuery, $filterParam) = $this->getFilters($documentId, $userId);
-		$queryStr = "
+        return $result;
+    }
+
+    public function getTokensOnly($documentId, $userId, $pageSize = 1000, $offset = 0) {
+        list($filterQuery, $filterParam) = $this->getFilters($documentId, $userId);
+        $queryStr = "
 			WITH filter AS (" . $filterQuery . ")
 			SELECT 
 				json_build_object(
@@ -128,35 +129,35 @@ class TokenCollection {
 					OFFSET ?
 				) t USING (document_id, token_id)
 			WHERE user_id = ?";
-		$query = $this->PDO->prepare($queryStr);
-		$params = array_merge($filterParam, array($pageSize, $offset, $userId));
-		$query->execute($params);
-		$result = $query->fetch(PDO::FETCH_COLUMN);
-		
-		return $result ? $result : '[]';
-	}
-	
-	private function getFilters($docId, $userId){
-		$query = $this->PDO->prepare("SELECT property_xpath, name FROM properties WHERE document_id = ?");
-		$query->execute(array($docId));
-		$propDict = array();
-		while($prop = $query->fetch(PDO::FETCH_OBJ)){
-			$propDict[$prop->name] = $prop->property_xpath;
-		}
-		
-		$query = "";
-		$n = 1;
-		$params = array();
-		
-		if($this->tokenIdFilter !== null){
-			$query .= "
+        $query = $this->PDO->prepare($queryStr);
+        $params = array_merge($filterParam, array($pageSize, $offset, $userId));
+        $query->execute($params);
+        $result = $query->fetch(PDO::FETCH_COLUMN);
+
+        return $result ? $result : '[]';
+    }
+
+    private function getFilters($docId, $userId) {
+        $query = $this->PDO->prepare("SELECT property_xpath, name FROM properties WHERE document_id = ?");
+        $query->execute(array($docId));
+        $propDict = array();
+        while ($prop = $query->fetch(PDO::FETCH_OBJ)) {
+            $propDict[$prop->name] = $prop->property_xpath;
+        }
+
+        $query = "";
+        $n = 1;
+        $params = array();
+
+        if ($this->tokenIdFilter !== null) {
+            $query .= "
 				JOIN (
 					SELECT ?::int AS token_id
 				) f" . $n++ . " USING (token_id)";
-			$params[] = $this->tokenIdFilter;
-		}
-		if($this->tokenValueFilter !== null){
-			$query .= "
+            $params[] = $this->tokenIdFilter;
+        }
+        if ($this->tokenValueFilter !== null) {
+            $query .= "
 				JOIN (
 					SELECT token_id
 					FROM tokens
@@ -164,15 +165,15 @@ class TokenCollection {
 						document_id = ?
 						AND lower(value) LIKE lower(?)
 				) f" . $n++ . " USING (token_id)";
-			$params[] = $docId;
-			$params[] = $this->tokenValueFilter;
-		}
-		
-		foreach($this->filters as $prop=>$val){
-			if(!isset($propDict[$prop])){
-				continue;
-			}
-			$query .= "
+            $params[] = $docId;
+            $params[] = $this->tokenValueFilter;
+        }
+
+        foreach ($this->filters as $prop => $val) {
+            if (!isset($propDict[$prop])) {
+                continue;
+            }
+            $query .= "
 				JOIN (
 					SELECT token_id
 					FROM 
@@ -184,13 +185,13 @@ class TokenCollection {
 						AND (user_id = ? OR user_id IS NULL)
 						AND COALESCE(v.value, o.value) ILIKE ?
 				) f" . $n++ . " USING (token_id)";
-			$params[] = $docId;
-			$params[] = $propDict[$prop];
-			$params[] = $userId;
-			$params[] = $val;
-		}
-		
-		$query = "				
+            $params[] = $docId;
+            $params[] = $propDict[$prop];
+            $params[] = $userId;
+            $params[] = $val;
+        }
+
+        $query = "				
 			SELECT DISTINCT document_id, token_id
 			FROM
 				documents_users
@@ -198,9 +199,10 @@ class TokenCollection {
 				" . $query . " 
 			WHERE document_id = ? AND user_id = ?
 			ORDER BY token_id";
-		$params[] = $docId;
-		$params[] = $userId;
-		
-		return array($query, $params);
-	}
+        $params[] = $docId;
+        $params[] = $userId;
+
+        return array($query, $params);
+    }
+
 }
