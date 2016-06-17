@@ -47,6 +47,7 @@ class PDO extends TokenIterator {
             fetchColumn();
 
         $query = $this->PDO->prepare("INSERT INTO import_tmp VALUES (?, ?)");
+print_r(array($this->id, preg_replace('/^[^<]*/', '', file_get_contents($this->xmlPath))));
         $query->execute(array($this->id, preg_replace('/^[^<]*/', '', file_get_contents($this->xmlPath))));
     }
 
@@ -64,6 +65,7 @@ class PDO extends TokenIterator {
     public function next() {
         $this->pos++;
         $this->token = $this->results->fetch(\PDO::FETCH_COLUMN);
+echo($this->token."\n\n");
         if ($this->token !== false) {
             $tokenDom = new \DOMDocument();
             $tokenDom->loadXml($this->token);
@@ -91,6 +93,8 @@ class PDO extends TokenIterator {
         $param[] = $this->id;
 
         $this->results = $this->PDO->prepare("SELECT unnest(xpath(?, xml" . $ns . ")) FROM import_tmp WHERE id = ?");
+echo($this->PDO->query("SELECT xml FROM import_tmp")->fetchColumn()."\n\n");
+echo("SELECT unnest(xpath(?, xml" . $param[0] . ")) FROM import_tmp WHERE id = ".$param[1].";\n\n");
         $this->results->execute($param);
         $this->pos = -1;
         $this->next();
