@@ -91,7 +91,6 @@ class Token {
 
                 $this->properties[$prop->getXPath()] = $value->item(0);
             } catch (\LengthException $e) {
-echo($dom->C14N());
                 $this->invalidProperties[$prop->getXPath()] = $e->getMessage();
             }
         }
