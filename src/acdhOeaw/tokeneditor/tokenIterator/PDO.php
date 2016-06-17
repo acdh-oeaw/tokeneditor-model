@@ -17,7 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 namespace acdhOeaw\tokeneditor\tokenIterator;
 
 /**
@@ -28,89 +27,91 @@ namespace acdhOeaw\tokeneditor\tokenIterator;
  * @author zozlak
  */
 class PDO extends TokenIterator {
-	private $PDO;
-	private $id;
-	private $results;
-	
-	/**
-	 * 
-	 * @param type $path
-	 * @param \model\Schema $schema
-	 * @param \PDO $PDO
-	 */
-	public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document){
-		parent::__construct($xmlPath, $document);
-		$this->PDO = $this->document->getPDO();
-		
-		$this->id = $this->PDO->
-			query("SELECT nextval('import_tmp_seq')")->
-			fetchColumn();
-		
-		$query = $this->PDO->prepare("INSERT INTO import_tmp VALUES (?, ?)");
-		$query->execute(array($this->id, preg_replace('/^[^<]*/', '', file_get_contents($this->xmlPath))));
-	}
-	
-	/**
-	 * 
-	 */
-	public function __destruct() {
-		$query = $this->PDO->prepare("DELETE FROM import_tmp WHERE id = ?");
-		$query->execute(array($this->id));
-	}
 
-	/**
-	 * 
-	 */
-	public function next() {
-		$this->pos++;
-		$this->token = $this->results->fetch(\PDO::FETCH_COLUMN);
-		if($this->token !== false){
-			$tokenDom = new \DOMDocument();
-			$tokenDom->loadXml($this->token);
-			$this->token = new \acdhOeaw\tokeneditor\Token($tokenDom->documentElement, $this->document);
-		}
-	}
+    private $PDO;
+    private $id;
+    private $results;
 
-	/**
-	 * 
-	 */
-	public function rewind() {
-		$param = array($this->document->getSchema()->getTokenXPath());
-		
-		$ns = array();
-		foreach($this->document->getSchema()->getNs() as $prefix => $namespace){
-			$ns[] = 'array[?, ?]';
-			$param[] = $prefix;
-			$param[] = $namespace;
-		}
-		$ns = implode(',', $ns);
-		if($ns != ''){
-			$ns = ', array[' . $ns . ']';
-		}
-		
-		$param[] = $this->id;
-		
-		$this->results = $this->PDO->prepare("SELECT unnest(xpath(?, xml" . $ns . ")) FROM import_tmp WHERE id = ?");
-		$this->results->execute($param);
-		$this->pos = -1;
-		$this->next();
-	}
+    /**
+     * 
+     * @param type $path
+     * @param \acdhOeaw\tokeneditor\Schema $schema
+     * @param \PDO $PDO
+     */
+    public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document) {
+        parent::__construct($xmlPath, $document);
+        $this->PDO = $this->document->getPDO();
 
-	/**
-	 * 
-	 * @param type $path
-	 * @throws \BadMethodCallException
-	 */
-	public function export($path) {
-		throw new \BadMethodCallException('export() is not not implemented for this TokenIterator class');
-	}
+        $this->id = $this->PDO->
+            query("SELECT nextval('import_tmp_seq')")->
+            fetchColumn();
 
-	/**
-	 * 
-	 * @param \model\Token $new
-	 * @throws \BadMethodCallException
-	 */
-	public function replaceToken(\acdhOeaw\tokeneditor\Token $new) {
-		throw new \BadMethodCallException('replaceToken() is not not implemented for this TokenIterator class');
-	}
+        $query = $this->PDO->prepare("INSERT INTO import_tmp VALUES (?, ?)");
+        $query->execute(array($this->id, preg_replace('/^[^<]*/', '', file_get_contents($this->xmlPath))));
+    }
+
+    /**
+     * 
+     */
+    public function __destruct() {
+        $query = $this->PDO->prepare("DELETE FROM import_tmp WHERE id = ?");
+        $query->execute(array($this->id));
+    }
+
+    /**
+     * 
+     */
+    public function next() {
+        $this->pos++;
+        $this->token = $this->results->fetch(\PDO::FETCH_COLUMN);
+        if ($this->token !== false) {
+            $tokenDom = new \DOMDocument();
+            $tokenDom->loadXml($this->token);
+            $this->token = new \acdhOeaw\tokeneditor\Token($tokenDom->documentElement, $this->document);
+        }
+    }
+
+    /**
+     * 
+     */
+    public function rewind() {
+        $param = array($this->document->getSchema()->getTokenXPath());
+
+        $ns = array();
+        foreach ($this->document->getSchema()->getNs() as $prefix => $namespace) {
+            $ns[] = 'array[?, ?]';
+            $param[] = $prefix;
+            $param[] = $namespace;
+        }
+        $ns = implode(',', $ns);
+        if ($ns != '') {
+            $ns = ', array[' . $ns . ']';
+        }
+
+        $param[] = $this->id;
+
+        $this->results = $this->PDO->prepare("SELECT unnest(xpath(?, xml" . $ns . ")) FROM import_tmp WHERE id = ?");
+        $this->results->execute($param);
+        $this->pos = -1;
+        $this->next();
+    }
+
+    /**
+     * 
+     * @param type $path
+     * @throws \BadMethodCallException
+     */
+    public function export($path) {
+        throw new \BadMethodCallException('export() is not not implemented for this TokenIterator class');
+    }
+
+    /**
+     * 
+     * @param \acdhOeaw\tokeneditor\Token $new
+     * @throws \BadMethodCallException
+     */
+    public function replaceToken(\acdhOeaw\tokeneditor\Token $new) {
+        throw new \BadMethodCallException('replaceToken() is not not implemented for this TokenIterator class');
+    }
+
 }

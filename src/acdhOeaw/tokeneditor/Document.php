@@ -43,7 +43,7 @@ class Document implements \IteratorAggregate {
     /**
      * 
      * @param type $path
-     * @param \model\Schema $schema
+     * @param \acdhOeaw\tokeneditor\Schema $schema
      * @throws \RuntimeException
      */
     public function __construct(\PDO $PDO) {
@@ -105,7 +105,7 @@ class Document implements \IteratorAggregate {
 
     /**
      * 
-     * @return Schema
+     * @return \acdhOeaw\tokeneditor\Schema
      */
     public function getSchema() {
         return $this->schema;
@@ -113,7 +113,7 @@ class Document implements \IteratorAggregate {
 
     /**
      * 
-     * @return type
+     * @return string
      */
     public function getName() {
         return $this->name;
@@ -121,7 +121,7 @@ class Document implements \IteratorAggregate {
 
     /**
      * 
-     * @return PDO
+     * @return \PDO
      */
     public function getPDO() {
         return $this->PDO;
@@ -140,14 +140,14 @@ class Document implements \IteratorAggregate {
      * 
      * @param string $saveDir
      * @param int $limit
-     * @param \util\ProgressBar $progressBar
+     * @param \zozlak\util\ProgressBar $progressBar
      * @param bool $skipErrors
      * @return int number of proccessed tokens
      */
     public function save($saveDir, $limit = 0, $progressBar = null, $skipErrors = false) {
         $this->documentId = $this->PDO->
-                query("SELECT nextval('document_id_seq')")->
-                fetchColumn();
+            query("SELECT nextval('document_id_seq')")->
+            fetchColumn();
 
         $savePath = $saveDir . '/' . $this->documentId . '.xml';
 
@@ -211,20 +211,20 @@ class Document implements \IteratorAggregate {
         $this->exportFlag = true;
 
         $csvFile = fopen($path, 'w');
-        if ($csvFile === false){
+        if ($csvFile === false) {
             throw new \RuntimeException('Unable to open file for writing');
         }
-        
+
         $header = array('tokenId', 'token');
-        foreach($this->schema as $property) {
+        foreach ($this->schema as $property) {
             $header[] = $property->getName();
         }
-        fputcsv($csvFile, $header,$delimiter);
-        
+        fputcsv($csvFile, $header, $delimiter);
+
         foreach ($this as $token) {
             $token->exportCsv($csvFile, $delimiter);
         }
-        
+
         fclose($csvFile);
     }
 
@@ -236,7 +236,7 @@ class Document implements \IteratorAggregate {
 
     /**
      * 
-     * @return \model\tokenIterator\TokenInterator
+     * @return \acdhOeaw\tokeneditor\tokenIterator\TokenInterator
      */
     public function getTokenIterator() {
         return $this->tokenIterator;

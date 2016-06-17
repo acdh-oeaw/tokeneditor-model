@@ -40,7 +40,7 @@ class Token {
 
     /**
      *
-     * @var Document
+     * @var acdhOeaw\tokeneditor\Document
      */
     private $document;
     private $tokenId;
@@ -56,7 +56,7 @@ class Token {
     /**
      * 
      * @param \DOMElement $dom
-     * @param \model\Document $document
+     * @param \acdhOeaw\tokeneditor\Document $document
      * @throws \LengthException
      */
     public function __construct(\DOMElement $dom, Document $document) {
@@ -220,7 +220,7 @@ class Token {
     private function checkValuesQuery() {
         if (self::$valuesQuery === null) {
             self::$valuesQuery = $this->document->getPDO()->
-                    prepare("SELECT user_id, value, date FROM values WHERE (document_id, property_xpath, token_id) = (?, ?, ?) ORDER BY date DESC");
+                prepare("SELECT user_id, value, date FROM values WHERE (document_id, property_xpath, token_id) = (?, ?, ?) ORDER BY date DESC");
         }
     }
 

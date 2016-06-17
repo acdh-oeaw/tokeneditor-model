@@ -25,54 +25,57 @@ namespace acdhOeaw\tokeneditor\tokenIterator;
  * @author zozlak
  */
 abstract class TokenIterator implements \Iterator {
-	/**
-	 *
-	 * @var \model\Document
-	 */
-	protected $document;
-	protected $xmlPath;
-	protected $pos;
-	/**
-	 *
-	 * @var type \model\Token
-	 */
-	protected $token = false;
 
-	/**
-	 * 
-	 * @param type $path
-	 * @param \model\Schema $schema
-	 * @param \PDO $PDO
-	 */
-	public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document){
-		$this->xmlPath = $xmlPath;
-		$this->document = $document;
-	}
-	
-	/**
-	 * 
-	 * @return model\Token
-	 */
-	public function current() {
-		return $this->token;
-	}
-	
-	/**
-	 * 
-	 * @return int
-	 */
-	public function key() {
-		return $this->pos;
-	}
+    /**
+     *
+     * @var \acdhOeaw\tokeneditor\Document
+     */
+    protected $document;
+    protected $xmlPath;
+    protected $pos;
 
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public function valid() {
-		return $this->token !== false;
-	}
-	
-	abstract public function export($path);
-	abstract public function replaceToken(\acdhOeaw\tokeneditor\Token $new);
+    /**
+     *
+     * @var type \acdhOeaw\tokeneditor\Token
+     */
+    protected $token = false;
+
+    /**
+     * 
+     * @param type $path
+     * @param \acdhOeaw\tokeneditor\Schema $schema
+     * @param \PDO $PDO
+     */
+    public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document) {
+        $this->xmlPath = $xmlPath;
+        $this->document = $document;
+    }
+
+    /**
+     * 
+     * @return \acdhOeaw\tokeneditor\Token
+     */
+    public function current() {
+        return $this->token;
+    }
+
+    /**
+     * 
+     * @return int
+     */
+    public function key() {
+        return $this->pos;
+    }
+
+    /**
+     * 
+     * @return boolean
+     */
+    public function valid() {
+        return $this->token !== false;
+    }
+
+    abstract public function export($path);
+
+    abstract public function replaceToken(\acdhOeaw\tokeneditor\Token $new);
 }

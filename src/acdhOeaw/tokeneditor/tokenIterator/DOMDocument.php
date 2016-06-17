@@ -17,7 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 namespace acdhOeaw\tokeneditor\tokenIterator;
 
 /**
@@ -29,66 +28,68 @@ namespace acdhOeaw\tokeneditor\tokenIterator;
  * @author zozlak
  */
 class DOMDocument extends TokenIterator {
-	private $dom;
-	private $tokens;
-	
-	/**
-	 * 
-	 * @param type $path
-	 */
-	public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document) {
-		parent::__construct($xmlPath, $document);
-	}
-	
-	/**
-	 * 
-	 */
-	public function next() {
-		$this->token = false;
-		$this->pos++;
-		if($this->pos < $this->tokens->length){
-			$doc = new \DOMDocument();
-			$tokenNode = $doc->importNode($this->tokens->item($this->pos), true);
-			$this->token = new \acdhOeaw\tokeneditor\Token($tokenNode, $this->document);
-		}
-	}
 
-	/**
-	 * 
-	 */
-	public function rewind() {
-		$this->dom = new \DOMDocument();
-		$this->dom->preserveWhiteSpace = false;
-		$this->dom->LoadXML(file_get_contents($this->xmlPath));
-		$xpath = new \DOMXPath($this->dom);
-		foreach($this->document->getSchema()->getNs() as $prefix => $ns){
-			$xpath->registerNamespace($prefix, $ns);
-		}
-		$this->tokens = $xpath->query($this->document->getSchema()->getTokenXPath());
-		$this->pos = -1;
-		$this->next();
-	}
-	
-	/**
-	 * 
-	 * @param \model\Token $new
-	 */
-	public function replaceToken(\acdhOeaw\tokeneditor\Token $new){
-		$old = $this->tokens->item($new->getId() - 1);
-		$new = $this->dom->importNode($new->getNode(), true);
-		$old->parentNode->replaceChild($new, $old);
-	}
-	
-	/**
-	 * 
-	 * @param string $path
-	 * @return string
-	 */
-	public function export($path){
-		if($path != ''){
-			$this->dom->save($path);
-		}else{
-			return $this->dom->saveXML();
-		}
-	}
+    private $dom;
+    private $tokens;
+
+    /**
+     * 
+     * @param type $path
+     */
+    public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document) {
+        parent::__construct($xmlPath, $document);
+    }
+
+    /**
+     * 
+     */
+    public function next() {
+        $this->token = false;
+        $this->pos++;
+        if ($this->pos < $this->tokens->length) {
+            $doc = new \DOMDocument();
+            $tokenNode = $doc->importNode($this->tokens->item($this->pos), true);
+            $this->token = new \acdhOeaw\tokeneditor\Token($tokenNode, $this->document);
+        }
+    }
+
+    /**
+     * 
+     */
+    public function rewind() {
+        $this->dom = new \DOMDocument();
+        $this->dom->preserveWhiteSpace = false;
+        $this->dom->LoadXML(file_get_contents($this->xmlPath));
+        $xpath = new \DOMXPath($this->dom);
+        foreach ($this->document->getSchema()->getNs() as $prefix => $ns) {
+            $xpath->registerNamespace($prefix, $ns);
+        }
+        $this->tokens = $xpath->query($this->document->getSchema()->getTokenXPath());
+        $this->pos = -1;
+        $this->next();
+    }
+
+    /**
+     * 
+     * @param \acdhOeaw\tokeneditor\Token $new
+     */
+    public function replaceToken(\acdhOeaw\tokeneditor\Token $new) {
+        $old = $this->tokens->item($new->getId() - 1);
+        $new = $this->dom->importNode($new->getNode(), true);
+        $old->parentNode->replaceChild($new, $old);
+    }
+
+    /**
+     * 
+     * @param string $path
+     * @return string
+     */
+    public function export($path) {
+        if ($path != '') {
+            $this->dom->save($path);
+        } else {
+            return $this->dom->saveXML();
+        }
+    }
+
 }
