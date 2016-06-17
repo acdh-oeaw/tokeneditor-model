@@ -115,6 +115,7 @@ class Token {
      */
     public function save() {
         if (count($this->invalidProperties) > 0) {
+print_r($this->invalidProperties);
             throw new \RuntimeException("at least one property wasn't found");
         }
 
