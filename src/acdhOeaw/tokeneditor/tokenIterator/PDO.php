@@ -47,8 +47,9 @@ class PDO extends TokenIterator {
             fetchColumn();
 
         $query = $this->PDO->prepare("INSERT INTO import_tmp VALUES (?, ?)");
-print_r(array($this->id, preg_replace('/^[^<]*/', '', file_get_contents($this->xmlPath))));
+//print_r(array($this->id, preg_replace('/^[^<]*/', '', file_get_contents($this->xmlPath))));
         $query->execute(array($this->id, preg_replace('/^[^<]*/', '', file_get_contents($this->xmlPath))));
+print_r($this->PDO->query("select unnest(xpath('//tei:w', xml, array[array['tei', 'http://www.tei-c.org/ns/1.0']])) FROM import_tmp LIMIT 1")->fetchColumn());
     }
 
     /**
@@ -65,7 +66,7 @@ print_r(array($this->id, preg_replace('/^[^<]*/', '', file_get_contents($this->x
     public function next() {
         $this->pos++;
         $this->token = $this->results->fetch(\PDO::FETCH_COLUMN);
-echo($this->token."\n\n");
+//echo($this->token."\n\n");
         if ($this->token !== false) {
             $tokenDom = new \DOMDocument();
             $tokenDom->loadXml($this->token);
@@ -93,8 +94,8 @@ echo($this->token."\n\n");
         $param[] = $this->id;
 
         $this->results = $this->PDO->prepare("SELECT unnest(xpath(?, xml" . $ns . ")) FROM import_tmp WHERE id = ?");
-echo($this->PDO->query("SELECT xml FROM import_tmp")->fetchColumn()."\n\n");
-echo("SELECT unnest(xpath(?, xml" . $param[0] . ")) FROM import_tmp WHERE id = ".$param[1].";\n\n");
+//echo($this->PDO->query("SELECT xml FROM import_tmp")->fetchColumn()."\n\n");
+//echo("SELECT unnest(xpath(".$param[0] . ", xml, ".$ns.")) FROM import_tmp WHERE id = ".$param[1].";\n\n");
         $this->results->execute($param);
         $this->pos = -1;
         $this->next();
