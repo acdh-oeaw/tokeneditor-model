@@ -91,6 +91,7 @@ class Token {
 
                 $this->properties[$prop->getXPath()] = $value->item(0);
             } catch (\LengthException $e) {
+echo($dom->C14N());
                 $this->invalidProperties[$prop->getXPath()] = $e->getMessage();
             }
         }
@@ -115,7 +116,6 @@ class Token {
      */
     public function save() {
         if (count($this->invalidProperties) > 0) {
-print_r($this->invalidProperties);
             throw new \RuntimeException("at least one property wasn't found");
         }
 
