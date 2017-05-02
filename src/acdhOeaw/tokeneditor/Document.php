@@ -69,7 +69,7 @@ class Document implements \IteratorAggregate {
             $this->tokenIteratorClassName = $iteratorClass;
         }
     }
-
+    
     public function loadDb($documentId, $iteratorClass = null) {
         $this->documentId = $documentId;
         $this->schema->loadDb($this->documentId);

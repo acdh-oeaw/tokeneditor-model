@@ -7,7 +7,7 @@ namespace acdhOeaw\tokeneditor;
  *
  * @author zozlak
  */
-class ImportExportWorkflowTest extends \PHPUnit_Framework_TestCase {
+class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 
     static private $saveDir = 'build';
     static private $connSettings = 'pgsql: dbname=tokeneditor';
