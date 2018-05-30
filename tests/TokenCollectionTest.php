@@ -82,13 +82,13 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
     public function testGetStats() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         
-        $this->assertEquals($collection->getStats('@lemma'), '[{"value" : "aaa", "count" : 1}, {"value" : "eee", "count" : 1}, {"value" : "ccc", "count" : 1}]');        
+        $this->assertEquals($collection->getStats('@lemma'), '[{"value" : "aaa", "count" : 1}, {"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}]');        
 
         // getStats() doesn't skips filters
         $collection->setTokenIdFilter(2);
         $collection->setTokenValueFilter('xxx');
         $collection->addFilter('@lemma', 'fff');
-        $this->assertEquals($collection->getStats('@lemma'), '[{"value" : "aaa", "count" : 1}, {"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}]');
+        $this->assertEquals('[{"value" : "aaa", "count" : 1}, {"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}]', $collection->getStats('@lemma'));
     }
     
     public function testNoFilters() {
