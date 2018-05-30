@@ -34,7 +34,7 @@ namespace acdhOeaw\tokeneditorModel;
 class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
 
     static private $saveDir      = 'build';
-    static private $connSettings = 'pgsql: dbname=tokeneditor user=tokeneditor host=127.0.0.1';
+    static private $connSettings = 'pgsql: dbname=tokeneditor';
     static private $pdo;
     static private $docId;
     static private $docsToClean         = array();
