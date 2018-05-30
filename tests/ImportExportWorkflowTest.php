@@ -1,5 +1,29 @@
 <?php
 
+/**
+ * The MIT License
+ *
+ * Copyright 2018 zozlak.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 namespace acdhOeaw\tokeneditorModel;
 
 /**
@@ -9,21 +33,21 @@ namespace acdhOeaw\tokeneditorModel;
  */
 class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 
-    static private $saveDir = 'build';
-    static private $connSettings = 'pgsql: dbname=tokeneditor host=127.0.0.1 user=tokeneditor password=ZHZP5sNR6o';
+    static private $saveDir      = 'build';
+    static private $connSettings = 'pgsql: dbname=tokeneditor';
     static private $pdo;
     static private $validInPlace = <<<RES
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0"><!--sample comment--><teiHeader><fileDesc><titleStmt><title>testtext</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc/></fileDesc></teiHeader><text><body><w xmlns="http://www.tei-c.org/ns/1.0" id="w1" lemma="aaa">Hello<type>bbb</type></w><w xmlns="http://www.tei-c.org/ns/1.0" id="w2" lemma="ccc">World<type>ddd</type></w><w xmlns="http://www.tei-c.org/ns/1.0" id="w3" lemma="eee">!<type>fff</type></w></body></text></TEI>
 RES;
-    static private $validFull = <<<RES
+    static private $validFull    = <<<RES
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0"><!--sample comment--><teiHeader><fileDesc><titleStmt><title>testtext</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc/></fileDesc></teiHeader><text><body><w xmlns="http://www.tei-c.org/ns/1.0" id="w1" lemma="Hello">Hello<type>NE<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>bbb</string></f></fs></type><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>aaa</string></f></fs></w><w xmlns="http://www.tei-c.org/ns/1.0" id="w2" lemma="World">World<type>NN<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>ddd</string></f></fs></type><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>ccc</string></f></fs></w><w xmlns="http://www.tei-c.org/ns/1.0" id="w3" lemma="!">!<type>$.<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>fff</string></f></fs></type><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>eee</string></f></fs></w></body></text></TEI>
 RES;
-    private $docsToClean = array();
+    private $docsToClean         = array();
 
     static public function setUpBeforeClass() {
-        self::$pdo = new \PDO(self::$connSettings);
+        self::$pdo       = new \PDO(self::$connSettings);
         self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         self::$pdo->beginTransaction();
         self::$pdo->query("TRUNCATE documents CASCADE");
@@ -70,10 +94,10 @@ RES;
     }
 
     public function testDefaultInPlace() {
-        $doc = new Document(self::$pdo);
+        $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $doc->save(self::$saveDir);
-        $docId = $doc->getId();
+        $docId               = $doc->getId();
         $this->docsToClean[] = $docId;
 
         $this->checkImport($docId);
@@ -86,28 +110,28 @@ RES;
     }
 
     public function testDefaultFull() {
-        $doc = new Document(self::$pdo);
+        $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $doc->save(self::$saveDir);
-        $docId = $doc->getId();
+        $docId               = $doc->getId();
         $this->docsToClean[] = $docId;
 
         $this->checkImport($docId);
         $this->insertValues($docId);
 
-        $doc = new Document(self::$pdo);
+        $doc    = new Document(self::$pdo);
         $doc->loadDb($docId);
         $result = trim($doc->export());
-        $date = date('Y-m-d');
+        $date   = date('Y-m-d');
         $result = preg_replace('/<string>' . $date . '[0-9 :.]+/', '<string>' . $date, $result);
         $this->assertEquals(trim(self::$validFull), $result);
     }
 
     public function testXMLReader() {
-        $doc = new Document(self::$pdo);
+        $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::XML_READER);
         $doc->save(self::$saveDir);
-        $docId = $doc->getId();
+        $docId               = $doc->getId();
         $this->docsToClean[] = $docId;
 
         $this->checkImport($docId);
@@ -118,12 +142,13 @@ RES;
         $this->assertEquals(trim(self::$validInPlace), trim($doc->export(true)));
     }
 
-    /* Does not work in Travis, as Travis Postgresql does not include parent nodes namespaces in the xpath() results (sic!)*/
+    /* Does not work in Travis, as Travis Postgresql does not include parent nodes namespaces in the xpath() results (sic!) */
+
     public function testPDO() {
-        $doc = new Document(self::$pdo);
+        $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::PDO);
         $doc->save(self::$saveDir);
-        $docId = $doc->getId();
+        $docId               = $doc->getId();
         $this->docsToClean[] = $docId;
 
         $this->checkImport($docId);
@@ -135,16 +160,16 @@ RES;
     }
 
     public function testDOMDocument() {
-        $doc = new Document(self::$pdo);
+        $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::DOM_DOCUMENT);
         $doc->save(self::$saveDir);
-        $docId = $doc->getId();
+        $docId               = $doc->getId();
         $this->docsToClean[] = $docId;
 
         $this->checkImport($docId);
         $this->insertValues($docId);
 
-        $doc = new Document(self::$pdo);
+        $doc   = new Document(self::$pdo);
         $doc->loadDb($docId, Document::DOM_DOCUMENT);
         $valid = trim(str_replace('<w xmlns="http://www.tei-c.org/ns/1.0"', '<w', self::$validInPlace));
         $this->assertEquals($valid, trim($doc->export(true)));
