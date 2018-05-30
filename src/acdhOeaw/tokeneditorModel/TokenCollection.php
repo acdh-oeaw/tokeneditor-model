@@ -154,9 +154,14 @@ class TokenCollection {
         $queryStr = "
             SELECT json_agg(stats)
             FROM (
-                SELECT json_build_object('value', value, 'count', COUNT(value)) as stats
-                FROM values 
-                WHERE document_id = ? and property_xpath = ? GROUP BY value
+                SELECT json_build_object('value', value, 'count', count) AS stats
+                FROM (
+                    SELECT value, count(*) AS count
+                    FROM values 
+                    WHERE document_id = ? AND property_xpath = ? 
+                    GROUP BY value
+                    ORDER BY value
+                ) t
             ) AS stats
         ";
         $query    = $this->pdo->prepare($queryStr);
