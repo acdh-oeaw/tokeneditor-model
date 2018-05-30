@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "acdhOeaw\\tokeneditor\\": "src/acdhOeaw/tokeneditor/" 
+            "acdhOeaw\\tokeneditorModel\\": "src/acdhOeaw/tokeneditorModel/" 
         }
     }
 }
