@@ -5,6 +5,9 @@ php:
 
 services:
   - postgresql
+  
+addons:
+    postgresql: "10"
 
 install:
   - composer require satooshi/php-coveralls
