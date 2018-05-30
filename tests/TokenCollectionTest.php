@@ -34,7 +34,7 @@ namespace acdhOeaw\tokeneditorModel;
 class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
 
     static private $saveDir      = 'build';
-    static private $connSettings = 'pgsql: dbname=tokeneditor host=127.0.0.1 user=tokeneditor password=ZHZP5sNR6o';
+    static private $connSettings = 'pgsql: dbname=tokeneditor user=tokeneditor host=127.0.0.1';
     static private $pdo;
     static private $docId;
     static private $docsToClean         = array();
@@ -88,7 +88,7 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
         $collection->setTokenIdFilter(2);
         $collection->setTokenValueFilter('xxx');
         $collection->addFilter('@lemma', 'fff');
-        $this->assertEquals('[{"value" : "aaa", "count" : 1}, {"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}]', $collection->getStats('@lemma'));
+        $this->assertEquals($collection->getStats('@lemma'), '[{"value" : "aaa", "count" : 1}, {"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}]');
     }
     
     public function testNoFilters() {
