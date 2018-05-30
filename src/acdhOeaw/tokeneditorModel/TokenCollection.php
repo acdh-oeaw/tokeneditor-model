@@ -1,40 +1,49 @@
 <?php
 
-/*
- * Copyright (C) 2015 ACDH
+/**
+ * The MIT License
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Copyright 2016 Austrian Centre for Digital Humanities.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 namespace acdhOeaw\tokeneditorModel;
 
+use PDO;
+
 class TokenCollection {
 
-    private $PDO;
+    private $pdo;
     private $tokenIdFilter;
     private $tokenValueFilter;
-    private $filters = array();
+    private $filters = [];
 
-    public function __construct(PDO $PDO) {
-        $this->PDO = $PDO;
+    public function __construct(PDO $pdo) {
+        $this->pdo = $pdo;
     }
 
-    public function setTokenIdFilter($id) {
+    public function setTokenIdFilter(string $id) {
         $this->tokenIdFilter = $id;
     }
 
-    public function setTokenValueFilter($val) {
+    public function setTokenValueFilter(string $val) {
         $this->tokenValueFilter = $val;
     }
 
@@ -43,11 +52,12 @@ class TokenCollection {
      * @param type $prop property xpath
      * @param type $val filter value
      */
-    public function addFilter($prop, $val) {
+    public function addFilter(string $prop, string $val) {
         $this->filters[$prop] = $val;
     }
 
-    public function generateJSON($documentId, $userId, $pageSize = 1000, $offset = 0) {
+    public function generateJSON($documentId, $userId, $pageSize = 1000,
+                                 $offset = 0) {
         list($filterQuery, $filterParam) = $this->getFilters($documentId, $userId);
         $queryStr = "
 			WITH filter AS (" . $filterQuery . ")
@@ -98,16 +108,19 @@ class TokenCollection {
 					) cv USING (document_id, property_xpath, token_id)
 				GROUP BY 1, 2 
 				ORDER BY token_id 
-			) t";
-        $query = $this->PDO->prepare($queryStr);
-        $params = array_merge($filterParam, array($pageSize, $offset, $userId, $pageSize, $offset));
+			) t
+        ";
+        $query    = $this->pdo->prepare($queryStr);
+        $params   = array_merge($filterParam, [$pageSize, $offset, $userId, $pageSize,
+            $offset]);
         $query->execute($params);
-        $result = $query->fetch(PDO::FETCH_COLUMN);
+        $result   = $query->fetch(PDO::FETCH_COLUMN);
 
         return $result;
     }
 
-    public function getTokensOnly($documentId, $userId, $pageSize = 1000, $offset = 0) {
+    public function getTokensOnly(int $documentId, string $userId,
+                                  int $pageSize = 1000, int $offset = 0) {
         list($filterQuery, $filterParam) = $this->getFilters($documentId, $userId);
         $queryStr = "
 			WITH filter AS (" . $filterQuery . ")
@@ -128,43 +141,46 @@ class TokenCollection {
 					LIMIT ?
 					OFFSET ?
 				) t USING (document_id, token_id)
-			WHERE user_id = ?";
-        $query = $this->PDO->prepare($queryStr);
-        $params = array_merge($filterParam, array($pageSize, $offset, $userId));
+			WHERE user_id = ?
+        ";
+        $query    = $this->pdo->prepare($queryStr);
+        $params   = array_merge($filterParam, [$pageSize, $offset, $userId]);
         $query->execute($params);
-        $result = $query->fetch(PDO::FETCH_COLUMN);
+        $result   = $query->fetch(PDO::FETCH_COLUMN);
 
         return $result ? $result : '[]';
     }
 
-    private function getFilters($docId, $userId) {
-        $query = $this->PDO->prepare("SELECT property_xpath, name FROM properties WHERE document_id = ?");
-        $query->execute(array($docId));
-        $propDict = array();
-        while ($prop = $query->fetch(PDO::FETCH_OBJ)) {
+    private function getFilters(int $docId, string $userId) {
+        $query    = $this->pdo->prepare("SELECT property_xpath, name FROM properties WHERE document_id = ?");
+        $query->execute([$docId]);
+        $propDict = [];
+        while ($prop     = $query->fetch(PDO::FETCH_OBJ)) {
             $propDict[$prop->name] = $prop->property_xpath;
         }
 
-        $query = "";
-        $n = 1;
-        $params = array();
+        $query  = "";
+        $n      = 1;
+        $params = [];
 
         if ($this->tokenIdFilter !== null) {
-            $query .= "
+            $query    .= "
 				JOIN (
 					SELECT ?::int AS token_id
-				) f" . $n++ . " USING (token_id)";
+				) f" . $n++ . " USING (token_id)
+            ";
             $params[] = $this->tokenIdFilter;
         }
         if ($this->tokenValueFilter !== null) {
-            $query .= "
+            $query    .= "
 				JOIN (
 					SELECT token_id
 					FROM tokens
 					WHERE 
 						document_id = ?
 						AND lower(value) LIKE lower(?)
-				) f" . $n++ . " USING (token_id)";
+				) f" . $n++ . " USING (token_id)
+            ";
             $params[] = $docId;
             $params[] = $this->tokenValueFilter;
         }
@@ -173,7 +189,7 @@ class TokenCollection {
             if (!isset($propDict[$prop])) {
                 continue;
             }
-            $query .= "
+            $query    .= "
 				JOIN (
 					SELECT token_id
 					FROM 
@@ -184,25 +200,27 @@ class TokenCollection {
 						AND property_xpath = ?
 						AND (user_id = ? OR user_id IS NULL)
 						AND COALESCE(v.value, o.value) ILIKE ?
-				) f" . $n++ . " USING (token_id)";
+				) f" . $n++ . " USING (token_id)
+            ";
             $params[] = $docId;
             $params[] = $propDict[$prop];
             $params[] = $userId;
             $params[] = $val;
         }
 
-        $query = "				
+        $query    = "				
 			SELECT DISTINCT document_id, token_id
 			FROM
 				documents_users
 				JOIN tokens USING (document_id)
 				" . $query . " 
 			WHERE document_id = ? AND user_id = ?
-			ORDER BY token_id";
+			ORDER BY token_id
+        ";
         $params[] = $docId;
         $params[] = $userId;
 
-        return array($query, $params);
+        return [$query, $params];
     }
 
 }

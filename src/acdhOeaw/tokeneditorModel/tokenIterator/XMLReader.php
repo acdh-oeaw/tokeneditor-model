@@ -19,12 +19,15 @@
 
 namespace acdhOeaw\tokeneditorModel\tokenIterator;
 
+use acdhOeaw\tokeneditorModel\Document;
+use acdhOeaw\tokeneditorModel\Token;
+
 /**
- * Token iterator class developed using stream XML parser (XMLReader).
+ * Token iterator class developed using stream XML parser (\XMLReader).
  * It is memory efficient (requires constant memory no matter XML size)
  * and very fast but (at least at the moment) can handle token XPaths
  * specyfying single node name only.
- * This is because XMLReader does not provide any way to execute XPaths on it
+ * This is because \XMLReader does not provide any way to execute XPaths on it
  * and I was to lazy to implement more compound XPath handling. Maybe it will
  * be extended in the future.
  *
@@ -38,30 +41,31 @@ class XMLReader extends TokenIterator {
     /**
      * 
      * @param type $xmlPath
-     * @param \acdhOeaw\tokeneditor\Document $document
+     * @param Document $document
      * @param type $export
      * @throws \RuntimeException
      */
-    public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document, $export = false) {
+    public function __construct(string $xmlPath, Document $document,
+                                $export = false) {
         parent::__construct($xmlPath, $document);
 
         $this->reader = new \XMLReader();
-        $tokenXPath = $this->document->getSchema()->getTokenXPath();
+        $tokenXPath   = $this->document->getSchema()->getTokenXPath();
         if (!preg_match('|^//[a-zA-Z0-9_:.]+$|', $tokenXPath)) {
-            throw new \RuntimeException('Token XPath is too complicated for XMLReader');
+            throw new \RuntimeException('Token XPath is too complicated for \XMLReader');
         }
         $this->tokenXPath = mb_substr($tokenXPath, 2);
-        $nsPrefixPos = mb_strpos($this->tokenXPath, ':');
+        $nsPrefixPos      = mb_strpos($this->tokenXPath, ':');
         if ($nsPrefixPos !== false) {
             $prefix = mb_substr($this->tokenXPath, 0, $nsPrefixPos);
-            $ns = $this->document->getSchema()->getNs();
+            $ns     = $this->document->getSchema()->getNs();
             if (isset($ns[$prefix])) {
                 $this->tokenXPath = $ns[$prefix] . mb_substr($this->tokenXPath, $nsPrefixPos);
             }
         }
 
         if ($export) {
-            $filename = tempnam(sys_get_temp_dir(), '');
+            $filename        = tempnam(sys_get_temp_dir(), '');
             $this->outStream = new \SplFileObject($filename, 'w');
             $this->outStream->fwrite('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . "\n");
         }
@@ -69,7 +73,7 @@ class XMLReader extends TokenIterator {
 
     public function __destruct() {
         if ($this->outStream) {
-            $filename = $this->outStream->getRealPath();
+            $filename        = $this->outStream->getRealPath();
             $this->outStream = null;
             unlink($filename);
         }
@@ -86,15 +90,15 @@ class XMLReader extends TokenIterator {
         }
         $this->pos++;
         $this->token = false;
-        $firstStep = $this->pos !== 0;
+        $firstStep   = $this->pos !== 0;
         do {
             // in first step skip previous token subtree
-            $res = $firstStep ? $this->reader->next() : $this->reader->read();
+            $res       = $firstStep ? $this->reader->next() : $this->reader->read();
             $firstStep = false;
-            $name = null;
+            $name      = null;
             if ($this->reader->nodeType === \XMLReader::ELEMENT) {
                 $nsPrefixPos = mb_strpos($this->reader->name, ':');
-                $name = ($this->reader->namespaceURI ? $this->reader->namespaceURI . ':' : '') .
+                $name        = ($this->reader->namespaceURI ? $this->reader->namespaceURI . ':' : '') .
                     ($nsPrefixPos ? mb_substr($this->reader->name, $nsPrefixPos + 1) : $this->reader->name);
             }
             // rewrite nodes which are not tokens to the output
@@ -103,9 +107,9 @@ class XMLReader extends TokenIterator {
             }
         } while ($res && $name !== $this->tokenXPath);
         if ($res) {
-            $tokenDom = new \DOMDocument();
+            $tokenDom    = new \DOMDocument();
             $tokenDom->loadXml($this->reader->readOuterXml());
-            $this->token = new \acdhOeaw\tokeneditor\Token($tokenDom->documentElement, $this->document);
+            $this->token = new Token($tokenDom->documentElement, $this->document);
         }
     }
 
@@ -123,11 +127,11 @@ class XMLReader extends TokenIterator {
      * @param type $path
      * @throws \BadMethodCallException
      */
-    public function export($path) {
+    public function export($path = null) {
         if (!$this->outStream) {
             throw new \RuntimeException('Set $export to true when calling object constructor to enable export');
         }
-        $currPath = $this->outStream->getRealPath();
+        $currPath        = $this->outStream->getRealPath();
         $this->outStream = null;
         if ($path != '') {
             rename($currPath, $path);
@@ -140,11 +144,11 @@ class XMLReader extends TokenIterator {
 
     /**
      * 
-     * @param \acdhOeaw\tokeneditor\Token $new
+     * @param Token $new
      */
-    public function replaceToken(\acdhOeaw\tokeneditor\Token $new) {
+    public function replaceToken(Token $new) {
         if ($new->getId() != $this->token->getId()) {
-            throw new \RuntimeException('Only current token can be replaced when you are using XMLReader token iterator');
+            throw new \RuntimeException('Only current token can be replaced when you are using \XMLReader token iterator');
         }
         $old = $this->token->getNode();
         $new = $old->ownerDocument->importNode($new->getNode(), true);
@@ -168,16 +172,13 @@ class XMLReader extends TokenIterator {
      * @return string
      */
     private function getElementBeg() {
-        $beg = '';
-        $types = array(
-            \XMLReader::ELEMENT,
-            \XMLReader::END_ELEMENT
-        );
-        $beg .= in_array($this->reader->nodeType, $types) ? '<' : '';
-        $beg .= $this->reader->nodeType === \XMLReader::END_ELEMENT ? '/' : '';
-        $beg .= $this->reader->nodeType === \XMLReader::PI ? '<?' : '';
-        $beg .= $this->reader->nodeType === \XMLReader::COMMENT ? '<!--' : '';
-        $beg .= $this->reader->nodeType === \XMLReader::CDATA ? '<![CDATA[' : '';
+        $beg   = '';
+        $types = [\XMLReader::ELEMENT, \XMLReader::END_ELEMENT];
+        $beg   .= in_array($this->reader->nodeType, $types) ? '<' : '';
+        $beg   .= $this->reader->nodeType === \XMLReader::END_ELEMENT ? '/' : '';
+        $beg   .= $this->reader->nodeType === \XMLReader::PI ? '<?' : '';
+        $beg   .= $this->reader->nodeType === \XMLReader::COMMENT ? '<!--' : '';
+        $beg   .= $this->reader->nodeType === \XMLReader::CDATA ? '<![CDATA[' : '';
         return $beg;
     }
 
@@ -188,16 +189,13 @@ class XMLReader extends TokenIterator {
      */
     private function getElementEnd() {
         $this->reader->moveToElement();
-        $end = '';
-        $end .= $this->reader->isEmptyElement ? '/' : '';
-        $end .= $this->reader->nodeType === \XMLReader::CDATA ? ']]>' : '';
-        $end .= $this->reader->nodeType === \XMLReader::COMMENT ? '-->' : '';
-        $end .= $this->reader->nodeType === \XMLReader::PI ? '?>' : '';
-        $types = array(
-            \XMLReader::ELEMENT,
-            \XMLReader::END_ELEMENT,
-        );
-        $end .= in_array($this->reader->nodeType, $types) ? '>' : '';
+        $end   = '';
+        $end   .= $this->reader->isEmptyElement ? '/' : '';
+        $end   .= $this->reader->nodeType === \XMLReader::CDATA ? ']]>' : '';
+        $end   .= $this->reader->nodeType === \XMLReader::COMMENT ? '-->' : '';
+        $end   .= $this->reader->nodeType === \XMLReader::PI ? '?>' : '';
+        $types = [\XMLReader::ELEMENT, \XMLReader::END_ELEMENT];
+        $end   .= in_array($this->reader->nodeType, $types) ? '>' : '';
         return $end;
     }
 
@@ -210,19 +208,12 @@ class XMLReader extends TokenIterator {
     private function getElementContent() {
         $str = '';
 
-        $types = array(
-            \XMLReader::ELEMENT,
-            \XMLReader::END_ELEMENT,
-            \XMLReader::PI
-        );
+        $types = [\XMLReader::ELEMENT, \XMLReader::END_ELEMENT, \XMLReader::PI];
         if (in_array($this->reader->nodeType, $types)) {
             $str .= ($this->reader->prefix ? $this->reader->prefix . ':' : '');
             $str .= $this->reader->name;
         }
-        $types = array(
-            \XMLReader::ELEMENT,
-            \XMLReader::PI
-        );
+        $types = [\XMLReader::ELEMENT, \XMLReader::PI];
         if (in_array($this->reader->nodeType, $types)) {
             while ($this->reader->moveToNextAttribute()) {
                 $str .= ' ';

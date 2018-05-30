@@ -10,8 +10,8 @@ namespace acdhOeaw\tokeneditorModel;
 class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 
     static private $saveDir = 'build';
-    static private $connSettings = 'pgsql: dbname=tokeneditor';
-    static private $PDO;
+    static private $connSettings = 'pgsql: dbname=tokeneditor host=127.0.0.1 user=tokeneditor password=ZHZP5sNR6o';
+    static private $pdo;
     static private $validInPlace = <<<RES
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0"><!--sample comment--><teiHeader><fileDesc><titleStmt><title>testtext</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc/></fileDesc></teiHeader><text><body><w xmlns="http://www.tei-c.org/ns/1.0" id="w1" lemma="aaa">Hello<type>bbb</type></w><w xmlns="http://www.tei-c.org/ns/1.0" id="w2" lemma="ccc">World<type>ddd</type></w><w xmlns="http://www.tei-c.org/ns/1.0" id="w3" lemma="eee">!<type>fff</type></w></body></text></TEI>
@@ -23,17 +23,17 @@ RES;
     private $docsToClean = array();
 
     static public function setUpBeforeClass() {
-        self::$PDO = new \PDO(self::$connSettings);
-        self::$PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        self::$PDO->beginTransaction();
-        self::$PDO->query("TRUNCATE documents CASCADE");
-        self::$PDO->query("TRUNCATE users CASCADE");
-        self::$PDO->query("INSERT INTO users VALUES ('test')");
+        self::$pdo = new \PDO(self::$connSettings);
+        self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        self::$pdo->beginTransaction();
+        self::$pdo->query("TRUNCATE documents CASCADE");
+        self::$pdo->query("TRUNCATE users CASCADE");
+        self::$pdo->query("INSERT INTO users VALUES ('test')");
         self::$validFull = str_replace('%DATE', date('Y-m-d'), self::$validFull);
     }
 
     public static function tearDownAfterClass() {
-        self::$PDO->rollback();
+        self::$pdo->rollback();
         unlink('tmp.xml');
     }
 
@@ -49,9 +49,9 @@ RES;
     }
 
     protected function insertValues($docId) {
-        $query = self::$PDO->prepare("INSERT INTO documents_users VALUES (?, 'test')");
+        $query = self::$pdo->prepare("INSERT INTO documents_users VALUES (?, 'test')");
         $query->execute(array($docId));
-        $query = self::$PDO->prepare("
+        $query = self::$pdo->prepare("
 			INSERT INTO values (document_id, property_xpath, token_id, user_id, value, date) 
 			SELECT document_id, property_xpath, token_id, 'test', ?, now() FROM orig_values WHERE document_id = ? AND property_xpath = ? AND token_id = ?
 		");
@@ -64,13 +64,13 @@ RES;
     }
 
     protected function checkImport($docId) {
-        $query = self::$PDO->prepare("SELECT count(*) FROM orig_values WHERE document_id = ?");
+        $query = self::$pdo->prepare("SELECT count(*) FROM orig_values WHERE document_id = ?");
         $query->execute(array($docId));
         $this->assertEquals(6, $query->fetch(\PDO::FETCH_COLUMN));
     }
 
     public function testDefaultInPlace() {
-        $doc = new Document(self::$PDO);
+        $doc = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $doc->save(self::$saveDir);
         $docId = $doc->getId();
@@ -79,14 +79,14 @@ RES;
         $this->checkImport($docId);
         $this->insertValues($docId);
 
-        $doc = new Document(self::$PDO);
+        $doc = new Document(self::$pdo);
         $doc->loadDb($docId);
         $doc->export(true, 'tmp.xml');
         $this->assertEquals(trim(self::$validInPlace), trim(file_get_contents('tmp.xml')));
     }
 
     public function testDefaultFull() {
-        $doc = new Document(self::$PDO);
+        $doc = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $doc->save(self::$saveDir);
         $docId = $doc->getId();
@@ -95,7 +95,7 @@ RES;
         $this->checkImport($docId);
         $this->insertValues($docId);
 
-        $doc = new Document(self::$PDO);
+        $doc = new Document(self::$pdo);
         $doc->loadDb($docId);
         $result = trim($doc->export());
         $date = date('Y-m-d');
@@ -104,7 +104,7 @@ RES;
     }
 
     public function testXMLReader() {
-        $doc = new Document(self::$PDO);
+        $doc = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::XML_READER);
         $doc->save(self::$saveDir);
         $docId = $doc->getId();
@@ -113,14 +113,14 @@ RES;
         $this->checkImport($docId);
         $this->insertValues($docId);
 
-        $doc = new Document(self::$PDO);
+        $doc = new Document(self::$pdo);
         $doc->loadDb($docId, Document::XML_READER);
         $this->assertEquals(trim(self::$validInPlace), trim($doc->export(true)));
     }
 
     /* Does not work in Travis, as Travis Postgresql does not include parent nodes namespaces in the xpath() results (sic!)
     public function testPDO() {
-        $doc = new Document(self::$PDO);
+        $doc = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::PDO);
         $doc->save(self::$saveDir);
         $docId = $doc->getId();
@@ -129,14 +129,14 @@ RES;
         $this->checkImport($docId);
         $this->insertValues($docId);
 
-        $doc = new Document(self::$PDO);
+        $doc = new Document(self::$pdo);
         $doc->loadDb($docId);
         $this->assertEquals(trim(self::$validInPlace), trim($doc->export(true)));
     }
     */
 
     public function testDOMDocument() {
-        $doc = new Document(self::$PDO);
+        $doc = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::DOM_DOCUMENT);
         $doc->save(self::$saveDir);
         $docId = $doc->getId();
@@ -145,7 +145,7 @@ RES;
         $this->checkImport($docId);
         $this->insertValues($docId);
 
-        $doc = new Document(self::$PDO);
+        $doc = new Document(self::$pdo);
         $doc->loadDb($docId, Document::DOM_DOCUMENT);
         $valid = trim(str_replace('<w xmlns="http://www.tei-c.org/ns/1.0"', '<w', self::$validInPlace));
         $this->assertEquals($valid, trim($doc->export(true)));

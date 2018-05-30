@@ -19,6 +19,9 @@
 
 namespace acdhOeaw\tokeneditorModel\tokenIterator;
 
+use acdhOeaw\tokeneditorModel\Document;
+use acdhOeaw\tokeneditorModel\Token;
+
 /**
  * Description of TokenIterator
  *
@@ -28,7 +31,7 @@ abstract class TokenIterator implements \Iterator {
 
     /**
      *
-     * @var \acdhOeaw\tokeneditor\Document
+     * @var Document
      */
     protected $document;
     protected $xmlPath;
@@ -36,7 +39,7 @@ abstract class TokenIterator implements \Iterator {
 
     /**
      *
-     * @var type \acdhOeaw\tokeneditor\Token
+     * @var type Token
      */
     protected $token = false;
 
@@ -46,14 +49,14 @@ abstract class TokenIterator implements \Iterator {
      * @param \acdhOeaw\tokeneditor\Schema $schema
      * @param \PDO $PDO
      */
-    public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document) {
+    public function __construct(string $xmlPath, Document $document) {
         $this->xmlPath = $xmlPath;
         $this->document = $document;
     }
 
     /**
      * 
-     * @return \acdhOeaw\tokeneditor\Token
+     * @return Token
      */
     public function current() {
         return $this->token;
@@ -75,7 +78,7 @@ abstract class TokenIterator implements \Iterator {
         return $this->token !== false;
     }
 
-    abstract public function export($path);
+    abstract public function export($path = null);
 
-    abstract public function replaceToken(\acdhOeaw\tokeneditor\Token $new);
+    abstract public function replaceToken(Token $new);
 }

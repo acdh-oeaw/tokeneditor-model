@@ -50,8 +50,8 @@ class Token {
      * @var type \DOMElement
      */
     private $value;
-    private $properties = array();
-    private $invalidProperties = array();
+    private $properties        = [];
+    private $invalidProperties = [];
 
     /**
      * 
@@ -60,9 +60,9 @@ class Token {
      * @throws \LengthException
      */
     public function __construct(\DOMElement $dom, Document $document) {
-        $this->dom = $dom;
+        $this->dom      = $dom;
         $this->document = $document;
-        $this->tokenId = $this->document->generateTokenId();
+        $this->tokenId  = $this->document->generateTokenId();
 
         $xpath = new \DOMXPath($dom->ownerDocument);
         foreach ($this->document->getSchema()->getNs() as $prefix => $ns) {
@@ -77,7 +77,7 @@ class Token {
             if ($value->length != 1) {
                 throw new \LengthException('token has no value or more then one value');
             } else {
-                $value = $value->item(0);
+                $value       = $value->item(0);
                 $this->value = isset($value->value) ? $value->value : $this->innerXml($value);
             }
         }
@@ -118,11 +118,11 @@ class Token {
             throw new \RuntimeException("at least one property wasn't found");
         }
 
-        $PDO = $this->document->getPDO();
+        $PDO   = $this->document->getPDO();
         $docId = $this->document->getId();
 
         $query = $PDO->prepare("INSERT INTO tokens (document_id, token_id, value) VALUES (?, ?, ?)");
-        $query->execute(array($docId, $this->tokenId, $this->value));
+        $query->execute([$docId, $this->tokenId, $this->value]);
 
         $query = $PDO->prepare("INSERT INTO orig_values (document_id, token_id, property_xpath, value) VALUES (?, ?, ?, ?)");
         foreach ($this->properties as $xpath => $prop) {
@@ -130,7 +130,7 @@ class Token {
             if ($prop) {
                 $value = isset($prop->value) ? $prop->value : $this->innerXml($prop);
             }
-            $query->execute(array($docId, $this->tokenId, $xpath, $value));
+            $query->execute([$docId, $this->tokenId, $xpath, $value]);
         }
     }
 
@@ -142,7 +142,7 @@ class Token {
         $this->checkValuesQuery();
 
         foreach ($this->properties as $xpath => $prop) {
-            self::$valuesQuery->execute(array($this->document->getId(), $xpath, $this->tokenId));
+            self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
             $value = self::$valuesQuery->fetch(\PDO::FETCH_OBJ);
             if ($value !== false) {
                 if (isset($prop->value)) {
@@ -164,13 +164,13 @@ class Token {
         $this->checkValuesQuery();
 
         foreach ($this->properties as $xpath => $prop) {
-            self::$valuesQuery->execute(array($this->document->getId(), $xpath, $this->tokenId));
+            self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
             while ($value = self::$valuesQuery->fetch(\PDO::FETCH_OBJ)) {
                 $user = $this->createTeiFeature('user', $value->user_id);
                 $date = $this->createTeiFeature('date', $value->date);
                 $xpth = $this->createTeiFeature('property_xpath', $xpath);
-                $val = $this->createTeiFeature('value', $value->value);
-                $fs = $this->createTeiFeatureSet();
+                $val  = $this->createTeiFeature('value', $value->value);
+                $fs   = $this->createTeiFeatureSet();
                 $fs->appendChild($user);
                 $fs->appendChild($date);
                 $fs->appendChild($xpth);
@@ -186,14 +186,14 @@ class Token {
         return $this->updateDocument();
     }
 
-    public function exportCsv($csvFile, $delimiter = ',') {
+    public function exportCsv(string $csvFile, string $delimiter = ',') {
         $this->checkValuesQuery();
 
-        $values = array($this->tokenId, $this->value);
+        $values = [$this->tokenId, $this->value];
         foreach ($this->properties as $xpath => $prop) {
-            self::$valuesQuery->execute(array($this->document->getId(), $xpath, $this->tokenId));
+            self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
             $userValue = self::$valuesQuery->fetch(\PDO::FETCH_OBJ);
-            $values[] = $userValue !== false ? $userValue->value : $prop->value;
+            $values[]  = $userValue !== false ? $userValue->value : $prop->value;
         }
         fputcsv($csvFile, $values, $delimiter);
     }
@@ -238,7 +238,7 @@ class Token {
     private function createTeiFeatureSet() {
         $doc = $this->dom->ownerDocument;
 
-        $type = $doc->createAttribute('type');
+        $type        = $doc->createAttribute('type');
         $type->value = 'tokeneditor';
 
         $fs = $doc->createElement('fs');
@@ -253,10 +253,10 @@ class Token {
      * @param string $value
      * @return \DOMNode
      */
-    private function createTeiFeature($name, $value) {
+    private function createTeiFeature(string $name, string $value) {
         $doc = $this->dom->ownerDocument;
 
-        $fn = $doc->createAttribute('name');
+        $fn        = $doc->createAttribute('name');
         $fn->value = $name;
 
         $v = $doc->createElement('string', $value);

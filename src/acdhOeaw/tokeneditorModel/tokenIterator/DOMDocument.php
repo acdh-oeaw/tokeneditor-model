@@ -19,6 +19,9 @@
 
 namespace acdhOeaw\tokeneditorModel\tokenIterator;
 
+use acdhOeaw\tokeneditorModel\Document;
+use acdhOeaw\tokeneditorModel\Token;
+
 /**
  * Basic token iterator class using DOM parser (DOMDocument).
  * It is memory inefficient as every DOM parser but quite fast (at least as long 
@@ -36,7 +39,7 @@ class DOMDocument extends TokenIterator {
      * 
      * @param type $path
      */
-    public function __construct($xmlPath, \acdhOeaw\tokeneditor\Document $document) {
+    public function __construct(string $xmlPath, Document $document) {
         parent::__construct($xmlPath, $document);
     }
 
@@ -47,9 +50,9 @@ class DOMDocument extends TokenIterator {
         $this->token = false;
         $this->pos++;
         if ($this->pos < $this->tokens->length) {
-            $doc = new \DOMDocument();
-            $tokenNode = $doc->importNode($this->tokens->item($this->pos), true);
-            $this->token = new \acdhOeaw\tokeneditor\Token($tokenNode, $this->document);
+            $doc         = new \DOMDocument();
+            $tokenNode   = $doc->importNode($this->tokens->item($this->pos), true);
+            $this->token = new Token($tokenNode, $this->document);
         }
     }
 
@@ -57,23 +60,23 @@ class DOMDocument extends TokenIterator {
      * 
      */
     public function rewind() {
-        $this->dom = new \DOMDocument();
+        $this->dom                     = new \DOMDocument();
         $this->dom->preserveWhiteSpace = false;
         $this->dom->LoadXML(file_get_contents($this->xmlPath));
-        $xpath = new \DOMXPath($this->dom);
+        $xpath                         = new \DOMXPath($this->dom);
         foreach ($this->document->getSchema()->getNs() as $prefix => $ns) {
             $xpath->registerNamespace($prefix, $ns);
         }
         $this->tokens = $xpath->query($this->document->getSchema()->getTokenXPath());
-        $this->pos = -1;
+        $this->pos    = -1;
         $this->next();
     }
 
     /**
      * 
-     * @param \acdhOeaw\tokeneditor\Token $new
+     * @param Token $new
      */
-    public function replaceToken(\acdhOeaw\tokeneditor\Token $new) {
+    public function replaceToken(Token $new) {
         $old = $this->tokens->item($new->getId() - 1);
         $new = $this->dom->importNode($new->getNode(), true);
         $old->parentNode->replaceChild($new, $old);
@@ -84,7 +87,7 @@ class DOMDocument extends TokenIterator {
      * @param string $path
      * @return string
      */
-    public function export($path) {
+    public function export($path = null) {
         if ($path != '') {
             $this->dom->save($path);
         } else {

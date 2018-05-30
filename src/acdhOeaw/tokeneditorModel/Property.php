@@ -31,14 +31,15 @@ class Property {
     private $name;
     private $ord;
     private $readOnly = false;
-    private $values = array();
+    private $values   = [];
 
     /**
      * 
      * @param \SimpleXMLElement $xml
+     * @param int $ord
      * @throws \LengthException
      */
-    public function __construct(\SimpleXMLElement $xml, $ord) {
+    public function __construct(\SimpleXMLElement $xml, int $ord) {
         $this->ord = $ord;
 
         if (!isset($xml->propertyXPath) || count($xml->propertyXPath) != 1) {
@@ -55,7 +56,7 @@ class Property {
             throw new \LengthException('exactly one propertyName has to be provided');
         }
         $this->name = (string) $xml->propertyName;
-        if (in_array($this->name, array('token_id', 'token', '_offset', '_pagesize', '_docid'))) {
+        if (in_array($this->name, ['token_id', 'token', '_offset', '_pagesize', '_docid'])) {
             throw new \RuntimeException('property uses a reserved name');
         }
 
@@ -89,13 +90,14 @@ class Property {
      * @param \PDO $PDO
      * @param integer $documentId
      */
-    public function save(\PDO $PDO, $documentId) {
+    public function save(\PDO $PDO, int $documentId) {
         $query = $PDO->prepare("INSERT INTO properties (document_id, property_xpath, type_id, name, ord, read_only) VALUES (?, ?, ?, ?, ?, ?)");
-        $query->execute(array($documentId, $this->xpath, $this->type, $this->name, $this->ord, (int) $this->readOnly));
+        $query->execute([$documentId, $this->xpath, $this->type, $this->name,
+            $this->ord, (int) $this->readOnly]);
 
         $query = $PDO->prepare("INSERT INTO dict_values (document_id, property_xpath, value) VALUES (?, ?, ?)");
         foreach ($this->values as $v) {
-            $query->execute(array($documentId, $this->xpath, $v));
+            $query->execute([$documentId, $this->xpath, $v]);
         }
     }
 

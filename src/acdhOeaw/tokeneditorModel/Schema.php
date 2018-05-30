@@ -30,8 +30,8 @@ class Schema implements \IteratorAggregate {
     private $documentId;
     private $tokenXPath;
     private $tokenValueXPath;
-    private $namespaces = array();
-    private $properties = array();
+    private $namespaces = [];
+    private $properties = [];
 
     /**
      * 
@@ -43,14 +43,14 @@ class Schema implements \IteratorAggregate {
         $this->PDO = $PDO;
     }
 
-    public function loadFile($path) {
+    public function loadFile(string $path) {
         if (!is_file($path)) {
             throw new \RuntimeException($path . ' is not a valid file');
         }
         $this->loadXML(file_get_contents($path));
     }
 
-    public function loadXML($xml) {
+    public function loadXML(string $xml) {
         $dom = new \SimpleXMLElement($xml);
 
         if (!isset($dom->tokenXPath) || count($dom->tokenXPath) != 1) {
@@ -68,12 +68,12 @@ class Schema implements \IteratorAggregate {
         ) {
             throw new \LengthException('no token properties defined');
         }
-        $n = 1;
-        $names = array();
+        $n     = 1;
+        $names = [];
         foreach ($dom->properties->property as $i) {
-            $prop = new Property($i, $n++);
+            $prop               = new Property($i, $n++);
             $this->properties[] = $prop;
-            $names[] = $prop->getName();
+            $names[]            = $prop->getName();
         }
         if (count($names) !== count(array_unique($names))) {
             throw new \RuntimeException('property names are not unique');
@@ -85,30 +85,30 @@ class Schema implements \IteratorAggregate {
         }
     }
 
-    public function loadDb($documentId) {
+    public function loadDb(int $documentId) {
         $this->documentId = $documentId;
 
         $schema = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><schema>';
 
         $schema .= '<namespaces>';
-        $query = $this->PDO->prepare("SELECT prefix, ns FROM documents_namespaces WHERE document_id = ?");
-        $query->execute(array($this->documentId));
-        while ($ns = $query->fetch(\PDO::FETCH_OBJ)) {
+        $query  = $this->PDO->prepare("SELECT prefix, ns FROM documents_namespaces WHERE document_id = ?");
+        $query->execute([$this->documentId]);
+        while ($ns     = $query->fetch(\PDO::FETCH_OBJ)) {
             $schema .= '<namespace><prefix>' . htmlspecialchars($ns->prefix) . '</prefix><uri>' . htmlspecialchars($ns->ns) . '</uri></namespace>';
         }
         $schema .= '</namespaces>';
 
-        $query = $this->PDO->prepare("SELECT token_xpath, token_value_xpath FROM documents WHERE document_id = ?");
-        $query->execute(array($this->documentId));
-        $data = $query->fetch(\PDO::FETCH_OBJ);
+        $query  = $this->PDO->prepare("SELECT token_xpath, token_value_xpath FROM documents WHERE document_id = ?");
+        $query->execute([$this->documentId]);
+        $data   = $query->fetch(\PDO::FETCH_OBJ);
         $schema .= '<tokenXPath>' . htmlspecialchars($data->token_xpath) . '</tokenXPath>';
         $schema .= '<tokenValueXPath>' . htmlspecialchars($data->token_value_xpath) . '</tokenValueXPath>';
 
-        $schema .= '<properties>';
-        $query = $this->PDO->prepare("SELECT property_xpath, type_id, name, read_only FROM properties WHERE document_id = ? ORDER BY ord");
+        $schema      .= '<properties>';
+        $query       = $this->PDO->prepare("SELECT property_xpath, type_id, name, read_only FROM properties WHERE document_id = ? ORDER BY ord");
         $valuesQuery = $this->PDO->prepare("SELECT value FROM dict_values WHERE (document_id, property_xpath) = (?, ?)");
-        $query->execute(array($this->documentId));
-        while ($prop = $query->fetch(\PDO::FETCH_OBJ)) {
+        $query->execute([$this->documentId]);
+        while ($prop        = $query->fetch(\PDO::FETCH_OBJ)) {
             $schema .= '<property>';
             $schema .= '<propertyName>' . htmlspecialchars($prop->name) . '</propertyName>';
             $schema .= '<propertyXPath>' . htmlspecialchars($prop->property_xpath) . '</propertyXPath>';
@@ -118,7 +118,7 @@ class Schema implements \IteratorAggregate {
                 $schema .= '<readOnly/>';
             }
 
-            $valuesQuery->execute(array($this->documentId, $prop->property_xpath));
+            $valuesQuery->execute([$this->documentId, $prop->property_xpath]);
             $values = $valuesQuery->fetchAll(\PDO::FETCH_COLUMN);
             if (count($values) > 0) {
                 $schema .= '<propertyValues>';
@@ -173,10 +173,10 @@ class Schema implements \IteratorAggregate {
      * @param \PDO $PDO
      * @param type $datafileId
      */
-    public function save($documentId) {
+    public function save(int $documentId) {
         $query = $this->PDO->prepare("INSERT INTO documents_namespaces (document_id, prefix, ns) VALUES (?, ?, ?)");
         foreach ($this->getNs() as $prefix => $ns) {
-            $query->execute(array($documentId, $prefix, $ns));
+            $query->execute([$documentId, $prefix, $ns]);
         }
 
         foreach ($this->properties as $prop) {
