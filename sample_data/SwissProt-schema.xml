@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<schema>
+    <tokenXPath>//Entry</tokenXPath>
+    <properties>
+        <property>
+            <propertyName>AC</propertyName>
+            <propertyXPath>./AC</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+        <property>
+            <propertyName>descripton</propertyName>
+            <propertyXPath>./Descr</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+        <property>
+            <propertyName>species</propertyName>
+            <propertyXPath>./Species</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+    </properties>
+</schema>

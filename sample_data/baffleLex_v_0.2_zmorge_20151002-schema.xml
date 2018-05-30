@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<schema>
+    <tokenXPath>//entry</tokenXPath>
+    <tokenValueXPath>./form[@type='lemma']/orth</tokenValueXPath>
+    <properties>
+        <property>
+            <propertyName>pos</propertyName>
+            <propertyXPath>.//gram[@type='pos']</propertyXPath>
+            <propertyType>closed list</propertyType>
+            <readOnly/>
+            <propertyValues>
+                <value>ABBR</value>
+                <value>ADJ</value>
+                <value>ADV</value>
+                <value>NN</value>
+                <value>OTHER</value>
+                <value>NPROP</value>
+                <value>V</value>
+            </propertyValues>
+        </property>
+        <property>
+            <propertyName>gen</propertyName>
+            <propertyXPath>.//gram[@type='gen']</propertyXPath>
+            <propertyType>closed list</propertyType>
+            <readOnly/>
+            <propertyValues>
+                <value></value>
+                <value>Fem</value>
+                <value>Masc</value>
+                <value>Neut</value>
+            </propertyValues>
+        </property>
+        <property>
+            <propertyName>inflection table</propertyName>
+            <propertyXPath>.</propertyXPath>
+            <propertyType>inflection table</propertyType>
+            <readOnly/>
+        </property>
+        <property>
+            <propertyName>review</propertyName>
+            <propertyXPath>.//f[@name='review']/string</propertyXPath>
+            <propertyType>closed list</propertyType>
+            <propertyValues>
+                <value>good</value>
+                <value>bad</value>
+                <value>ugly</value>
+            </propertyValues>
+        </property>
+        <property>
+            <propertyName>lemma</propertyName>
+            <propertyXPath>.//f[@name='lemma']/string</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+    </properties>
+</schema>

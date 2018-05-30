@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<schema>
+    <namespaces>
+        <namespace>
+            <prefix>tei</prefix>
+            <uri>http://www.tei-c.org/ns/1.0</uri>
+        </namespace>
+    </namespaces>
+    <tokenXPath>//tei:w</tokenXPath>
+    <tokenValueXPath>.</tokenValueXPath>
+    <properties>
+        <property>
+            <propertyName>lemma</propertyName>
+            <propertyXPath>@lemma</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+        <property>
+            <propertyName>type</propertyName>
+            <propertyXPath>@type</propertyXPath>
+            <propertyType>closed list</propertyType>
+            <propertyValues>
+                <value>ADJA</value>
+                <value>ADJD</value>
+                <value>ADV</value>
+                <value>APPR</value>
+                <value>APPRART</value>
+                <value>ART</value>
+                <value>CARD</value>
+                <value>FM</value>
+                <value>ITJ</value>
+                <value>KOKOM</value>
+                <value>KON</value>
+                <value>KOUS</value>
+                <value>NE</value>
+                <value>NN</value>
+                <value>PDAT</value>
+                <value>PIAT</value>
+                <value>PIS</value>
+                <value>PPER</value>
+                <value>PPOSAT</value>
+                <value>PRF</value>
+                <value>PTKA</value>
+                <value>PTKNEG</value>
+                <value>PTKVZ</value>
+                <value>PTKZU</value>
+                <value>PWAV</value>
+                <value>PWS</value>
+                <value>TRUNC</value>
+                <value>VAFIN</value>
+                <value>VAPP</value>
+                <value>VMFIN</value>
+                <value>VVFIN</value>
+                <value>VVIMP</value>
+                <value>VVINF</value>
+                <value>VVPP</value>
+            </propertyValues>
+        </property>
+    </properties>
+</schema>

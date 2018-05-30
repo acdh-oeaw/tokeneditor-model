@@ -1,0 +1,2130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0"><!-- "Audienz-Zimmer" (Zeile 46) muss ein Token sein. -->
+    <p rend="indent">
+        <w lemma="lassen" type="VVIMP">Bleib</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="du" type="PRF">dir</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="glüenden" type="ADJA">glüenden</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Pfriemen" type="NN">Pfriemen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="außste" part="I" type="ADJD">außste</w>
+        <lb break="no" type="d"/>
+        <w lemma="chen" part="F" type="ADJD">chen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Auge" type="NN">Augen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dise" type="ADJA">dise</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="gläserne" type="NN">gläserne</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Kuppler" type="NN">Kuppler</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="lassen" type="VVIMP">laß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="du" type="PRF">dir</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <choice>
+            <sic>
+                <w lemma="glünendem" type="ADJA">glünendem</w>
+            </sic>
+            <corr cert="high">glüendem</corr>
+        </choice>
+        <seg type="whitespace"> </seg>
+        <w lemma="Messer" type="NN">Messer</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="abschneiden" type="VVFIN">abschneiden</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Nase" type="NN">Nasen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="disen" type="NN">disen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="pollierten" type="ADJA">pollierten</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Rauchfang" type="NN">Rauchfang</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="lassen" type="VVIMP">laß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="du" type="PRF">dir</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="glü" part="I" type="NE">glü</w>
+        <lb break="no" type="d"/>
+        <w lemma="enden" part="F" type="VVFIN">enden</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Scheeren" type="NN">Scheeren</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="abschneiden" type="VVFIN">abschneiden</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Ohr" type="NN">Ohren</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dise" type="VVFIN">dise</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="zwey" type="NE">zwey</w>
+        <seg type="whitespace"> </seg>
+        <seg rend="antiqua">
+            <w lemma="Audienz-" part="I" type="TRUNC">Audienz-</w>
+        </seg>
+        <w lemma="Zimmer" part="F" type="NN">Zimmer</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="lassen" type="VVIMP">laß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="du" type="PRF">dir</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="glüen" part="I" type="NE">glüen</w>
+        <lb break="no" type="d"/>
+        <w lemma="die" part="F" type="ART">dem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Schnitzer" type="NN">Schnitzer</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="außschneiden" type="ADJD">außschneiden</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Zung" type="NN">Zung</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="disen" type="NN">disen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="so" type="ADV">so</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="künstlich" type="ADJA">künstlichen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Sprachmeister" type="NN">Sprachmeister</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="lassen" type="VVIMP">laß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="du" type="PRF">dir</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="glüen" part="I" type="NE">glüen</w>
+        <lb break="no" type="d"/>
+        <w lemma="die" part="F" type="ART">den</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Zange" type="NN">Zangen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="außbrechen" type="ADJD">außbrechen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Zähn" type="NN">Zähn</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dise" type="ADJA">dise</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="helffen" part="I" type="ADJA">helffen</w>
+        <lb break="no" type="d"/>
+        <w lemma="beinene" part="F" type="ADJA">beinene</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Zuschrotter" type="NN">Zuschrotter</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="lassen" type="VVIMP">laß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="du" type="PRF">dir</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="glüendem" type="ADJA">glüendem</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Beyl" type="NN">Beyl</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="abhauen" type="VVFIN">abhauen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Finger" type="NN">Finger</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dise" type="VVFIN">dise</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="so" type="ADV">so</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="spitzfindig" type="ADJA">spitzfindige</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Künstler" type="NN">Künstler</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="lassen" type="VVIMP">laß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="du" type="PRF">dir</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="glüenden" type="ADJA">glüenden</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Stämmeisen" type="NN">Stämmeisen</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="abhacken" type="VVFIN">abhacken</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Zeh|Zehe" type="NN">Zehen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="disen" type="NN">disen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="so" type="ADV">so</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="steiffen" type="ADJA">steiffen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Fußboden" type="NN">Fußboden</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="lassen" type="VVIMP">laß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="du" type="PRF">dir</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="glüenden" type="ADJA">glüenden</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Scheermessern" type="NN">Scheermessern</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Riemen" type="NN">Riemen</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="schneiden" type="VVFIN">schneiden</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="auß" type="NN">auß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="gantzen" type="ADJA">gantzen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Haut" type="NN">Haut</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="auß" type="NN">auß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="disem" type="NE">disem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="so" type="ADV">so</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="häcklichen" type="ADJA">häcklichen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Uberzug" type="NN">Uberzug</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="so" type="ADV">so</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sein" type="VAFIN">ist</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="doch" type="ADV">doch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="alle" type="PIAT">alles</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="dises" type="NN">dises</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nur" type="ADV">nur</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="eine" type="ART">ein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Schatten" type="NN">Schatten</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="mehr" type="ADV">mehr</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nichts" type="PIS">nichts</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="als" type="KOKOM">als</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">ein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Schatten" type="NN">Schatten</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="weiter" type="ADV">weiter</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nichts" type="PIS">nichts</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="als" type="KOKOM">als</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">ein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Schatten" type="NN">Schatten</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="gegen" type="APPR">gegen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="min" part="I" type="ADJA">min</w>
+        <lb break="no" type="d"/>
+        <w lemma="desten" part="F" type="ADJA">desten</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Pein" type="NN">Pein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="in" type="APPRART">im</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Feegfeuer" type="NN">Feegfeuer</w>
+        <pc type="$.">.</pc>
+    </p><!-- "registriret" (Zeile 61,62) muss ein Token sein. -->
+    <p rend="indent">
+        <w lemma="jen" type="PDAT">Jener</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Religios" type="NN">Religios</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="von" type="APPR">von</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="deme" type="ADJA">deme</w>
+        <seg type="whitespace"> </seg>
+        <seg rend="antiqua">
+            <persName type="hist">
+                <w lemma="Baronius" type="NE">Baronius</w>
+            </persName>
+            <seg type="whitespace"> </seg>
+            <w lemma="Regi" part="I" type="NE">regi</w>
+        </seg>
+        <lb break="no" type="s"/>
+        <seg rend="antiqua">
+            <w lemma="stri" part="M" type="NE">stri</w>
+        </seg>
+        <w lemma="ret" part="F" type="VVFIN">ret</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="haben" type="VAFIN">hat</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="es" type="PPER">es</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="genugsam" type="ADV">genugsam</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="erfahren" type="VVPP">erfahren</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dass" type="KOUS">daß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sich" type="PRF">sich</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="GOtt" type="VVFIN">GOtt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">eines</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="solche" type="PIS">solchen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="erbarmen" type="VVFIN">erbarme</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sich" type="PRF">sich</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="auch" type="ADV">auch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="über" type="APPR">über</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <fw place="bot_right" type="catch">die</fw>
+        <pb facs="Abraham-Augustini_feuriges_Hertz_n0033.jpg" n="S. 33" xml:id="n0033"/>
+        <seg type="header">
+            <fw n="33" place="top_center" type="pageNum">
+                <milestone rend="flower" type="symbol"/>(33)<milestone rend="flower" type="symbol"/>
+            </fw>
+        </seg>
+        <milestone rend="line" type="hr"/>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="arm" type="ADJA">armen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Seele" type="NN">Seelen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="erbarmet" type="NE">erbarmet</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="haben" type="VAFIN">hat</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="maßen|messen" type="VVFIN">massen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="diser" type="ADJD">diser</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="nach" type="APPR">nach</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sein" type="PPOSAT">seinem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="zeitlich" type="ADJA">zeitlichen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Hintritt" type="NN">Hintritt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vilen" type="ADJA">vilen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="andere" type="ADJA">andern</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Seele" type="NN">Seelen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="so" type="ADV">so</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="gleich" type="ADJD">gleich</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="dazumahl" type="NN">dazumahl</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="in" type="APPR">in</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="derselbigen" type="ADJA">derselbigen</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Stund" type="NN">Stund</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="von" type="APPR">von</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="hinnen" type="NN">hinnen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="abgeschiden" type="ADJA">abgeschiden</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vor" type="APPR">vor</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">dem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Gött" part="I" type="NN">Gött</w>
+        <lb break="no" type="d"/>
+        <w lemma="lichen" part="F" type="ADJA">lichen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Richterstul" type="NE">Richterstul</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="stellen" type="VVPP">gestellt</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="von" type="APPR">von</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">den</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="böse" type="ADJA">bösen</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Geist" type="NN">Geistern</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="dermaßen" type="ADV">dermassen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="hart" type="ADJD">hart</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="anklagen" type="VVPP">angeklagt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="werden" type="VAPP">worden</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dass" type="KOUS">daß</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="bereits" type="ADV">bereits</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="über" type="APPR">über</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">ihn</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="solte" type="ADJD">solte</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="fällen" type="VVPP">gefällt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="werden" type="VAFIN">werden</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">das</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Urtheil" type="NN">Urtheil</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ewig" type="ADJA">ewigen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Verdamnuß" type="NN">Verdamnuß</w>
+        <pc type="$.">.</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="weil" type="KOUS">Weil</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="aber" type="ADV">aber</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="seyn" type="NE">seyn</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Lebtag" type="NN">Lebtag</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">ein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sonderbahrer" type="NN">sonderbahrer</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Liebhaber" type="NN">Liebhaber</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="arm" type="ADJA">armen</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Seele" type="NN">Seelen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="gewest" type="ADJA">gewest</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="selbiger" type="VVFIN">selbiger</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="in" type="APPR">in</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sein" type="PPOSAT">seinem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Gebett" type="NN">Gebett</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="nie" type="ADV">nie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vergessen" type="VVINF">vergessen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="also" type="ADV">also</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="haben" type="VAFIN">hat</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="GOtt" type="ADJD">GOtt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="in" type="APPR">in</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Ansehung" type="NN">Ansehung</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="diser" type="ADJA">diser</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Lieb" type="NN">Lieb</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="zu" type="APPR">zu</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">den</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="abgestorben" type="ADJA">abgestorbenen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Christglaubigen" type="NN">Christglaubigen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="auch" type="ADV">auch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vermittels" type="APPR">vermittels</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Vorbitt" type="NN">Vorbitt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="arm" type="ADJA">armen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="See" part="I" type="NN">See</w>
+        <lb break="no" type="d"/>
+        <w lemma="len" part="F" type="VVFIN">len</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">ihn</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="verschonet" type="VVFIN">verschonet</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="beynebens" type="NN">beynebens</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="anbefehlen" type="VVPP">anbefohlen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sollen" type="VMFIN">solle</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="widerumb" type="ADJD">widerumb</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="zu" type="APPRART">zum</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Leben" type="NN">Leben</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="kehren" type="VVFIN">kehren</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="noch" type="ADV">noch</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="genugsame" type="ADJA">genugsame</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Buß" type="NN">Buß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="auff" type="NN">auff</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Welt" type="NN">Welt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="würcken" type="VVFIN">würcken</w>
+        <pc type="$.">.</pc>
+        <seg type="whitespace"> </seg>
+        <bibl>
+            <foreign xml:lang="la">
+                <seg rend="antiqua">
+                    <persName type="hist">
+                        <w lemma="Tom" type="NE">Tom</w>
+                        <pc type="$.">.</pc>
+                    </persName>
+                    <seg type="whitespace"> </seg>
+                    <lb/>
+                    <w lemma="9" type="CARD">9</w>
+                    <pc type="$.">.</pc>
+                    <seg type="whitespace"> </seg>
+                    <w lemma="ad" type="FM">ad</w>
+                    <seg type="whitespace"> </seg>
+                    <w lemma="Ann" type="NE">Ann</w>
+                    <pc type="$.">.</pc>
+                    <seg type="whitespace"> </seg>
+                    <w lemma="@card@" type="CARD">716</w>
+                    <pc type="$.">.</pc>
+                </seg>
+            </foreign>
+        </bibl>
+    </p><!-- "besagtem" muss ein Token sein (Z. 105f.) -->
+    <p rend="indent">
+        <w lemma="ich" type="PPER">Mir</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="haben" type="VAFIN">hat</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">einer</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="glaubwürdig" type="ADJD">glaubwürdig</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="erzehlt" type="ADJA">erzehlt</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="auß" type="NN">auß</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="eine" type="ART">einer</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sehr" type="ADV">sehr</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="berühmt" type="ADJA">berühmten</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Orden" type="NN">Orden</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="auch" type="ADV">auch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">einem</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Schwur" type="NN">Schwur</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="bestättiget" type="VVFIN">bestättiget</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="so" type="ADV">so</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="annoch" type="ADJD">annoch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="in" type="APPRART">im</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Leben" type="NN">Leben</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="eine" type="ART">eines</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="gut" type="ADJA">guten</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Wandel" type="NN">Wandels</w>
+        <pc type="$.">:</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="als" type="KOUS">als</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Bey" type="NE">bey</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Nacht" type="NN">Nacht</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="die" type="ART">dem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Studiren" type="NN">Studiren</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="abliegen" type="VVPP">abgelegen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vmb" type="NN">vmb</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="weilen" type="VVFIN">weilen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ihme" type="ADV">ihme</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Verhindernussen" type="NN">Verhindernussen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="beym" type="ADJA">beym</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Tag" type="NN">Tag</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="zu" type="PTKA">zu</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="häuffig" type="ADJD">häuffig</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="haben" type="VAFIN">habe</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="ihme" type="ADV">ihme</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="zwey" type="NE">zwey</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Nacht" type="NN">Nacht</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nacheinander" type="ADV">nacheinander</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">ein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnsichtbare" type="NN">vnsichtbare</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Hand" type="NN">Hand</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="immerzu" type="ADV">immerzu</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Bibel" type="NN">Bibel</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="oder" type="KON">oder</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="H" type="NN">H</w>
+        <pc type="$.">.</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="Schrifft" type="NN">Schrifft</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="vor" type="APPR">vor</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sein" type="PPOSAT">seiner</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vmbgeblättert" type="NN">vmbgeblättert</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="welche" type="PWS">welches</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Anfang" type="NN">Anfangs</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="für" type="APPR">für</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="natürlich" type="ADV">natürlich</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="halten" type="VVPP">gehalten</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Meynung" type="NN">Meynung</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="als" type="KOKOM">als</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="wur" part="I" type="NN">wur</w>
+        <lb break="no" type="d"/>
+        <w lemma="die" part="F" type="ART">den</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Blatt" type="NN">Blätter</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="von" type="APPR">von</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">einem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="klein" type="ADJA">kleinen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Wind" type="NN">Wind</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="be" part="I" type="ADJD">be</w>
+        <lb break="no" type="d"/>
+        <w lemma="rühren" part="F" type="VVFIN">rührt</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="Nachdeme" type="VVFIN">Nachdeme</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="aber" type="ADV">aber</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="einist" type="NN">einist</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">den</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="beiner" part="I" type="ADJA">beiner</w>
+        <lb break="no" type="d"/>
+        <w lemma="nen" part="F" type="ADJA">nen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Streicher" type="NN">Streicher</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="als" type="KOKOM">als</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">ein</w>
+        <seg type="whitespace"> </seg>
+        <foreign xml:lang="la">
+            <seg rend="antiqua">
+                <w lemma="Signaculum" type="NN">Signaculum</w>
+            </seg>
+        </foreign>
+        <seg type="whitespace"> </seg>
+        <w lemma="in" type="APPR">in</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Bibel" type="NN">Bibel</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <fw place="bot_right" type="catch">gesteckt /</fw>
+        <pb facs="Abraham-Augustini_feuriges_Hertz_n0051.jpg" n="S. 51" xml:id="n0051"/>
+        <seg type="header">
+            <fw n="51" place="top_center" type="pageNum">
+                <milestone rend="flower" type="symbol"/>(51)<milestone rend="flower" type="symbol"/>
+            </fw>
+        </seg>
+        <milestone rend="line" type="hr"/>
+        <w lemma="stecken" type="VVPP">gesteckt</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="da" type="ADV">da</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="haben" type="VAFIN">hat</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="wahrnehmen" type="VVPP">wahrgenommen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dass" type="KOUS">daß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="jemand" type="PIS">jemand</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="derselb" type="PDAT">denselben</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnsichtbarer" type="NN">vnsichtbarer</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="herauß" type="NN">herauß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ziehen" type="VVPP">gezogen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="in" type="APPR">in</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Gegenwart" type="NN">Gegenwart</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sein" type="PPOSAT">seiner</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="in" type="APPR">in</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">ein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="anders" type="ADV">anders</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Orth" type="ADJD">Orth</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="in" type="APPR">in</w>
+        <seg type="whitespace"> </seg>
+        <choice>
+            <sic>
+                <w lemma="b" part="I" type="ADJA">b</w>
+                <supplied reason="missing">
+                    <w lemma="e" part="M" type="ADJA">e</w>
+                </supplied>
+                <w lemma="sagen" part="M" type="VVIMP">sag</w>
+                <lb break="no" type="d"/>
+                <w lemma="tem" part="F" type="ADJA">tem</w>
+            </sic>
+            <corr cert="high">besagtem</corr>
+        </choice>
+        <seg type="whitespace"> </seg>
+        <w lemma="Buch" type="NN">Buch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="legen" type="VVPP">gelegt</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="welche" type="PIS">welches</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ihme" type="VVFIN">ihme</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="wie" type="KOKOM">wie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="billich" type="ADJD">billich</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="ei" part="I" type="ADJA">ei</w>
+        <lb break="no" type="d"/>
+        <w lemma="nen" part="F" type="ADJA">nen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Grausen" type="NN">Grausen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="verursachen" type="VVPP">verursacht</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="weil" type="KOUS">weil</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sich" type="PRF">sich</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="aber" type="ADV">aber</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="an" type="APPR">an</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="dises" type="NN">dises</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="auch" type="ADV">auch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nicht" type="PTKNEG">nicht</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vil" type="ADJD">vil</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="kehren" type="VVFIN">kehren</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="wolte" type="ADJD">wolte</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="da" type="ADV">da</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="haben" type="VAFIN">hat</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="end" part="I" type="ADJD">end</w>
+        <lb break="no" type="d"/>
+        <w lemma="lich" part="F" type="ADJD">lich</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">ein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnsichbare" type="NN">vnsichbare</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Hand" type="NN">Hand</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="widerumb" type="VVFIN">widerumb</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">den</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="bei" part="I" type="APPR">bei</w>
+        <lb break="no" type="d"/>
+        <w lemma="nernen" part="F" type="ADJA">nernen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Streicher" type="NN">Streicher</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="herauß" type="NN">herauß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nehmen" type="VVPP">genommen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="solche" type="PIAT">solchem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Gewalt" type="NN">Gewalt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="auff" type="NN">auff</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">den</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Tisch" type="NN">Tisch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="schlagen" type="VVPP">geschlagen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dass" type="KOUS">daß</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vor" type="APPR">vor</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Schrecken" type="NN">Schrecken</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="fast" type="ADV">fast</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="in" type="APPR">in</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Ohnmacht" type="NN">Ohnmacht</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="fallen|gefallen" type="VVPP">gefallen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="deß" type="NN">deß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="andere" type="ADJA">andern</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Tag" type="NN">Tags</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="wolte" type="ADJD">wolte</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="weil" type="KOUS">weil</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ihme" type="ADV">ihme</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="je" type="ADV">je</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mehr" type="PIAT">mehr</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mehr" type="PIAT">mehr</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Gedancken" type="NN">Gedancken</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="einfallen" type="VVPP">eingefallen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Bibel" type="NN">Bibel</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="wohl" type="ADV">wohl</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="beschauen" type="VVINF">beschauen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="findt" type="NE">findt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="aber" type="KON">aber</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">den</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Streicher" type="NN">Streicher</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="wide" part="I" type="ADJD">wide</w>
+        <lb break="no" type="d"/>
+        <w lemma="rumb" part="F" type="VVFIN">rumb</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="darinn" type="NN">darinn</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="darzu" type="ADV">darzu</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">dem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Reißbley" type="NE">Reißbley</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="auff" type="NN">auff</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Seite" type="NN">Seiten</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="deß" type="NE">deß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Blats" type="NN">Blats</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">ein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="gemacht" type="ADJA">gemachtes</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Creutzel" type="NN">Creutzel</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="so" type="ADV">so</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">ihn</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nicht" type="PTKNEG">nicht</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="wenige" type="PIAT">wenig</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="befrembdet" type="ADJA">befrembdet</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="mei" part="I" type="NN">mei</w>
+        <lb break="no" type="d"/>
+        <w lemma="stens" part="F" type="NN">stens</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="darumb" type="VVFIN">darumb</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="weil" type="KOUS">weil</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="auch" type="ADV">auch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">ein</w>
+        <seg type="whitespace"> </seg>
+        <seg rend="antiqua">
+            <w lemma="NB" type="NE">NB</w>
+        </seg>
+        <pc type="$.">.</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="darbey" type="NE">darbey</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="setzen" type="VVPP">gesetzt</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="sein" type="VAFIN">war</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="welche" type="PWS">welches</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">ihn</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="dann" type="ADV">dann</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="veranlast" type="NN">veranlast</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="haben" type="VAFIN">hat</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="weiter" type="ADV">weiter</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="zu" type="PTKZU">zu</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="sehen" type="VVINF">sehen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="zu" type="PTKZU">zu</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="lesen" type="VVINF">lesen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="was" type="PWS">was</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="dann" type="ADV">dann</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="jen" type="PDAT">jene</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Zeil" type="NE">Zeil</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="in" type="APPR">in</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sich" type="PRF">sich</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="halten" type="VVFIN">halte</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="so" type="ADV">so</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">dem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Creutzel" type="NN">Creutzel</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="bezeichnen" type="VVPP">bezeichnet</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="findt" type="NE">findt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="end" part="I" type="VVFIN">end</w>
+        <lb break="no" type="d"/>
+        <w lemma="lich" part="F" type="ADJD">lich</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">den</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="kurtzen" type="ADJA">kurtzen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Text" type="NN">Text</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="deß" type="NE">deß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="H" type="NN">H</w>
+        <pc type="$.">.</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="Evangelii" type="NE">Evangelii</w>
+        <pc type="$.">:</pc>
+        <seg type="whitespace"> </seg>
+        <foreign xml:lang="la">
+            <seg rend="antiqua">
+                <w lemma="Dixit" type="NN">Dixit</w>
+                <seg type="whitespace"> </seg>
+                <lb/>
+                <w lemma="ad" type="FM">ad</w>
+                <seg type="whitespace"> </seg>
+                <persName type="bibl">
+                    <w lemma="Philippum" type="NN">Philippum</w>
+                </persName>
+                <pc type="$,">,</pc>
+                <seg type="whitespace"> </seg>
+                <w lemma="unde" type="ADJA">unde</w>
+                <seg type="whitespace"> </seg>
+                <w lemma="ememus" type="NN">ememus</w>
+                <seg type="whitespace"> </seg>
+                <w lemma="panes" type="VVFIN">panes</w>
+                <pc type="$.">?</pc>
+            </seg>
+        </foreign>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">Er</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="sprechen" type="VVFIN">sprach</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="zu" type="APPR">zu</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">dem</w>
+        <seg type="whitespace"> </seg>
+        <persName type="bibl">
+            <w lemma="Philipp" type="NE">Philipp</w>
+        </persName>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="wo" type="PWAV">wo</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="werden" type="VAFIN">werden</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="wir" type="PPER">wir</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="dann" type="ADV">dann</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Brod" type="NE">Brod</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nehmen" type="VVINF">nehmen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <bibl>
+            <persName type="bibl">
+                <seg rend="antiqua">
+                    <w lemma="Joann" type="NE">Joann</w>
+                    <pc type="$.">.</pc>
+                </seg>
+            </persName>
+            <seg type="whitespace"> </seg>
+            <w lemma="an" type="APPRART">am</w>
+            <seg type="whitespace"> </seg>
+            <seg rend="antiqua">
+                <w lemma="6" type="CARD">6</w>
+                <pc type="$.">.</pc>
+            </seg>
+            <seg type="whitespace"> </seg>
+            <w lemma="Capitel" type="NN">Capitel</w>
+        </bibl>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dises" type="NN">dises</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="haben" type="VAFIN">hat</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="ihme" type="ADV">ihme</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="alsobald" type="NE">alsobald</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Gedächtnuß" type="NN">Gedächtnuß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="bewegen" type="VVFIN">bewegt</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dass" type="KOUS">daß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="nichts" type="PIS">nichts</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="anderst" type="ADV">anderst</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="denken|gedenken" type="VVPP">gedacht</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="als" type="KOKOM">als</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="dass" type="KOUS">daß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sein" type="PPOSAT">sein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="gut" type="ADJA">bester</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Freund" type="NN">Freund</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Nahmen" type="NE">Nahmen</w>
+        <seg type="whitespace"> </seg>
+        <persName type="hist">
+            <w lemma="Philipp" type="NE">Philipp</w>
+        </persName>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vor" type="APPR">vor</w>
+        <seg type="whitespace"> </seg>
+        <seg rend="antiqua">
+            <w lemma="14" type="CARD">14</w>
+            <pc type="$.">.</pc>
+        </seg>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Tag" type="NN">Tagen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mit" type="APPR">mit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Tod" type="NN">Tod</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="abgangen" type="VVFIN">abgangen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="noch" type="ADV">noch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="fern" type="ADJA">fernere</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Hülff" type="NE">Hülff</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <seg type="footer">
+            <fw place="bot_center" type="pageNum">D 2</fw>
+        </seg>
+        <fw place="bot_right" type="catch">von</fw>
+        <pb facs="Abraham-Augustini_feuriges_Hertz_n0052.jpg" n="S. 52" xml:id="n0052"/>
+        <seg type="header">
+            <fw n="52" place="top_center" type="pageNum">
+                <milestone rend="flower" type="symbol"/>(52)<milestone rend="flower" type="symbol"/>
+            </fw>
+        </seg>
+        <milestone rend="line" type="hr"/>
+        <w lemma="von" type="APPR">von</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ihme" type="ADV">ihme</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="verlangen" type="VVFIN">verlange</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="fordern" type="VVFIN">forderst</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">ein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="andere" type="PIAT">andere</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="heilig" type="ADJA">heilige</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Meß" type="NN">Meß</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="in" type="APPR">in</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="welche" type="PIS">welchen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">das</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Brod" type="NN">Brod</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="En" part="I" type="NE">En</w>
+        <lb break="no" type="d"/>
+        <w lemma="geln" part="F" type="NE">geln</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="auffgesetzet" type="VVFIN">auffgesetzet</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="werden" type="VAFIN">wird</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="welche" type="PWS">welches</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="auch" type="ADV">auch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nach" part="I" type="APPR">nach</w>
+        <lb break="no" type="d"/>
+        <w lemma="Mahl" part="F" type="NN">mahls</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="geschehen" type="VVINF">geschehen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="worauff" type="VVFIN">worauff</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nichts" type="PIS">nichts</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mehr" type="ADV">mehr</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ge" part="I" type="ADJD">ge</w>
+        <lb break="no" type="d"/>
+        <w lemma="spühret" part="F" type="VVFIN">spühret</w>
+        <pc type="$.">.</pc>
+    </p><!-- "Iscarioth" (Z. 159f.) muss ein Token sein-->
+    <p rend="indent">
+        <w lemma="die" type="ART">Die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Hohepriester" type="NN">Hohepriester</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Jude" type="NN">Juden</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="seynd" type="VVFIN">seynd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="so" type="ADV">so</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="wohl" type="ADV">wohl</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ja" type="ADV">ja</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mehrer" type="ADJD">mehrer</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="als" type="KOKOM">als</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <persName type="bibl">
+            <seg rend="antiqua">
+                <w lemma="Iscarioth" type="NN">Iscarioth</w>
+            </seg>
+        </persName>
+        <seg type="whitespace"> </seg>
+        <w lemma="Ursach" type="NE">Ursach</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ge" part="I" type="ADJA">ge</w>
+        <lb break="no" type="d"/>
+        <w lemma="west" part="F" type="FM">west</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="an" type="APPR">an</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">dem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="bitter" type="ADJA">bittern</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Tod" type="NN">Tod</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="deß" type="NE">deß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Herr" type="NN">HErrn</w>
+        <seg type="whitespace"> </seg>
+        <persName type="bibl">
+            <w lemma="JEsu" type="NE">JEsu</w>
+        </persName>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="dann" type="ADV">dann</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="keine" type="PIAT">kein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Tag" type="NN">Tag</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ware" type="ADJD">ware</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="da" type="KOUS">da</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sie" type="PPER">sie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nicht" type="PTKNEG">nicht</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">den</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Under" part="I" type="NN">Under</w>
+        <lb break="no" type="d"/>
+        <w lemma="gang" part="F" type="ADJD">gang</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="diser" type="ADJA">diser</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="göttlich" type="ADJA">Göttlichen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Sonne" type="NN">Sonnen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="suchen" type="VVFIN">suchten</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="keine" type="PIAT">Kein</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <fw place="bot_right" type="catch">Nacht</fw>
+        <pb facs="Abraham-Augustini_feuriges_Hertz_n0095.jpg" n="S. 95" xml:id="n0095"/>
+        <seg type="header">
+            <fw n="95" place="top_center" type="pageNum">
+                <milestone rend="flower" type="symbol"/>(95)<milestone rend="flower" type="symbol"/>
+            </fw>
+        </seg>
+        <milestone rend="line" type="hr"/>
+        <w lemma="Nacht" type="NN">Nacht</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ware" type="ADJD">ware</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="da" type="KOUS">da</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sie" type="PPER">sie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nicht" type="PTKNEG">nicht</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sich" type="PRF">sich</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="bemüht" type="ADJA">bemühten</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dises" type="NN">dises</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="göttlich" type="ADJA">Göttliche</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Liecht" type="NN">Liecht</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="außzulöschen" type="ADJA">außzulöschen</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="wie" type="KOUS">Wie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Wölff" type="NE">Wölff</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="verfolgen" type="VVFIN">verfolgten</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sie" type="PPER">sie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="dises" type="ADJA">dises</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Lamm" type="NN">Lamm</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Gott" type="NN">GOttes</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="wie" type="KOUS">Wie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Geyer" type="NE">Geyer</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NE">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Raub=Vögel" type="NN">Raub=Vögel</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="dise" type="ADJA">dise</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnschuldige" type="NN">vnschuldige</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Tau" part="I" type="NN">Tau</w>
+        <lb break="no" type="d"/>
+        <w lemma="ben" part="F" type="VVFIN">ben</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="wie" type="KOKOM">Wie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="tobend" type="ADJA">tobende</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Sturm=Wind" type="NN">Sturm=Wind</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="dises" type="NN">dises</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Schif" part="I" type="NE">Schif</w>
+        <lb break="no" type="d"/>
+        <w lemma="fel" part="F" type="ADJA">fel</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="deß" type="NN">deß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Heyls" type="VVFIN">Heyls</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="beißen" type="VVFIN">biß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sie" type="PPER">sie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="endlich" type="ADV">endlich</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dise" type="ADJA">dise</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="blutgierig" type="ADJA">blutgierige</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Egel" type="NN">Egel</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NE">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnmenschliche" type="NN">vnmenschliche</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Tyger=Gemüther" type="VVFIN">Tyger=Gemüther</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">den</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Heyland" type="NN">Heyland</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="an" type="APPR">an</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">das</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Creutz" type="NN">Creutz</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="bringen" type="VVPP">gebracht</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="folgen" part="I" type="VVIMP">folg</w>
+        <lb break="no" type="d"/>
+        <w lemma="samb" part="F" type="ADJA">samb</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="mehrer" type="NN">mehrer</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="verschulden" type="VVPP">verschuldet</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="als" type="KOUS">als</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <persName type="bibl">
+            <w lemma="Judas" type="NE">Judas</w>
+            <seg type="whitespace"> </seg>
+            <seg rend="antiqua">
+                <w lemma="Isca" part="I" type="NE">Isca</w>
+                <lb break="no" type="s"/>
+                <w lemma="rioth" part="F" type="NE">rioth</w>
+            </seg>
+        </persName>
+        <seg rend="antiqua">
+            <pc type="$,">,</pc>
+        </seg>
+        <seg type="whitespace"> </seg>
+        <w lemma="dannoch" type="NE">dannoch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="aber" type="KON">aber</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="auff" type="NE">auff</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Welt" type="NN">Welt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nicht" type="PTKNEG">nicht</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="also" type="ADV">also</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="straffen" type="VVPP">gestrafft</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="werden" type="VAPP">worden</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="wie" type="KOUS">wie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="nicht" type="PTKNEG">nicht</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="PIS">eines</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="so" type="ADV">so</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnglück" part="I" type="NN">vnglück</w>
+        <lb break="no" type="d"/>
+        <w lemma="seeligen" part="F" type="ADJA">seeligen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Tod" type="NN">Tods</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sterben" type="VVPP">gestorben</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="wie" type="KOUS">wie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="nicht" type="PTKNEG">nicht</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="gan" part="I" type="ADJA">gan</w>
+        <lb break="no" type="d"/>
+        <w lemma="tzen" part="F" type="ADJA">tzen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Welt" type="NN">Welt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="zu" type="APPR">zu</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Schand" type="NN">Schand</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NE">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Spott" type="NN">Spott</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="werden" type="VAPP">worden</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="wie" type="KOUS">wie</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="er" type="PPER">er</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="warum" type="PWAV">warum</w>
+        <pc type="$.">?</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">Die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Ursach" type="NN">Ursach</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sein" type="VAFIN">war</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="dise" type="ADJD">dise</w>
+        <pc type="$.">:</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="Jhre" type="ADJA">Jhre</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Würf" part="I" type="NN">Würf</w>
+        <lb break="no" type="d"/>
+        <w lemma="fel" part="F" type="ADJD">fel</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="haben" type="VAFIN">haben</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vil" type="ADJA">vil</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Schwartz" type="NN">Schwartz</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="geworffen" type="VVPP">geworffen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="sie" type="PPER">sie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="haben" type="VAFIN">haben</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="sich" type="PRF">sich</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Todten" type="NN">Todten</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="annehmen" type="VVPP">angenommen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="dann" type="ADV">dann</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sie" type="PPER">sie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vmb" type="NN">vmb</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="je" part="I" type="APPR">je</w>
+        <lb break="no" type="d"/>
+        <w lemma="nes" part="F" type="NE">nes</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Blut=Geld" type="NN">Blut=Geld</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="wormit" type="NN">wormit</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">das</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="hoch" type="ADJA">höchste</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Gut" type="NN">Gut</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ver" part="I" type="VVFIN">ver</w>
+        <lb break="no" type="d"/>
+        <w lemma="kaufft" part="F" type="ADJD">kaufft</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="werden" type="VAPP">worden</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">einen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Acker" type="NN">Acker</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="einhandeln" type="VVPP">eingehandelt</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="da" type="ADV">da</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="zu" type="APPR">zu</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="alle" type="PIAT">allen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Zeit" type="NN">Zeiten</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sollen" type="VMFIN">soll</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="seyn" type="NE">seyn</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="eine" type="ART">ein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Freudhoff" type="NE">Freudhoff</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NE">vnd</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Begräbnuß" type="NN">Begräbnuß</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Frembdling" type="NN">Frembdling</w>
+        <pc type="$.">;</pc>
+        <seg type="whitespace"> </seg>
+        <foreign xml:lang="la">
+            <seg rend="antiqua">
+                <w lemma="in" type="APPR">In</w>
+                <seg type="whitespace"> </seg>
+                <w lemma="sepulturam" type="NE">sepulturam</w>
+                <seg type="whitespace"> </seg>
+                <lb/>
+                <w lemma="Peregrinorum" type="NN">Peregrinorum</w>
+                <pc type="$,">,</pc>
+                <seg type="whitespace"> </seg>
+                <bibl>
+                    <persName type="bibl">
+                        <w lemma="Matth" type="NE">Matth</w>
+                        <pc type="$.">.</pc>
+                    </persName>
+                    <seg type="whitespace"> </seg>
+                    <w lemma="27" type="CARD">27</w>
+                </bibl>
+            </seg>
+            <pc type="$.">.</pc>
+        </foreign>
+        <seg type="whitespace"> </seg>
+        <w lemma="wie" type="KOKOM">Wie</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="dann" type="ADV">dann</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="von" type="APPR">von</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="besagt" type="ADJA">besagtem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Acker" type="NN">Acker</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="sehr" type="ADV">sehr</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="vil" type="ADJD">vil</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Erd" type="VVFIN">Erd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nach" type="APPR">nach</w>
+        <seg type="whitespace"> </seg>
+        <placeName key="rome" subtype="dire" type="city">
+            <w lemma="Rom" type="NE">Rom</w>
+        </placeName>
+        <seg type="whitespace"> </seg>
+        <w lemma="über" part="I" type="PTKVZ">über</w>
+        <lb break="no" type="d"/>
+        <w lemma="brechen" part="F" type="VVFIN">bracht</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="worden" type="ADJD">worden</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NN">vnd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="werden" type="VAFIN">wird</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">das</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Ort" type="NN">Ort</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="genennt" type="VVFIN">genennt</w>
+        <pc type="$.">:</pc>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <seg rend="antiqua">
+            <foreign xml:lang="la">
+                <w lemma="Capo" type="NE">Capo</w>
+                <seg type="whitespace"> </seg>
+                <w lemma="Santo" type="NE">Santo</w>
+            </foreign>
+            <pc type="$,">,</pc>
+        </seg>
+        <seg type="whitespace"> </seg>
+        <w lemma="allwo" type="NE">allwo</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="noch" type="KON">noch</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="auff" type="NE">auff</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="heuntigen" type="ADJA">heuntigen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Tag" type="NN">Tag</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="dise" type="ADJD">dise</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Erd" type="VVFIN">Erd</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="nur" type="ADV">nur</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">die</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Leib" type="NN">Leiber</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Frembden" type="NN">Frembden</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="behalten" type="VVFIN">behaltet</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Jnwohner" type="NN">Jnwohner</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="aber" type="ADV">aber</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="gleich" type="ADJD">gleich</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="wider" type="APPR">wider</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="außwirfft" type="ADJD">außwirfft</w>
+        <pc type="$.">.</pc>
+    </p><!-- "&c" muss ein Token sein, wenn als abbreviations/abbr im Parameter-file definiert -->
+    <p rend="indent">
+        <w lemma="wann" type="PWAV">Wann</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">der</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Geist" type="NN">Geist</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="keine" type="PIAT">kein</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="Scheühen" type="NN">Scheühen</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="tragen" type="VVFIN">tragt</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="ob" type="KOUS">ob</w>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="die" type="ART">dem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="H" type="NN">H</w>
+        <pc type="$.">.</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="Creutz=Zeichen" type="ADJA">Creutz=Zeichen</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="an" type="APPR">an</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="die" type="ART">dem</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="süß" type="ADJA">süssesten</w>
+        <seg type="whitespace"> </seg>
+        <w lemma="na" part="I" type="ITJ">Na</w>
+        <lb break="no" type="d"/>
+        <w lemma="men" part="F" type="ADJA">men</w>
+        <seg type="whitespace"> </seg>
+        <persName type="bibl">
+            <w lemma="Jesu" type="NN">JESU</w>
+        </persName>
+        <seg type="whitespace"> </seg>
+        <w lemma="vnd" type="NE">vnd</w>
+        <seg type="whitespace"> </seg>
+        <persName type="bibl">
+            <w lemma="Maria" type="NE">Maria</w>
+        </persName>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <w lemma="H" type="NN">H</w>
+        <pc type="$.">.</pc>
+        <seg type="whitespace"> </seg>
+        <seg rend="antiqua">
+            <w lemma="Reliqui" part="I" type="NE">Reliqui</w>
+        </seg>
+        <w lemma="en" part="F" type="FM">en</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <lb/>
+        <w lemma="Weyhwasser" type="NN">Weyhwasser</w>
+        <seg type="whitespace"> </seg>
+        <pc type="$(">/</pc>
+        <seg type="whitespace"> </seg>
+        <foreign xml:lang="la">
+            <seg rend="antiqua">
+                <w lemma="Agnus" type="NE">Agnus</w>
+                <seg type="whitespace"> </seg>
+                <seg rend="smallCaps">
+                    <w lemma="Dei" type="NE">Dei</w>
+                </seg>
+                <seg type="whitespace"> </seg>
+                <pc type="KON">&amp;</pc>
+                <w lemma="c" type="VVFIN">c</w>
+                <pc type="$.">.</pc>
+            </seg>
+        </foreign>
+    </p>
+</TEI>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<schema>
+    <namespaces>
+        <namespace>
+            <prefix>tei</prefix>
+            <uri>http://www.tei-c.org/ns/1.0</uri>
+        </namespace>
+    </namespaces>
+    <tokenXPath>//tei:w</tokenXPath>
+    <tokenValueXPath>.</tokenValueXPath>
+    <properties>
+        <property>
+            <propertyName>lemma</propertyName>
+            <propertyXPath>@lemma</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+        <property>
+            <propertyName>type</propertyName>
+            <propertyXPath>@type</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+        <property>
+            <propertyName>gender</propertyName>
+            <propertyXPath>@gender</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+        <property>
+            <propertyName>number</propertyName>
+            <propertyXPath>@number</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+        <property>
+            <propertyName>person</propertyName>
+            <propertyXPath>@person</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+        <property>
+            <propertyName>case</propertyName>
+            <propertyXPath>@case</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+        <property>
+            <propertyName>tense</propertyName>
+            <propertyXPath>@tense</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+        <property>
+            <propertyName>mood</propertyName>
+            <propertyXPath>@mood</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+        <property>
+            <propertyName>voice</propertyName>
+            <propertyXPath>@voice</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+    </properties>
+</schema>

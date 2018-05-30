@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<schema>
+    <namespaces>
+        <namespace>
+            <prefix>tei</prefix>
+            <uri>http://www.tei-c.org/ns/1.0</uri>
+         </namespace>
+         <namespace>       
+            <prefix>foo</prefix>
+            <uri>http://www.my.foo/foo/1.0</uri>
+        </namespace>
+    </namespaces>
+    <tokenXPath>//tei:w</tokenXPath>
+    <tokenValueXPath>.</tokenValueXPath>
+    <properties>
+        <property>
+            <propertyName>lemma</propertyName>
+            <propertyXPath>@lemma</propertyXPath>
+            <propertyType>free text</propertyType>
+            <readOnly/>
+        </property>
+	<!-- try attribute with a specific namespace foo: --> 
+        <property>
+            <propertyName>Foolemma</propertyName>
+            <propertyXPath>@foo:lemma1</propertyXPath>
+            <propertyType>free text</propertyType>
+            <readOnly/>
+        </property>
+
+        <property>
+            <propertyName>type</propertyName>
+            <propertyXPath>./tei:type</propertyXPath>
+            <propertyType>closed list</propertyType>
+            <propertyValues>
+                <value>$.</value>
+                <value>NN</value>
+                <value>NE</value>
+            </propertyValues>
+        </property>
+    </properties>
+</schema>
+

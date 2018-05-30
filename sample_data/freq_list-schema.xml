@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<schema>
+    <tokenXPath>//item</tokenXPath>
+    <tokenValueXPath>./word</tokenValueXPath>
+    <properties>
+        <property>
+            <propertyName>lemma</propertyName>
+            <propertyXPath>./lemma</propertyXPath>
+            <propertyType>free text</propertyType>
+            <readOnly/>
+        </property>
+        <property>
+            <propertyName>POS</propertyName>
+            <propertyXPath>./pos</propertyXPath>
+            <propertyType>free text</propertyType>
+            <readOnly/>
+        </property>
+        <property>
+            <propertyName>POS base</propertyName>
+            <propertyXPath>./posbase</propertyXPath>
+            <readOnly/>
+    <!--
+            <propertyType>free text</propertyType>
+      -->  
+            <propertyType>closed list</propertyType>
+ 	    <propertyValues>
+		<value>ADJA</value>
+		<value>ADJD</value>
+		<value>ADV</value>
+		<value>APPO</value>
+		<value>APPR</value>
+		<value>APPRART</value>
+		<value>APZR</value>
+		<value>ART</value>
+		<value>CARD</value>
+		<value>CONJ</value>
+		<value>FM</value>
+		<value>ITJ</value>
+		<value>N</value>
+		<value>PART</value>
+		<value>PRO</value>
+		<value>PROADV</value>
+		<value>SYM</value>
+		<value>TRUNC</value>
+		<value>VFIN</value>
+		<value>VIMP</value>
+		<value>VINF</value>
+		<value>VPP</value>
+            </propertyValues>
+        </property>
+        <property>
+            <propertyName>POS TT</propertyName>
+            <propertyXPath>./posTT</propertyXPath>
+            <readOnly/>
+	    <!-- 
+            <propertyType>free text</propertyType>
+             -->
+            <propertyType>closed list</propertyType>
+            <propertyValues>
+		<value>ADJA</value>
+		<value>ADJD</value>
+		<value>ADV</value>
+		<value>APPO</value>
+		<value>APPR</value>
+		<value>APPRART</value>
+		<value>APZR</value>
+		<value>ART</value>
+		<value>CARD</value>
+		<value>FM</value>
+		<value>ITJ</value>
+		<value>KOKOM</value>
+		<value>KON</value>
+		<value>KOUI</value>
+		<value>KOUS</value>
+		<value>NE</value>
+		<value>NN</value>
+		<value>PAV</value>
+		<value>PDAT</value>
+		<value>PDS</value>
+		<value>PIAT</value>
+		<value>PIS</value>
+		<value>PPER</value>
+		<value>PPOSAT</value>
+		<value>PPOSS</value>
+		<value>PRELAT</value>
+		<value>PRELS</value>
+		<value>PRF</value>
+		<value>PTKA</value>
+		<value>PTKANT</value>
+		<value>PTKNEG</value>
+		<value>PTKVZ</value>
+		<value>PTKZU</value>
+		<value>PWAT</value>
+		<value>PWAV</value>
+		<value>PWS</value>
+		<value>TRUNC</value>
+		<value>VAFIN</value>
+		<value>VAIMP</value>
+		<value>VAINF</value>
+		<value>VAPP</value>
+		<value>VMFIN</value>
+		<value>VMINF</value>
+		<value>VMPP</value>
+		<value>VVFIN</value>
+		<value>VVIMP</value>
+		<value>VVINF</value>
+		<value>VVIZU</value>
+		<value>VVPP</value>
+		<value>XY</value>
+            </propertyValues>
+        </property>
+        <property>
+            <propertyName>freq</propertyName>
+            <propertyXPath>./freq</propertyXPath>
+            <readOnly/>
+            <propertyType>free text</propertyType>
+            <!--
+            <propertyType>closed list</propertyType>
+            <propertyValues>
+                <value>value1</value>
+                <value>value2</value>
+            </propertyValues>
+            -->
+        </property>
+        <property>
+            <propertyName>lemma - reviewed</propertyName>
+            <propertyXPath>./manual_lemma</propertyXPath>
+            <propertyType>free text</propertyType>
+        </property>
+        <property>
+            <propertyName>POS - reviewed</propertyName>
+            <propertyXPath>./manual_pos</propertyXPath>
+            <propertyType>free text</propertyType>
+            <!--
+            <propertyType>closed list</propertyType>
+            <propertyValues>
+                <value>value1</value>
+                <value>value2</value>
+            </propertyValues>
+            -->
+        </property>
+        <property>
+            <propertyName>POS base - reviewed</propertyName>
+            <propertyXPath>./manual_posbase</propertyXPath>
+    	    <!--
+            	<propertyType>free text</propertyType>
+            -->  
+            <propertyType>closed list</propertyType>
+ 	    <propertyValues>
+		<value>ADJA</value>
+		<value>ADJD</value>
+		<value>ADV</value>
+		<value>APPO</value>
+		<value>APPR</value>
+		<value>APPRART</value>
+		<value>APZR</value>
+		<value>ART</value>
+		<value>CARD</value>
+		<value>CONJ</value>
+		<value>FM</value>
+		<value>ITJ</value>
+		<value>N</value>
+		<value>PART</value>
+		<value>PRO</value>
+		<value>PROADV</value>
+		<value>SYM</value>
+		<value>TRUNC</value>
+		<value>VFIN</value>
+		<value>VIMP</value>
+		<value>VINF</value>
+		<value>VPP</value>
+            </propertyValues>
+        </property>
+        <property>
+            <propertyName>POS TT- reviewed</propertyName>
+            <propertyXPath>./manual_posTT</propertyXPath>
+	    <!-- 
+            <propertyType>free text</propertyType>
+             -->
+            <propertyType>closed list</propertyType>
+            <propertyValues>
+		<value>ADJA</value>
+		<value>ADJD</value>
+		<value>ADV</value>
+		<value>APPO</value>
+		<value>APPR</value>
+		<value>APPRART</value>
+		<value>APZR</value>
+		<value>ART</value>
+		<value>CARD</value>
+		<value>FM</value>
+		<value>ITJ</value>
+		<value>KOKOM</value>
+		<value>KON</value>
+		<value>KOUI</value>
+		<value>KOUS</value>
+		<value>NE</value>
+		<value>NN</value>
+		<value>PAV</value>
+		<value>PDAT</value>
+		<value>PDS</value>
+		<value>PIAT</value>
+		<value>PIS</value>
+		<value>PPER</value>
+		<value>PPOSAT</value>
+		<value>PPOSS</value>
+		<value>PRELAT</value>
+		<value>PRELS</value>
+		<value>PRF</value>
+		<value>PTKA</value>
+		<value>PTKANT</value>
+		<value>PTKNEG</value>
+		<value>PTKVZ</value>
+		<value>PTKZU</value>
+		<value>PWAT</value>
+		<value>PWAV</value>
+		<value>PWS</value>
+		<value>TRUNC</value>
+		<value>VAFIN</value>
+		<value>VAIMP</value>
+		<value>VAINF</value>
+		<value>VAPP</value>
+		<value>VMFIN</value>
+		<value>VMINF</value>
+		<value>VMPP</value>
+		<value>VVFIN</value>
+		<value>VVIMP</value>
+		<value>VVINF</value>
+		<value>VVIZU</value>
+		<value>VVPP</value>
+		<value>XY</value>
+            </propertyValues>
+        </property>
+    </properties>
+</schema>

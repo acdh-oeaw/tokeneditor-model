@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+
+<teiHeader>
+
+<fileDesc>
+
+<titleStmt>
+
+<title/>
+</titleStmt>
+</fileDesc>
+</teiHeader>
+
+<text>
+
+<body>
+
+<p>
+
+<s>
+
+<w case="GENITIVE" gender="FEMININE" lemma="Serenus" number="SINGULAR" type="ADJ" xml:id="el_0_12">Serenissimae</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="iSABELLAE" number="SINGULAR" type="NN" xml:id="el_13_22">ISABELLAE</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="CLARAe" number="SINGULAR" type="NN" xml:id="el_23_29">CLARAE</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="EVGENIAe" number="SINGULAR" type="NE" xml:id="el_30_38">EVGENIAE</w> 
+<w lemma="iNFANTI" type="AP" xml:id="el_39_46">INFANTI</w> 
+<w lemma="HISPANIio" type="NE" xml:id="el_47_58">HISPANIARVM</w> 
+<w lemma="principi" type="NE" xml:id="el_59_67">Principi</w> 
+<w case="DATIVE" gender="FEMININE" lemma="Domina" number="SINGULAR" type="NN" xml:id="el_68_75">Dominae</w> 
+<w case="DATIVE" gender="FEMININE" lemma="noster" number="SINGULAR" type="PRO" xml:id="el_76_83">nostrae</w>
+
+<c lemma="." type="$." xml:id="el_83_84">.</c>
+</s>
+
+<s>
+
+<w case="DATIVE" gender="FEMININE" lemma="meditanti" number="SINGULAR" type="NN" xml:id="el_86_95">Meditanti</w> 
+<w case="DATIVE" gender="COMMON" lemma="ego" number="SINGULAR" type="PRO" xml:id="el_96_100">mihi</w>
+
+<c lemma="," type="$," xml:id="el_100_101">,</c> 
+<w lemma="sERENISSIMA" type="ADJ" xml:id="el_102_113">SERENISSIMA</w> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="pRINCEPS" number="SINGULAR" type="NN" xml:id="el_114_122">PRINCEPS</w>
+
+<c lemma="," type="$," xml:id="el_122_123">,</c> 
+<w case="DATIVE" gender="MASCULINE" lemma="qui" number="SINGULAR" type="PRO" xml:id="el_124_127">cui</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="potissimus" number="SINGULAR" type="NN" xml:id="el_128_138">potissimum</w> 
+<w case="ACCUSATIVE" gender="NEUTER" lemma="hic" number="SINGULAR" type="PRO" xml:id="el_139_142">hoc</w> 
+<w case="ACCUSATIVE" gender="NEUTER" lemma="opusculum" number="SINGULAR" type="NN" xml:id="el_143_152">opusculum</w>
+
+<c lemma="," type="$," xml:id="el_152_153">,</c> 
+<w lemma="non" type="ADV" xml:id="el_154_157">non</w> 
+<w case="ABLATIVE" gender="FEMININE" lemma="meus" number="SINGULAR" type="PRO" xml:id="el_158_161">mea</w> 
+<w case="ABLATIVE" gender="NEUTER" lemma="crassior" number="SINGULAR" type="ADJ" xml:id="el_162_171">crassiore</w> 
+<w case="ACCUSATIVE" gender="NEUTER" lemma="tela" number="PLURAL" type="NN" xml:id="el_172_176">tela</w>
+
+<c lemma="," type="$," xml:id="el_176_177">,</c> 
+<w lemma="sed" type="CON" xml:id="el_178_181">sed</w> 
+<w case="ABLATIVE" gender="FEMININE" lemma="aureus" number="PLURAL" type="ADJ" xml:id="el_182_188">aureis</w> 
+<w case="GENITIVE" gender="MASCULINE" lemma="sanctus" number="PLURAL" type="ADJ" xml:id="el_189_198">sanctorum</w> 
+<w case="GENITIVE" gender="MASCULINE" lemma="pater" number="PLURAL" type="NN" xml:id="el_199_205">Patrum</w> 
+<w case="ABLATIVE" gender="NEUTER" lemma="filis" number="PLURAL" type="NN" xml:id="el_206_211">filis</w> 
+<w case="ACCUSATIVE" gender="NEUTER" lemma="contextus" number="SINGULAR" type="NN" xml:id="el_212_221">contextum</w>
+
+<c lemma="," type="$," xml:id="el_221_222">,</c> 
+<w lemma="atque" type="CON" xml:id="el_223_228">atque</w> 
+<w case="DATIVE" gender="MASCULINE" lemma="dignus" number="PLURAL" type="ADJ" xml:id="el_229_240">dignissimis</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="beatus" number="SINGULAR" type="ADJ" xml:id="el_241_252">beatissimae</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="virgo" number="SINGULAR" type="NN" xml:id="el_253_261">Virginis</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="MARIAE" number="SINGULAR" type="NE" xml:id="el_262_268">MARIAE</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="confertus" number="SINGULAR" type="NN" xml:id="el_269_278">confertum</w> 
+<w case="ABLATIVE" gender="FEMININE" lemma="laus" number="PLURAL" type="NN" xml:id="el_279_287">laudibus</w>
+
+<c lemma="," type="$," xml:id="el_287_288">,</c> 
+<w lemma="offero" mood="INFINITIVE" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_289_296">offerre</w> 
+<w lemma="debeo" mood="SUBJUNCTIVE" number="SINGULAR" person="PERSON_1" tense="IMPERFECT" type="V" voice="ACTIVE" xml:id="el_297_304">deberem</w>
+
+<c lemma=";" type="$." xml:id="el_304_305">;</c> 
+<w lemma="tVA" type="NUM" xml:id="el_306_309">TVA</w> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="cELSITVDO" number="SINGULAR" type="NN" xml:id="el_310_319">CELSITVDO</w> 
+<w lemma="vnice" type="ADV" xml:id="el_320_325">vnice</w> 
+<w lemma="occurro" mood="INDICATIVE" number="SINGULAR" person="PERSON_3" tense="IMPERFECT" type="V" voice="ACTIVE" xml:id="el_326_336">occurrebat</w>
+
+<c lemma="," type="$," xml:id="el_336_337">,</c> 
+<w case="DATIVE" gender="MASCULINE" lemma="qui" number="SINGULAR" type="PRO" xml:id="el_338_341">cui</w>
+
+<c lemma="," type="$," xml:id="el_341_342">,</c> 
+<w lemma="prae" type="AP" xml:id="el_343_347">prae</w> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="ceterus" number="PLURAL" type="NN" xml:id="el_348_355">ceteris</w>
+
+<c lemma="," type="$," xml:id="el_355_356">,</c> 
+<w case="NOMINATIVE" gender="NEUTER" lemma="idem" number="SINGULAR" type="PRO" xml:id="el_357_361">idem</w> 
+<w case="NOMINATIVE" gender="NEUTER" lemma="iste" number="SINGULAR" type="PRO" xml:id="el_362_367">istud</w> 
+<w case="NOMINATIVE" gender="NEUTER" lemma="munus" number="SINGULAR" type="NN" xml:id="el_368_373">munus</w>
+
+<c lemma="," type="$," xml:id="el_373_374">,</c> 
+<w case="ABLATIVE" gender="FEMININE" lemma="gemma" number="PLURAL" type="NN" xml:id="el_375_381">gemmis</w> 
+<w lemma="apprime" type="ADV" xml:id="el_382_389">apprime</w> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="pretiosus" number="PLURAL" type="ADJ" xml:id="el_390_399">pretiosis</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="distinctus" number="SINGULAR" type="NN" xml:id="el_400_410">distinctum</w>
+
+<c lemma="," type="$," xml:id="el_410_411">,</c> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="meritus" number="SINGULAR" type="ADJ" xml:id="el_412_423">meritissimo</w> 
+<w lemma="consecro" mood="SUBJUNCTIVE" number="SINGULAR" person="PERSON_1" tense="IMPERFECT" type="V" voice="ACTIVE" xml:id="el_424_435">consecrarem</w>
+
+<c lemma="." type="$." xml:id="el_435_436">.</c>
+</s> 
+<s>
+
+<w lemma="cum" type="CON" xml:id="el_437_440">Cum</w> 
+<w lemma="enim" type="CON" xml:id="el_441_445">enim</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="par" number="PLURAL" type="NN" xml:id="el_446_451">pares</w> 
+<w lemma="cum" type="AP" xml:id="el_452_455">cum</w> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="par" number="PLURAL" type="NN" xml:id="el_456_463">paribus</w> 
+<w lemma="concorde" type="ADV" xml:id="el_464_477">concordissime</w> 
+<w lemma="socio" mood="SUBJUNCTIVE" number="PLURAL" person="PERSON_3" tense="PRESENT" type="V" voice="PASSIVE" xml:id="el_478_487">socientur</w>
+
+<c lemma=";" type="$." xml:id="el_487_488">;</c> 
+<w case="NOMINATIVE" gender="FEMININE" lemma="par" number="SINGULAR" type="ADJ" xml:id="el_489_492">par</w> 
+<w lemma="sum" mood="INFINITIVE" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_493_497">esse</w> 
+<w lemma="duxus" mood="INDICATIVE" number="SINGULAR" person="PERSON_1" tense="PERFECT" type="V" voice="ACTIVE" xml:id="el_498_502">duxi</w>
+
+<c lemma="," type="$," xml:id="el_502_503">,</c> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="lectissimus" number="PLURAL" type="ADJ" xml:id="el_504_515">lectissimos</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="ecclesia" number="SINGULAR" type="NN" xml:id="el_516_525">Ecclesiae</w> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="pater" number="PLURAL" type="NN" xml:id="el_526_532">Patres</w> 
+<w lemma="ad" type="AP" xml:id="el_533_535">ad</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="lectus" number="SINGULAR" type="ADJ" xml:id="el_536_547">lectissimam</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="ecclesia" number="SINGULAR" type="NN" xml:id="el_548_557">Ecclesiae</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="filia" number="SINGULAR" type="NN" xml:id="el_558_564">filiam</w>
+
+<c lemma=";" type="$." xml:id="el_564_565">;</c> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="egregius" number="PLURAL" type="ADJ" xml:id="el_566_574">egregios</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="Doctor" number="PLURAL" type="NN" xml:id="el_575_583">Doctores</w>
+
+<c lemma="," type="$," xml:id="el_583_584">,</c> 
+<w case="ABLATIVE" gender="FEMININE" lemma="auctoritas" number="SINGULAR" type="NN" xml:id="el_585_596">auctoritate</w> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="graues" number="PLURAL" type="ADJ" xml:id="el_597_603">graues</w>
+
+<c lemma="," type="$," xml:id="el_603_604">,</c> 
+<w case="ABLATIVE" gender="FEMININE" lemma="omnis" number="SINGULAR" type="ADJ" xml:id="el_605_609">omni</w> 
+<w case="ABLATIVE" gender="FEMININE" lemma="litteraturus" number="SINGULAR" type="NN" xml:id="el_610_621">litteratura</w> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="praecellens" number="PLURAL" type="ADJ" xml:id="el_622_635">praecellentes</w>
+
+<c lemma="," type="$," xml:id="el_635_636">,</c> 
+<w case="GENITIVE" gender="FEMININE" lemma="religio" number="SINGULAR" type="NN" xml:id="el_637_647">religionis</w>
+
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="purissimus" number="PLURAL" type="ADJ" xml:id="el_649_659">purissimos</w>
+
+<c lemma="," type="$," xml:id="el_659_660">,</c> 
+<w case="GENITIVE" gender="FEMININE" lemma="vita" number="SINGULAR" type="NN" xml:id="el_661_666">vitae</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="integerrimus" number="PLURAL" type="ADJ" xml:id="el_667_679">integerrimos</w>
+
+<c lemma="," type="$," xml:id="el_679_680">,</c> 
+<w lemma="ad" type="ADV" xml:id="el_681_683">ad</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="principem" number="SINGULAR" type="NN" xml:id="el_684_693">Principem</w>
+
+<c lemma="," type="$," xml:id="el_693_694">,</c> 
+<w case="NOMINATIVE" gender="FEMININE" lemma="priscus" number="SINGULAR" type="ADJ" xml:id="el_695_701">prisca</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="regius" number="SINGULAR" type="ADJ" xml:id="el_702_708">regiae</w> 
+<w lemma="ac" type="CON" xml:id="el_709_711">ac</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="imperatorius" number="SINGULAR" type="ADJ" xml:id="el_712_724">imperatoriae</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="nobilitas" number="SINGULAR" type="NN" xml:id="el_725_736">nobilitatis</w> 
+<w case="ABLATIVE" gender="FEMININE" lemma="vetustas" number="SINGULAR" type="NN" xml:id="el_737_746">vetustate</w>
+
+<c lemma="," type="$," xml:id="el_746_747">,</c> 
+<w case="ABLATIVE" gender="FEMININE" lemma="publicus" number="SINGULAR" type="ADJ" xml:id="el_748_755">publica</w> 
+<w case="ABLATIVE" gender="FEMININE" lemma="dignitas" number="SINGULAR" type="NN" xml:id="el_756_765">dignitate</w>
+
+<c lemma="," type="$," xml:id="el_765_766">,</c> 
+<w case="ABLATIVE" gender="FEMININE" lemma="puritas" number="SINGULAR" type="NN" xml:id="el_767_775">puritate</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="fides" number="SINGULAR" type="NN" xml:id="el_776_781">fidei</w>
+
+<c lemma="," type="$," xml:id="el_781_782">,</c> 
+<w case="ABLATIVE" gender="FEMININE" lemma="singularis" number="SINGULAR" type="ADJ" xml:id="el_783_792">singulari</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="vita" number="SINGULAR" type="NN" xml:id="el_793_798">vitae</w> 
+<w case="ABLATIVE" gender="FEMININE" lemma="innocentia" number="SINGULAR" type="NN" xml:id="el_799_809">innocentia</w> 
+<w lemma="facile" type="ADV" xml:id="el_810_816">facile</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="primaria" number="SINGULAR" type="ADJ" xml:id="el_817_826">primariam</w>
+
+<c lemma="," type="$," xml:id="el_826_827">,</c> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="contentum" number="SINGULAR" type="ADJ" xml:id="el_828_836">contento</w> 
+<w lemma="quasi" type="CON" xml:id="el_837_842">quasi</w> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="cursus" number="SINGULAR" type="NN" xml:id="el_843_848">cursu</w> 
+<w lemma="allego" mood="INFINITIVE" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_849_857">allegare</w>
+
+<c lemma="." type="$." xml:id="el_857_858">.</c>
+</s> 
+<s>
+
+<w case="ACCUSATIVE" gender="NEUTER" lemma="hic" number="PLURAL" type="PRO" xml:id="el_859_863">Haec</w> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="ego" number="SINGULAR" type="PRO" xml:id="el_864_867">ego</w> 
+<w lemma="libere" type="ADV" xml:id="el_868_876">liberius</w> 
+<w lemma="effo" mood="INDICATIVE" number="SINGULAR" person="PERSON_1" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_877_884">effundo</w>
+
+<c lemma="," type="$," xml:id="el_884_885">,</c> 
+<w lemma="quod" type="CON" xml:id="el_886_890">quod</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="assentatio" number="SINGULAR" type="NN" xml:id="el_891_904">assentationis</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="suspicio" number="SINGULAR" type="NN" xml:id="el_905_916">suspicionem</w>
+
+<c lemma="," type="$," xml:id="el_916_917">,</c> 
+<w lemma="in" type="AP" xml:id="el_918_920">in</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="veritas" number="SINGULAR" type="NN" xml:id="el_921_930">veritatis</w> 
+<w case="ABLATIVE" gender="FEMININE" lemma="asseueratio" number="SINGULAR" type="NN" xml:id="el_931_944">asseueratione</w>
+
+<c lemma="," type="$," xml:id="el_944_945">,</c> 
+<w lemma="haudquaquam" type="ADV" xml:id="el_946_957">haudquaquam</w> 
+<w lemma="sane" type="ADV" xml:id="el_958_962">sane</w> 
+<w lemma="pertimescam.Cus" type="NE" xml:id="el_963_978">pertimescam.Cum</w> 
+<w lemma="olim" type="ADV" xml:id="el_979_983">olim</w> 
+<w case="NOMINATIVE" gender="FEMININE" lemma="perbeatus" number="SINGULAR" type="ADJ" xml:id="el_984_992">perbeata</w> 
+<w case="NOMINATIVE" gender="FEMININE" lemma="virgo" number="SINGULAR" type="NN" xml:id="el_993_998">virgo</w> 
+<w case="NOMINATIVE" gender="FEMININE" lemma="mARIus" number="SINGULAR" type="NN" xml:id="el_999_1004">MARIA</w>
+
+<c lemma="," type="$," xml:id="el_1004_1005">,</c> 
+<w case="GENITIVE" gender="NEUTER" lemma="multus" number="PLURAL" type="ADJ" xml:id="el_1006_1014">multorum</w> 
+<w case="GENITIVE" gender="NEUTER" lemma="mille" number="PLURAL" type="NN" xml:id="el_1015_1022">millium</w>
+
+<c lemma="," type="$," xml:id="el_1022_1023">,</c> 
+<w lemma="sine" type="AP" xml:id="el_1024_1028">sine</w> 
+<w case="ABLATIVE" gender="NEUTER" lemma="dubium" number="SINGULAR" type="NN" xml:id="el_1029_1034">dubio</w>
+
+<c lemma="," type="$," xml:id="el_1034_1035">,</c> 
+<w case="GENITIVE" gender="MASCULINE" lemma="angelus" number="PLURAL" type="NN" xml:id="el_1036_1045">Angelorum</w> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="chorus" number="SINGULAR" type="NN" xml:id="el_1046_1051">choro</w> 
+<w case="NOMINATIVE" gender="FEMININE" lemma="stipatus" mood="PARTICIPLE" number="SINGULAR" tense="PERFECT" type="V" voice="PASSIVE" xml:id="el_1052_1059">stipata</w>
+
+<c lemma="," type="$," xml:id="el_1059_1060">,</c> 
+<w lemma="PrLISAperName" type="NE" xml:id="el_1061_1072">ELISABETHAM</w> 
+<w lemma="Israëliticus" type="NE" xml:id="el_1073_1085">Israëliticam</w>
+
+<c lemma="," type="$," xml:id="el_1085_1086">,</c> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="cognatus" number="SINGULAR" type="NN" xml:id="el_1087_1095">cognatam</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="suus" number="SINGULAR" type="PRO" xml:id="el_1096_1100">suam</w>
+
+<c lemma="," type="$," xml:id="el_1100_1101">,</c> 
+<w lemma="iam" type="ADV" xml:id="el_1102_1105">iam</w> 
+<w lemma="tum" type="CON" xml:id="el_1106_1109">tum</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="grauida" number="SINGULAR" type="NN" xml:id="el_1110_1118">grauidam</w>
+
+<c lemma="," type="$," xml:id="el_1118_1119">,</c> 
+<w lemma="saluto" type="V" xml:id="el_1120_1130">salutasset</w>
+
+<c lemma=";" type="$." xml:id="el_1130_1131">;</c> 
+<w case="NOMINATIVE" gender="FEMININE" lemma="ille" number="SINGULAR" type="PRO" xml:id="el_1132_1136">illa</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="salutatio" number="SINGULAR" type="NN" xml:id="el_1137_1149">salutationis</w> 
+<w case="NOMINATIVE" gender="FEMININE" lemma="vox" number="SINGULAR" type="NN" xml:id="el_1150_1153">vox</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="effetus" number="SINGULAR" type="ADJ" xml:id="el_1154_1161">effetae</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="matrona" number="SINGULAR" type="NN" xml:id="el_1162_1170">matronae</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="auris" number="PLURAL" type="NN" xml:id="el_1171_1176">aures</w> 
+<w lemma="ita" type="ADV" xml:id="el_1177_1180">ita</w> 
+<w lemma="ferio" mood="INFINITIVE" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1181_1187">ferire</w> 
+<w lemma="incipio" mood="INDICATIVE" number="SINGULAR" person="PERSON_3" tense="PERFECT" type="V" voice="ACTIVE" xml:id="el_1188_1194">coepit</w>
+
+<c lemma="," type="$," xml:id="el_1194_1195">,</c> 
+<w lemma="o" type="CON" xml:id="el_1196_1198">vt</w> 
+<w lemma="in" type="AP" xml:id="el_1199_1201">in</w> 
+<w case="ABLATIVE" gender="NEUTER" lemma="gaudium" number="SINGULAR" type="NN" xml:id="el_1202_1208">gaudio</w> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="infans" number="SINGULAR" type="NN" xml:id="el_1209_1215">infans</w> 
+<w lemma="in" type="AP" xml:id="el_1216_1218">in</w> 
+<w case="ABLATIVE" gender="NEUTER" lemma="vtero" number="SINGULAR" type="NN" xml:id="el_1219_1224">vtero</w> 
+<w lemma="exultaeo" mood="SUBJUNCTIVE" number="SINGULAR" person="PERSON_3" tense="PERFECT" type="V" voice="ACTIVE" xml:id="el_1225_1236">exultauerit</w>
+
+<c lemma="." type="$." xml:id="el_1236_1237">.</c>
+</s> 
+<s>
+
+<w case="ACCUSATIVE" gender="FEMININE" lemma="Vtina" number="SINGULAR" type="NN" xml:id="el_1238_1244">Vtinam</w> 
+<w case="GENITIVE" gender="MASCULINE" lemma="Orthodoxus" number="SINGULAR" type="NN" xml:id="el_1245_1254">Orthodoxi</w> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="pater" number="PLURAL" type="NN" xml:id="el_1255_1261">Patres</w>
+
+<c lemma="," type="$," xml:id="el_1261_1262">,</c> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="qui" number="PLURAL" type="PRO" xml:id="el_1263_1266">qui</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="tu" number="SINGULAR" type="PRO" xml:id="el_1267_1269">te</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="ELISABETHAe" number="SINGULAR" type="NN" xml:id="el_1270_1281">ELISABETHAM</w> 
+<w lemma="Austriaca" type="NE" xml:id="el_1282_1292">Austriacam</w>
+
+<c lemma="," type="$," xml:id="el_1292_1293">,</c> 
+<w lemma="vixdus" type="ADV" xml:id="el_1294_1300">vixdum</w> 
+<w lemma="in" type="AP" xml:id="el_1301_1303">in</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="aetas" number="SINGULAR" type="NN" xml:id="el_1304_1311">aetatis</w> 
+<w case="ACCUSATIVE" gender="NEUTER" lemma="flexus" number="SINGULAR" type="NN" xml:id="el_1312_1318">flexum</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="ingressus" number="SINGULAR" type="ADJ" xml:id="el_1319_1328">ingressam</w>
+
+<c lemma="," type="$," xml:id="el_1328_1329">,</c> 
+<w lemma="in" type="AP" xml:id="el_1330_1332">in</w> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="hic" number="SINGULAR" type="PRO" xml:id="el_1333_1336">hoc</w> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="libellus" number="SINGULAR" type="NN" xml:id="el_1337_1344">libello</w> 
+<w lemma="inuiso" mood="INDICATIVE" number="PLURAL" person="PERSON_3" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1345_1353">inuisunt</w>
+
+<c lemma="," type="$," xml:id="el_1353_1354">,</c> 
+<w lemma="atque" type="CON" xml:id="el_1355_1360">atque</w> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="communis" number="PLURAL" type="ADJ" xml:id="el_1361_1371">communibus</w> 
+<w lemma="suffragijs" type="NN" xml:id="el_1372_1382">suffragijs</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="diuinus" number="SINGULAR" type="ADJ" xml:id="el_1383_1395">diuinissimam</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="virgo" number="SINGULAR" type="NN" xml:id="el_1396_1404">Virginem</w> 
+<w lemma="persaluto" mood="INDICATIVE" number="PLURAL" person="PERSON_3" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1405_1416">persalutant</w>
+
+<c lemma="," type="$," xml:id="el_1416_1417">,</c> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="puer" number="SINGULAR" type="NN" xml:id="el_1418_1424">puerum</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="infans" number="SINGULAR" type="NN" xml:id="el_1425_1433">infantem</w> 
+<w lemma="in" type="AP" xml:id="el_1434_1436">in</w> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="aluus" number="SINGULAR" type="NN" xml:id="el_1437_1441">aluo</w> 
+<w case="ABLATIVE" gender="FEMININE" lemma="tuus" number="SINGULAR" type="PRO" xml:id="el_1442_1445">tua</w>
+
+<c lemma="," type="$," xml:id="el_1445_1446">,</c> 
+<w lemma="si" type="CON" xml:id="el_1447_1449">si</w> 
+<w lemma="non" type="ADV" xml:id="el_1450_1453">non</w> 
+<w case="ABLATIVE" gender="NEUTER" lemma="gaudium" number="SINGULAR" type="NN" xml:id="el_1454_1460">gaudio</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="exilio" mood="PARTICIPLE" number="SINGULAR" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1461_1471">exilientem</w>
+
+<c lemma="," type="$," xml:id="el_1471_1472">,</c> 
+<w lemma="saltem" type="ADV" xml:id="el_1473_1479">saltem</w> 
+<w lemma="mobiliter" type="ADV" xml:id="el_1480_1489">mobiliter</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="palpitans" mood="PARTICIPLE" number="SINGULAR" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1490_1501">palpitantem</w> 
+<w lemma="comperio" mood="SUBJUNCTIVE" number="PLURAL" person="PERSON_3" tense="IMPERFECT" type="V" voice="ACTIVE" xml:id="el_1502_1513">comperirent</w>
+
+<c lemma="." type="$." xml:id="el_1513_1514">.</c>
+</s> 
+<s>
+
+<w case="NOMINATIVE" gender="MASCULINE" lemma="deus" number="SINGULAR" type="NN" xml:id="el_1515_1519">Deus</w> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="bonus" number="SINGULAR" type="ADJ" xml:id="el_1520_1527">Optimus</w> 
+<w case="NOMINATIVE" lemma="maximus" number="SINGULAR" type="NP" xml:id="el_1528_1535">Maximus</w> 
+<w lemma="tam" type="ADV" xml:id="el_1536_1539">tam</w> 
+<w case="ABLATIVE" gender="MASCULINE" lemma="affluens" number="PLURAL" type="ADJ" xml:id="el_1540_1552">affluentibus</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="gratia" number="SINGULAR" type="NN" xml:id="el_1553_1560">gratiae</w> 
+<w case="GENITIVE" gender="FEMININE" lemma="suus" number="SINGULAR" type="PRO" xml:id="el_1561_1565">suae</w> 
+<w case="ACCUSATIVE" gender="NEUTER" lemma="stillicidijs" number="SINGULAR" type="NN" xml:id="el_1566_1578">stillicidijs</w> 
+<w case="ACCUSATIVE" gender="NEUTER" lemma="sERENITATEM" number="SINGULAR" type="ADJ" xml:id="el_1579_1590">SERENITATEM</w> 
+<w case="ACCUSATIVE" gender="NEUTER" lemma="tVAM" number="SINGULAR" type="PRO" xml:id="el_1591_1595">TVAM</w> 
+<w lemma="irrigo" mood="INFINITIVE" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1596_1604">irrigare</w> 
+<w lemma="dignor" mood="SUBJUNCTIVE" number="SINGULAR" person="PERSON_3" tense="PRESENT" type="V" voice="PASSIVE" xml:id="el_1605_1613">dignetur</w>
+
+<c lemma=";" type="$." xml:id="el_1613_1614">;</c> 
+<w lemma="o" type="CON" xml:id="el_1615_1617">vt</w> 
+<w lemma="quemadmodum" type="ADV" xml:id="el_1618_1629">quemadmodum</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="tuus" number="SINGULAR" type="PRO" xml:id="el_1630_1634">tuam</w> 
+<w case="ABLATIVE" gender="FEMININE" lemma="virtus" number="PLURAL" type="NN" xml:id="el_1635_1645">virtutibus</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="mens" number="SINGULAR" type="NN" xml:id="el_1646_1652">mentem</w>
+
+<c lemma="," type="$," xml:id="el_1652_1653">,</c> 
+<w lemma="ita" type="ADV" xml:id="el_1654_1657">ita</w> 
+<w case="ABLATIVE" gender="FEMININE" lemma="soboles" number="SINGULAR" type="NN" xml:id="el_1658_1664">sobole</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="ventr" number="SINGULAR" type="NN" xml:id="el_1665_1672">ventrem</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="feco" number="SINGULAR" type="ADJ" xml:id="el_1673_1681">fecundum</w> 
+<w lemma="reddo" mood="SUBJUNCTIVE" number="SINGULAR" person="PERSON_3" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1682_1688">reddat</w>
+
+<c lemma="." type="$." xml:id="el_1688_1689">.</c>
+</s> 
+<s>
+
+<w case="NOMINATIVE" gender="NEUTER" lemma="idem" number="SINGULAR" type="PRO" xml:id="el_1690_1694">Idem</w> 
+<w case="NOMINATIVE" gender="NEUTER" lemma="iste" number="SINGULAR" type="PRO" xml:id="el_1695_1700">istud</w> 
+<w lemma="non" type="ADV" xml:id="el_1701_1704">non</w> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="parvus" number="SINGULAR" type="ADJ" xml:id="el_1705_1712">minimus</w> 
+<w case="GENITIVE" gender="MASCULINE" lemma="beneuolum" number="PLURAL" type="NN" xml:id="el_1713_1724">beneuolorum</w> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="numerus" number="SINGULAR" type="NN" xml:id="el_1725_1732">numerus</w> 
+<w lemma="spero" mood="INDICATIVE" number="SINGULAR" person="PERSON_3" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1733_1739">sperat</w>
+
+<c lemma="," type="$," xml:id="el_1739_1740">,</c> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="magnus" number="SINGULAR" type="ADJ" xml:id="el_1741_1748">maximus</w> 
+<w lemma="profecto" type="ADV" xml:id="el_1749_1757">profecto</w> 
+<w lemma="exopto" mood="INDICATIVE" number="SINGULAR" person="PERSON_3" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1758_1765">exoptat</w>
+
+<c lemma="." type="$." xml:id="el_1765_1766">.</c>
+</s> 
+<s>
+
+<w lemma="quod" type="CON" xml:id="el_1767_1771">Quod</w> 
+<w lemma="vT" type="ITJ" xml:id="el_1772_1774">VT</w> 
+<w lemma="cELSITVDINI" type="NUM" xml:id="el_1775_1786">CELSITVDINI</w> 
+<w lemma="tVAE" type="NUM" xml:id="el_1787_1791">TVAE</w> 
+<w case="ABLATIVE" gender="NEUTER" lemma="peroptatus" mood="PARTICIPLE" number="SINGULAR" tense="PERFECT" type="V" voice="PASSIVE" xml:id="el_1792_1801">peroptato</w> 
+<w lemma="euenio" mood="SUBJUNCTIVE" number="SINGULAR" person="PERSON_3" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1802_1809">eueniat</w>
+
+<c lemma="," type="$," xml:id="el_1809_1810">,</c> 
+<w lemma="impetro" mood="SUBJUNCTIVE" number="SINGULAR" person="PERSON_3" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1811_1819">impetret</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="vIRGINIS" number="PLURAL" type="NN" xml:id="el_1820_1828">VIRGINIS</w> 
+<w lemma="mATER" type="NE" xml:id="el_1829_1834">MATER</w>
+
+<c lemma="," type="$," xml:id="el_1834_1835">,</c> 
+<w lemma="impero" mood="SUBJUNCTIVE" number="SINGULAR" person="PERSON_3" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1836_1843">imperet</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="vIRGINIS" number="SINGULAR" type="NN" xml:id="el_1844_1852">VIRGINIS</w> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="fILIVS" number="SINGULAR" type="NN" xml:id="el_1853_1859">FILIVS</w>
+
+<c lemma="," type="$," xml:id="el_1859_1860">,</c> 
+<w case="NOMINATIVE" gender="MASCULINE" lemma="qui" number="SINGULAR" type="PRO" xml:id="el_1861_1864">qui</w> 
+<w lemma="habito" mood="INFINITIVE" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1865_1873">habitare</w> 
+<w lemma="facio" mood="INDICATIVE" number="SINGULAR" person="PERSON_3" tense="PRESENT" type="V" voice="ACTIVE" xml:id="el_1874_1879">facit</w> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="sterilis" number="SINGULAR" type="ADJ" xml:id="el_1880_1888">sterilem</w> 
+<w lemma="in" type="AP" xml:id="el_1889_1891">in</w> 
+<w case="ABLATIVE" gender="FEMININE" lemma="domus" number="SINGULAR" type="NN" xml:id="el_1892_1896">domo</w>
+
+<c lemma="," type="$," xml:id="el_1896_1897">,</c> 
+<w case="ACCUSATIVE" gender="FEMININE" lemma="mater" number="SINGULAR" type="NN" xml:id="el_1898_1904">matrem</w> 
+<w case="GENITIVE" gender="MASCULINE" lemma="filius" number="PLURAL" type="NN" xml:id="el_1905_1913">filiorum</w> 
+<w case="ACCUSATIVE" gender="MASCULINE" lemma="laetans" number="SINGULAR" type="ADJ" xml:id="el_1914_1923">laetantem</w>
+
+<c lemma="." type="$." xml:id="el_1923_1924">.</c>
+</s> 
+<s>
+
+<w lemma="Bruxella" type="NE" xml:id="el_1925_1934">Bruxellae</w>
+
+<c lemma="," type="$," xml:id="el_1934_1935">,</c> 
+<w lemma="postridie" type="ADV" xml:id="el_1936_1945">postridie</w> 
+<w lemma="Kalendae" type="NN" xml:id="el_1946_1949">Kal</w>
+
+<c lemma="." type="$." xml:id="el_1949_1950">.</c>
+</s> 
+<s>
+
+<w case="GENITIVE" lemma="ianuarij" number="SINGULAR" type="NP" xml:id="el_1951_1959">Ianuarij</w>
+
+<c lemma="." type="$." xml:id="el_1959_1960">.</c>
+</s> 
+<s>
+
+<w lemma="NUMERAL" type="NUM" xml:id="el_1961_1962">M</w>
+
+<c lemma="." type="$." xml:id="el_1962_1963">.</c>
+</s> 
+<s>
+
+<w lemma="NUMERAL" type="NUM" xml:id="el_1964_1966">DC</w>
+
+<c lemma="." type="$." xml:id="el_1966_1967">.</c>
+</s> 
+<s>
+
+<w lemma="NUMERAL" type="NUM" xml:id="el_1968_1970">IX</w>
+
+<c lemma="." type="$." xml:id="el_1970_1971">.</c>
+</s>
+</p>
+</body>
+</text>
+</TEI>
+
