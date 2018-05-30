@@ -10,7 +10,7 @@ namespace acdhOeaw\tokeneditorModel;
 class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 
     static private $saveDir = 'build';
-    static private $connSettings = 'pgsql: dbname=tokeneditor host=127.0.0.1 user=tokeneditor password=ZHZP5sNR6o';
+    static private $connSettings = 'pgsql: dbname=tokeneditor';
     static private $pdo;
     static private $validInPlace = <<<RES
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
