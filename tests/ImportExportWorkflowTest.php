@@ -175,4 +175,25 @@ RES;
         $this->assertEquals($valid, trim($doc->export(true)));
     }
 
+    public function testCsvExport() {
+        $doc                 = new Document(self::$pdo);
+        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
+        $doc->save(self::$saveDir);
+        $docId               = $doc->getId();
+        $this->docsToClean[] = $docId;
+
+        $this->checkImport($docId);
+        $this->insertValues($docId);
+
+        $doc = new Document(self::$pdo);
+        $doc->loadDb($docId);
+        $this->docsToClean[] = 'csv';
+        $file = self::$saveDir . '/csv.xml';
+        $doc->exportCsv($file);
+        $this->assertEquals('tokenId,token,lemma,type
+1,Hello<type>NE</type>,aaa,bbb
+2,World<type>NN</type>,ccc,ddd
+3,!<type>$.</type>,eee,fff
+', file_get_contents($file));
+    }
 }

@@ -193,7 +193,7 @@ class Token {
         return $this->updateDocument();
     }
 
-    public function exportCsv(string $csvFile, string $delimiter = ',') {
+    public function exportCsv($csvFile, string $delimiter = ',') {
         $this->checkValuesQuery();
 
         $values = [$this->tokenId, $this->value];
