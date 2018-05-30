@@ -10,7 +10,7 @@ addons:
     postgresql: "9.6"
 
 install:
-  - composer require satooshi/php-coveralls
+  - composer require php-coveralls/php-coveralls
 
 before_script:
   - createuser -U postgres root
@@ -19,5 +19,5 @@ before_script:
   - mkdir -p build/logs
 
 after_success:
-  - php vendor/bin/coveralls -v
+  - php vendor/bin/php-coveralls -v
 
