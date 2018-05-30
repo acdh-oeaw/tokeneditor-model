@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace acdhOeaw\tokeneditor\tokenIterator;
+namespace acdhOeaw\tokeneditorModel\tokenIterator;
 
 /**
  * Basic token iterator class using DOM parser (DOMDocument).

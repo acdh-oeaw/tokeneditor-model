@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace acdhOeaw\tokeneditor;
+namespace acdhOeaw\tokeneditorModel;
 
 class TokenCollection {
 

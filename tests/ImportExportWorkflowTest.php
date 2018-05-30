@@ -1,6 +1,6 @@
 <?php
 
-namespace acdhOeaw\tokeneditor;
+namespace acdhOeaw\tokeneditorModel;
 
 /**
  * Description of ImportExportWorkflowTest
