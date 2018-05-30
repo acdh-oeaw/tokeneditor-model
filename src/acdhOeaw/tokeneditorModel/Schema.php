@@ -1,23 +1,32 @@
 <?php
 
-/*
- * Copyright (C) 2015 ACDH
+/**
+ * The MIT License
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Copyright 2016 Austrian Centre for Digital Humanities.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 namespace acdhOeaw\tokeneditorModel;
+
+use PDO;
 
 /**
  * Description of Schema
@@ -26,7 +35,7 @@ namespace acdhOeaw\tokeneditorModel;
  */
 class Schema implements \IteratorAggregate {
 
-    private $PDO;
+    private $pdo;
     private $documentId;
     private $tokenXPath;
     private $tokenValueXPath;
@@ -35,12 +44,12 @@ class Schema implements \IteratorAggregate {
 
     /**
      * 
-     * @param \PDO $PDO
+     * @param PDO $pdo
      * @throws \RuntimeException
      * @throws \LengthException
      */
-    public function __construct(\PDO $PDO) {
-        $this->PDO = $PDO;
+    public function __construct(PDO $pdo) {
+        $this->pdo = $pdo;
     }
 
     public function loadFile(string $path) {
@@ -91,24 +100,24 @@ class Schema implements \IteratorAggregate {
         $schema = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><schema>';
 
         $schema .= '<namespaces>';
-        $query  = $this->PDO->prepare("SELECT prefix, ns FROM documents_namespaces WHERE document_id = ?");
+        $query  = $this->pdo->prepare("SELECT prefix, ns FROM documents_namespaces WHERE document_id = ?");
         $query->execute([$this->documentId]);
-        while ($ns     = $query->fetch(\PDO::FETCH_OBJ)) {
+        while ($ns     = $query->fetch(PDO::FETCH_OBJ)) {
             $schema .= '<namespace><prefix>' . htmlspecialchars($ns->prefix) . '</prefix><uri>' . htmlspecialchars($ns->ns) . '</uri></namespace>';
         }
         $schema .= '</namespaces>';
 
-        $query  = $this->PDO->prepare("SELECT token_xpath, token_value_xpath FROM documents WHERE document_id = ?");
+        $query  = $this->pdo->prepare("SELECT token_xpath, token_value_xpath FROM documents WHERE document_id = ?");
         $query->execute([$this->documentId]);
-        $data   = $query->fetch(\PDO::FETCH_OBJ);
+        $data   = $query->fetch(PDO::FETCH_OBJ);
         $schema .= '<tokenXPath>' . htmlspecialchars($data->token_xpath) . '</tokenXPath>';
         $schema .= '<tokenValueXPath>' . htmlspecialchars($data->token_value_xpath) . '</tokenValueXPath>';
 
         $schema      .= '<properties>';
-        $query       = $this->PDO->prepare("SELECT property_xpath, type_id, name, read_only FROM properties WHERE document_id = ? ORDER BY ord");
-        $valuesQuery = $this->PDO->prepare("SELECT value FROM dict_values WHERE (document_id, property_xpath) = (?, ?)");
+        $query       = $this->pdo->prepare("SELECT property_xpath, type_id, name, read_only FROM properties WHERE document_id = ? ORDER BY ord");
+        $valuesQuery = $this->pdo->prepare("SELECT value FROM dict_values WHERE (document_id, property_xpath) = (?, ?)");
         $query->execute([$this->documentId]);
-        while ($prop        = $query->fetch(\PDO::FETCH_OBJ)) {
+        while ($prop        = $query->fetch(PDO::FETCH_OBJ)) {
             $schema .= '<property>';
             $schema .= '<propertyName>' . htmlspecialchars($prop->name) . '</propertyName>';
             $schema .= '<propertyXPath>' . htmlspecialchars($prop->property_xpath) . '</propertyXPath>';
@@ -119,7 +128,7 @@ class Schema implements \IteratorAggregate {
             }
 
             $valuesQuery->execute([$this->documentId, $prop->property_xpath]);
-            $values = $valuesQuery->fetchAll(\PDO::FETCH_COLUMN);
+            $values = $valuesQuery->fetchAll(PDO::FETCH_COLUMN);
             if (count($values) > 0) {
                 $schema .= '<propertyValues>';
                 foreach ($values as $v) {
@@ -170,17 +179,17 @@ class Schema implements \IteratorAggregate {
 
     /**
      * 
-     * @param \PDO $PDO
+     * @param PDO $pdo
      * @param type $datafileId
      */
     public function save(int $documentId) {
-        $query = $this->PDO->prepare("INSERT INTO documents_namespaces (document_id, prefix, ns) VALUES (?, ?, ?)");
+        $query = $this->pdo->prepare("INSERT INTO documents_namespaces (document_id, prefix, ns) VALUES (?, ?, ?)");
         foreach ($this->getNs() as $prefix => $ns) {
             $query->execute([$documentId, $prefix, $ns]);
         }
 
         foreach ($this->properties as $prop) {
-            $prop->save($this->PDO, $documentId);
+            $prop->save($this->pdo, $documentId);
         }
     }
 

@@ -1,24 +1,33 @@
 <?php
 
-/*
- * Copyright (C) 2015 ACDH
+/**
+ * The MIT License
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Copyright 2016 Austrian Centre for Digital Humanities.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 namespace acdhOeaw\tokeneditorModel;
 
+use PDO;
+use RuntimeException;
 use zozlak\util\ProgressBar;
 
 /**
@@ -35,7 +44,7 @@ class Document implements \IteratorAggregate {
     private $path;
     private $name;
     private $schema;
-    private $PDO;
+    private $pdo;
     private $tokenIteratorClassName;
     private $tokenIterator;
     private $exportFlag;
@@ -46,17 +55,17 @@ class Document implements \IteratorAggregate {
      * 
      * @param type $path
      * @param \acdhOeaw\tokeneditor\Schema $schema
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
-    public function __construct(\PDO $PDO) {
-        $this->PDO    = $PDO;
-        $this->schema = new Schema($this->PDO);
+    public function __construct(PDO $pdo) {
+        $this->pdo    = $pdo;
+        $this->schema = new Schema($this->pdo);
     }
 
     public function loadFile(string $filePath, string $schemaPath, string $name,
                              string $iteratorClass = null) {
         if (!is_file($filePath)) {
-            throw new \RuntimeException($filePath . ' is not a valid file');
+            throw new RuntimeException($filePath . ' is not a valid file');
         }
         $this->path = $filePath;
         $this->name = $name;
@@ -78,22 +87,22 @@ class Document implements \IteratorAggregate {
         $this->documentId = $documentId;
         $this->schema->loadDb($this->documentId);
 
-        $query      = $this->PDO->prepare("SELECT name, save_path, hash FROM documents WHERE document_id = ?");
+        $query      = $this->pdo->prepare("SELECT name, save_path, hash FROM documents WHERE document_id = ?");
         $query->execute([$this->documentId]);
-        $data       = $query->fetch(\PDO::FETCH_OBJ);
+        $data       = $query->fetch(PDO::FETCH_OBJ);
         $this->name = $data->name;
         $this->path = $data->save_path;
 
         $hash = md5_file($this->path);
         if ($hash !== $data->hash) {
-            throw new \RuntimeException('Raw document XML file changed since import');
+            throw new RuntimeException('Raw document XML file changed since import');
         }
 
         if ($iteratorClass === null) {
             $this->chooseTokenIterator();
         } else {
             if (!in_array($iteratorClass, [self::DOM_DOCUMENT, self::XML_READER])) {
-                throw new \InvalidArgumentException('tokenIteratorClass should be one of \acdhOeaw\tokeneditor\Datafile::DOM_DOCUMENT or \acdhOeaw\tokeneditor\Datafile::XML_READER');
+                throw new \InvalidArgumentException('tokenIteratorClass should be \acdhOeaw\tokeneditorModel\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditorModel\Datafile::PDO or \acdhOeaw\tokeneditorModel\Datafile::XML_READER');
             }
             $this->tokenIteratorClassName = $iteratorClass;
         }
@@ -125,10 +134,10 @@ class Document implements \IteratorAggregate {
 
     /**
      * 
-     * @return \PDO
+     * @return PDO
      */
-    public function getPDO() {
-        return $this->PDO;
+    public function getPdo() {
+        return $this->pdo;
     }
 
     /**
@@ -150,13 +159,13 @@ class Document implements \IteratorAggregate {
      */
     public function save(string $saveDir, int $limit = 0,
                          ProgressBar $progressBar = null, $skipErrors = false) {
-        $this->documentId = $this->PDO->
+        $this->documentId = $this->pdo->
             query("SELECT nextval('document_id_seq')")->
             fetchColumn();
 
         $savePath = $saveDir . '/' . $this->documentId . '.xml';
 
-        $query = $this->PDO->prepare("INSERT INTO documents (document_id, token_xpath, token_value_xpath, name, save_path, hash) VALUES (?, ?, ?, ?, ?, ?)");
+        $query = $this->pdo->prepare("INSERT INTO documents (document_id, token_xpath, token_value_xpath, name, save_path, hash) VALUES (?, ?, ?, ?, ?, ?)");
         $query->execute([$this->documentId, $this->schema->getTokenXPath(),
             $this->schema->getTokenValueXPath(), $this->name, $savePath, md5_file($this->path)]);
         unset($query); // free memory
@@ -167,7 +176,7 @@ class Document implements \IteratorAggregate {
         foreach ($this as $n => $token) {
             try {
                 $token->save();
-            } catch (\RuntimeException $e) {
+            } catch (RuntimeException $e) {
                 if (!$skipErrors) {
                     throw $e;
                 }
@@ -220,7 +229,7 @@ class Document implements \IteratorAggregate {
 
         $csvFile = fopen($path, 'w');
         if ($csvFile === false) {
-            throw new \RuntimeException('Unable to open file for writing');
+            throw new RuntimeException('Unable to open file for writing');
         }
 
         $header = ['tokenId', 'token'];
@@ -254,7 +263,7 @@ class Document implements \IteratorAggregate {
         try {
             new tokenIterator\XMLReader($this->path, $this);
             $this->tokenIteratorClassName = self::XML_READER;
-        } catch (\RuntimeException $ex) {
+        } catch (RuntimeException $ex) {
             $this->tokenIteratorClassName = self::DOM_DOCUMENT;
         }
     }

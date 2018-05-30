@@ -30,16 +30,24 @@ use PDO;
 
 class TokenCollection {
 
+    /**
+     *
+     * @var PDO $pdo
+     */
     private $pdo;
+    private $documentId;
+    private $userId;
     private $tokenIdFilter;
     private $tokenValueFilter;
     private $filters = [];
 
-    public function __construct(PDO $pdo) {
-        $this->pdo = $pdo;
+    public function __construct(PDO $pdo, int $documentId, string $userId) {
+        $this->pdo        = $pdo;
+        $this->documentId = $documentId;
+        $this->userId     = $userId;
     }
 
-    public function setTokenIdFilter(string $id) {
+    public function setTokenIdFilter(int $id) {
         $this->tokenIdFilter = $id;
     }
 
@@ -56,23 +64,22 @@ class TokenCollection {
         $this->filters[$prop] = $val;
     }
 
-    public function generateJSON($documentId, $userId, $pageSize = 1000,
-                                 $offset = 0) {
-        list($filterQuery, $filterParam) = $this->getFilters($documentId, $userId);
+    public function getData(int $pageSize = 1000, int $offset = 0): string {
+        list($filterQuery, $filterParam) = $this->getFilters();
         $queryStr = "
 			WITH filter AS (" . $filterQuery . ")
 			SELECT
 				json_build_object(
 					'tokenCount', (SELECT count(*) FROM filter), 
 					'data', COALESCE( 
-						json_agg(json_object(array_cat(array['token_id', 'token'], names), array_cat(array[token_id::text, value], values))), 
+						json_agg(json_object(array_cat(array['tokenId', 'token'], names), array_cat(array[token_id::text, value], values))), 
 						array_to_json(array[]::text[]) 
 					) 
 				) 
 			FROM ( 
 				SELECT 
 					token_id, t.value, 
-					array_agg(COALESCE(uv.value, cv.value, v.value) ORDER BY ord) AS values, 
+					array_agg(COALESCE(cv.value, v.value) ORDER BY ord) AS values, 
 					array_agg(p.name ORDER BY ord) AS names 
 				FROM
 					(
@@ -84,11 +91,6 @@ class TokenCollection {
 					JOIN tokens t USING (document_id, token_id) 
 					JOIN properties p USING (document_id)
 					JOIN orig_values v USING (document_id, property_xpath, token_id) 
-					LEFT JOIN (
-						SELECT *
-						FROM values 
-						WHERE user_id = ?
-					) uv USING (document_id, property_xpath, token_id) 
 					LEFT JOIN (
 						SELECT *
 						FROM (
@@ -111,17 +113,14 @@ class TokenCollection {
 			) t
         ";
         $query    = $this->pdo->prepare($queryStr);
-        $params   = array_merge($filterParam, [$pageSize, $offset, $userId, $pageSize,
-            $offset]);
-        $query->execute($params);
+        $param    = array_merge($filterParam, [$pageSize, $offset, $pageSize, $offset]);
+        $query->execute($param);
         $result   = $query->fetch(PDO::FETCH_COLUMN);
-
         return $result;
     }
 
-    public function getTokensOnly(int $documentId, string $userId,
-                                  int $pageSize = 1000, int $offset = 0) {
-        list($filterQuery, $filterParam) = $this->getFilters($documentId, $userId);
+    public function getTokensOnly(int $pageSize = 1000, int $offset = 0): string {
+        list($filterQuery, $filterParam) = $this->getFilters();
         $queryStr = "
 			WITH filter AS (" . $filterQuery . ")
 			SELECT 
@@ -144,16 +143,33 @@ class TokenCollection {
 			WHERE user_id = ?
         ";
         $query    = $this->pdo->prepare($queryStr);
-        $params   = array_merge($filterParam, [$pageSize, $offset, $userId]);
+        $params   = array_merge($filterParam, [$pageSize, $offset, $this->userId]);
         $query->execute($params);
         $result   = $query->fetch(PDO::FETCH_COLUMN);
 
         return $result ? $result : '[]';
     }
 
-    private function getFilters(int $docId, string $userId) {
+    public function getStats(string $propxpath = '@state'): string {
+        $queryStr = "
+            SELECT json_agg(stats)
+            FROM (
+                SELECT json_build_object('value', value, 'count', COUNT(value)) as stats
+                FROM values 
+                WHERE document_id = ? and property_xpath = ? GROUP BY value
+            ) AS stats
+        ";
+        $query    = $this->pdo->prepare($queryStr);
+        $params   = [$this->documentId, $propxpath];
+        $query->execute($params);
+        $result   = $query->fetch(PDO::FETCH_COLUMN);
+
+        return $result ? $result : '[]';
+    }
+
+    private function getFilters() {
         $query    = $this->pdo->prepare("SELECT property_xpath, name FROM properties WHERE document_id = ?");
-        $query->execute([$docId]);
+        $query->execute([$this->documentId]);
         $propDict = [];
         while ($prop     = $query->fetch(PDO::FETCH_OBJ)) {
             $propDict[$prop->name] = $prop->property_xpath;
@@ -167,8 +183,7 @@ class TokenCollection {
             $query    .= "
 				JOIN (
 					SELECT ?::int AS token_id
-				) f" . $n++ . " USING (token_id)
-            ";
+				) f" . $n++ . " USING (token_id)";
             $params[] = $this->tokenIdFilter;
         }
         if ($this->tokenValueFilter !== null) {
@@ -181,7 +196,7 @@ class TokenCollection {
 						AND lower(value) LIKE lower(?)
 				) f" . $n++ . " USING (token_id)
             ";
-            $params[] = $docId;
+            $params[] = $this->documentId;
             $params[] = $this->tokenValueFilter;
         }
 
@@ -194,18 +209,23 @@ class TokenCollection {
 					SELECT token_id
 					FROM 
 						orig_values o
-						LEFT JOIN values v USING (document_id, property_xpath, token_id)
-					WHERE
-						document_id = ?
-						AND property_xpath = ?
-						AND (user_id = ? OR user_id IS NULL)
-						AND COALESCE(v.value, o.value) ILIKE ?
+						LEFT JOIN (
+							SELECT 
+								document_id, property_xpath, token_id,
+								first_value(value) OVER (PARTITION BY document_id, property_xpath, token_id ORDER BY date DESC) AS n
+							FROM values
+							WHERE
+								document_id = ?
+								AND property_xpath = ?
+							ORDER BY date DESC
+						) v USING (document_id, property_xpath, token_id)
+					WHERE COALESCE(n, o.value) ILIKE ? AND document_id = ?
 				) f" . $n++ . " USING (token_id)
             ";
-            $params[] = $docId;
+            $params[] = $this->documentId;
             $params[] = $propDict[$prop];
-            $params[] = $userId;
             $params[] = $val;
+            $params[] = $this->documentId;
         }
 
         $query    = "				
@@ -217,9 +237,8 @@ class TokenCollection {
 			WHERE document_id = ? AND user_id = ?
 			ORDER BY token_id
         ";
-        $params[] = $docId;
-        $params[] = $userId;
-
+        $params[] = $this->documentId;
+        $params[] = $this->userId;
         return [$query, $params];
     }
 

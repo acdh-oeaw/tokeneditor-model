@@ -10,7 +10,7 @@ namespace acdhOeaw\tokeneditorModel;
 class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 
     static private $saveDir = 'build';
-    static private $connSettings = 'pgsql: dbname=tokeneditor';
+    static private $connSettings = 'pgsql: dbname=tokeneditor host=127.0.0.1 user=tokeneditor password=ZHZP5sNR6o';
     static private $pdo;
     static private $validInPlace = <<<RES
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -118,7 +118,7 @@ RES;
         $this->assertEquals(trim(self::$validInPlace), trim($doc->export(true)));
     }
 
-    /* Does not work in Travis, as Travis Postgresql does not include parent nodes namespaces in the xpath() results (sic!)
+    /* Does not work in Travis, as Travis Postgresql does not include parent nodes namespaces in the xpath() results (sic!)*/
     public function testPDO() {
         $doc = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::PDO);
@@ -133,7 +133,6 @@ RES;
         $doc->loadDb($docId);
         $this->assertEquals(trim(self::$validInPlace), trim($doc->export(true)));
     }
-    */
 
     public function testDOMDocument() {
         $doc = new Document(self::$pdo);
