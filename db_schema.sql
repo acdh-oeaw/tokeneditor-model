@@ -1,5 +1,11 @@
+CREATE TABLE roles (
+    role text not null primary key
+);
+INSERT INTO roles VALUES ('owner'), ('editor'), ('none');
+
 CREATE TABLE users (
-	user_id text not null primary key
+	user_id text not null primary key,
+    name text
 );
 
 CREATE TABLE documents (
@@ -15,6 +21,7 @@ CREATE SEQUENCE document_id_seq;
 CREATE TABLE documents_users (
 	document_id int not null references documents (document_id) ON UPDATE CASCADE ON DELETE CASCADE,
 	user_id text not null references users (user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    role text not null references roles (role),
 	primary key (document_id, user_id)
 );
 
