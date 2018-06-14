@@ -37,7 +37,6 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
     static private $connSettings = 'pgsql: dbname=tokeneditor';
     static private $pdo;
     static private $docId;
-    static private $docsToClean         = array();
 
     static public function setUpBeforeClass() {
         self::$pdo       = new \PDO(self::$connSettings);
@@ -52,7 +51,7 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
         $doc->save(self::$saveDir);
         self::$docId         = $doc->getId();
 
-        $query = self::$pdo->prepare("INSERT INTO documents_users VALUES (?, 'test', 'editor')");
+        $query = self::$pdo->prepare("INSERT INTO documents_users VALUES (?, 'test', 'owner')");
         $query->execute(array(self::$docId));
         $query = self::$pdo->prepare("
 			INSERT INTO values (document_id, property_xpath, token_id, user_id, value, date) 

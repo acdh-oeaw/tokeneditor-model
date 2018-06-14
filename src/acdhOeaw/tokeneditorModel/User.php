@@ -26,8 +26,10 @@
 
 namespace acdhOeaw\tokeneditorModel;
 
-use PDO;
 use BadMethodCallException;
+use PDO;
+use RuntimeException;
+use stdClass;
 
 /**
  * Description of User
@@ -67,13 +69,27 @@ class User {
         return $this->users;
     }
 
+    public function getUser(string $userId): stdClass {
+        foreach ($this->users as $i) {
+            if ($i->userId === $userId) {
+                return $i;
+            }
+        }
+        throw new BadMethodCallException('No such user');
+    }
+
     /**
      * Checks if a given user is a document owner.
      * @param string $userId
      * @return bool
      */
     public function isOwner(string $userId): bool {
-        return isset($this->users[$userId]) && $this->users[$userId]->role === 'owner';
+        try {
+            $user = $this->getUser($userId);
+            return $user->role === 'owner';
+        } catch (BadMethodCallException $ex) {
+            return false;
+        }
     }
 
     /**
@@ -85,7 +101,12 @@ class User {
      */
     public function isEditor(string $userId, bool $strict = false): bool {
         $matches = $strict ? ['editor'] : ['editor', 'owner'];
-        return isset($this->users[$userId]) && in_array($this->users[$userId]->role, $matches);
+        try {
+            $user = $this->getUser($userId);
+            return in_array($user->role, $matches);
+        } catch (BadMethodCallException $ex) {
+            return false;
+        }
     }
 
     /**
@@ -98,32 +119,41 @@ class User {
      */
     public function setRole(string $userId, string $role, string $name = null) {
         if (!in_array($role, [self::ROLE_NONE, self::ROLE_EDITOR, self::ROLE_OWNER])) {
-            throw new BadMethodCallException('Bad role specified', 400);
+            throw new BadMethodCallException('Bad role parameter value', 400);
         }
 
         $query = $this->pdo->prepare("
             INSERT INTO users (user_id, name) VALUES (?, ?)
-            ON CONFLICT (user_id) " . (strlen($name) > 0 ? "DO UPDATE" : "DO NOTHING")
+            ON CONFLICT (user_id) " . (strlen($name) > 0 ? "DO UPDATE SET name = EXCLUDED.name" : "DO NOTHING")
         );
         $query->execute([$userId, $name]);
 
         $query = $this->pdo->prepare("
             INSERT INTO documents_users (document_id, user_id, role) VALUES (?, ?, ?)
-            ON CONFLICT (document_id, user_id) DO UPDATE
+            ON CONFLICT (document_id, user_id) DO UPDATE SET role = EXCLUDED.role
         ");
         $query->execute([$this->documentId, $userId, $role]);
 
         $this->fetchUsers();
+
+        $owners = 0;
+        foreach ($this->users as $i) {
+            $owners += $i->role === self::ROLE_OWNER;
+        }
+        if ($owners === 0) {
+            throw new RuntimeException('Can not revoke privileges from the last document owner', 400);
+        }
     }
 
     private function fetchUsers() {
-        $query       = $this->pdo->prepare("
-            SELECT user_id, role, name 
+        $query       = $this->pdo->prepare('
+            SELECT user_id AS "userId", role, name 
             FROM 
                 documents_users 
                 JOIN users USING (user_id)
             WHERE document_id = ?
-        ");
+            ORDER BY user_id
+        ');
         $query->execute([$this->documentId]);
         $this->users = $query->fetchAll(PDO::FETCH_OBJ);
     }

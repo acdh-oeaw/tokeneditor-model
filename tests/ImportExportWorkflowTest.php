@@ -73,7 +73,7 @@ RES;
     }
 
     protected function insertValues($docId) {
-        $query = self::$pdo->prepare("INSERT INTO documents_users VALUES (?, 'test', 'editor')");
+        $query = self::$pdo->prepare("INSERT INTO documents_users VALUES (?, 'test', 'owner')");
         $query->execute(array($docId));
         $query = self::$pdo->prepare("
 			INSERT INTO values (document_id, property_xpath, token_id, user_id, value, date) 
