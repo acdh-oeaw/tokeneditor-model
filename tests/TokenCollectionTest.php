@@ -52,7 +52,7 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
         $doc->save(self::$saveDir);
         self::$docId         = $doc->getId();
 
-        $query = self::$pdo->prepare("INSERT INTO documents_users VALUES (?, 'test')");
+        $query = self::$pdo->prepare("INSERT INTO documents_users VALUES (?, 'test', 'editor')");
         $query->execute(array(self::$docId));
         $query = self::$pdo->prepare("
 			INSERT INTO values (document_id, property_xpath, token_id, user_id, value, date) 
