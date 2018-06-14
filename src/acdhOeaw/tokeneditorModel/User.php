@@ -117,7 +117,13 @@ class User {
     }
 
     private function fetchUsers() {
-        $query       = $this->pdo->prepare("SELECT user_id, role FROM documents_users WHERE document_id = ?");
+        $query       = $this->pdo->prepare("
+            SELECT user_id, role, name 
+            FROM 
+                documents_users 
+                JOIN users USING (user_id)
+            WHERE document_id = ?
+        ");
         $query->execute([$this->documentId]);
         $this->users = $query->fetchAll(PDO::FETCH_OBJ);
     }
