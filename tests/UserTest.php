@@ -92,6 +92,9 @@ class UserTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(false, $u->isOwner('bbb'));
         $this->assertEquals(false, $u->isEditor('bbb'));
         $this->assertEquals(false, $u->isEditor('bbb', true));
+
+        $this->assertEquals(false, $u->isOwner('zzz'));
+        $this->assertEquals(false, $u->isEditor('zzz'));
     }
 
     public function testAtLeastOneOwner() {
@@ -108,4 +111,10 @@ class UserTest extends \PHPUnit\Framework\TestCase {
         $u->setRole('aaa', 'xxx');
     }
 
+    public function testNoUser() {
+        $u = new User(self::$pdo, self::$docId);
+
+        $this->expectException(\BadMethodCallException::class);
+        $u->getUser('zzz');
+    }
 }
