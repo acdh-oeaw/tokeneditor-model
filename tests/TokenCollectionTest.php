@@ -3,7 +3,7 @@
 /**
  * The MIT License
  *
- * Copyright 2018 zozlak.
+ * Copyright 2018 Austrian Centre for Digital Humanities.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,17 +39,17 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
     static private $docId;
 
     static public function setUpBeforeClass() {
-        self::$pdo       = new \PDO(self::$connSettings);
+        self::$pdo = new \PDO(self::$connSettings);
         self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         self::$pdo->beginTransaction();
         self::$pdo->query("TRUNCATE documents CASCADE");
         self::$pdo->query("TRUNCATE users CASCADE");
         self::$pdo->query("INSERT INTO users VALUES ('test')");
 
-        $doc                 = new Document(self::$pdo);
+        $doc         = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $doc->save(self::$saveDir);
-        self::$docId         = $doc->getId();
+        self::$docId = $doc->getId();
 
         $query = self::$pdo->prepare("INSERT INTO documents_users VALUES (?, 'test', 'owner')");
         $query->execute(array(self::$docId));
@@ -80,15 +80,15 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
 
     public function testGetStats() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
-        
-        $this->assertEquals($collection->getStats('@lemma'), '[{"value" : "aaa", "count" : 1}, {"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}]');        
+
+        $this->assertEquals($collection->getStats('@lemma'), '[{"value" : "aaa", "count" : 1}, {"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}]');
 
         // getStats() doesn't skips filters
         $collection->setTokenIdFilter(2);
         $collection->addFilter('@lemma', 'fff');
         $this->assertEquals('[{"value" : "aaa", "count" : 1}, {"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}]', $collection->getStats('@lemma'));
     }
-    
+
     public function testNoFilters() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "aaa", "type" : "bbb"}, {"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}, {"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "fff"}]}', $collection->getData());
@@ -101,7 +101,7 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($collection->getData(), '{"tokenCount" : 1, "data" : [{"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}]}');
         $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "2"}]}', $collection->getTokensOnly());
     }
-    
+
     public function testFilter() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->addFilter('lemma', 'eee');
@@ -116,7 +116,7 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "fff"}]}', $collection->getData());
         $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3"}]}', $collection->getTokensOnly());
     }
-    
+
     public function testFilterNone() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->setTokenIdFilter(2);
@@ -124,4 +124,14 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('{"tokenCount" : 0, "data" : []}', $collection->getData());
         $this->assertEquals('{"tokenCount" : 0, "data" : []}', $collection->getTokensOnly());
     }
+
+    public function testFilterNonExistent() {
+        $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
+        $collection->setTokenIdFilter(3);
+        $collection->addFilter('lemma', 'eee');
+        $collection->addFilter('xxx', 'eee'); // non-existent property
+        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "fff"}]}', $collection->getData());
+        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3"}]}', $collection->getTokensOnly());
+    }
+
 }

@@ -63,12 +63,12 @@ class Property {
         return new Property($el, $ord);
     }
 
-    protected $xpath;
-    protected $type;
-    protected $name;
-    protected $ord;
-    protected $readOnly = false;
-    protected $values   = [];
+    private $xpath;
+    private $type;
+    private $name;
+    private $ord;
+    private $readOnly = false;
+    private $values   = [];
 
     /**
      * 
