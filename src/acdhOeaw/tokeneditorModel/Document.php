@@ -172,7 +172,6 @@ class Document implements \IteratorAggregate {
 
         $this->schema->save($this->documentId);
 
-        $nn = 0;
         foreach ($this as $n => $token) {
             try {
                 $token->save();
@@ -184,14 +183,13 @@ class Document implements \IteratorAggregate {
             if ($progressBar) {
                 $progressBar->next();
             }
-            if ($n > $limit && $limit > 0) {
+            if ($n + 1 >= $limit && $limit > 0) {
                 break;
             }
-            $nn = $n + 1;
         }
 
         copy($this->path, $savePath);
-        return $nn;
+        return $n + 1;
     }
 
     /**

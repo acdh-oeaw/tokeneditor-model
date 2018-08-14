@@ -73,12 +73,12 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
     public function testWrongIteratorClass2() {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('tokenIteratorClass should be \acdhOeaw\tokeneditorModel\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditorModel\Datafile::PDO or \acdhOeaw\tokeneditorModel\Datafile::XML_READER');
-        $d   = new Document(self::$pdo);
+        $d = new Document(self::$pdo);
         $d->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $d->save(self::$saveDir);
         $d->loadDb($d->getId(), 'wrong class');
     }
-    
+
     public function testPropertiesMissingInData() {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage("at least one property wasn't found");
@@ -91,10 +91,30 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testGetName() {
-        $d   = new Document(self::$pdo);
+        $d = new Document(self::$pdo);
         $d->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test doc');
         $d->save(self::$saveDir);
         $this->assertEquals('test doc', $d->getName());
     }
-    
+
+    public function testImportNTokens() {
+        $d     = new Document(self::$pdo);
+        $d->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test doc');
+        $n     = $d->save(self::$saveDir, 1);
+        $this->assertEquals(1, $n);
+        $query = self::$pdo->prepare("SELECT count(*) FROM tokens WHERE document_id = ?");
+        $query->execute([$d->getId()]);
+        $this->assertEquals(1, $query->fetchColumn());
+    }
+
+    public function testTokenXPathToComplicated() {
+        $d   = new Document(self::$pdo);
+        $xml = file_get_contents(__DIR__ . '/testtext-schema.xml');
+        $xml = str_replace(' <tokenXPath>//tei:w</tokenXPath>', ' <tokenXPath>//tei:w[@id="w1"] </tokenXPath>', $xml);
+        file_put_contents(self::$saveDir . '/tmp.xml', $xml);
+        $d->loadFile('tests/testtext.xml', self::$saveDir . '/tmp.xml', 'test');
+        $n = $d->save(self::$saveDir);
+        $this->assertEquals(1, $n);
+    }
+
 }
