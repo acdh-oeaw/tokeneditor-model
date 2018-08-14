@@ -95,7 +95,7 @@ class Document implements \IteratorAggregate {
 
         $hash = md5_file($this->path);
         if ($hash !== $data->hash) {
-            throw new RuntimeException('Raw document XML file changed since import');
+            throw new \UnexpectedValueException('Raw document XML file changed since import');
         }
 
         if ($iteratorClass === null) {

@@ -33,6 +33,7 @@ namespace acdhOeaw\tokeneditorModel;
  */
 class DocumentTest extends \PHPUnit\Framework\TestCase {
 
+    static private $saveDir      = 'build';
     static private $connSettings = 'pgsql: dbname=tokeneditor';
     static private $pdo;
 
@@ -54,18 +55,41 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testWrongHash() {
-        $this->expectException(\RuntimeException::class);
-        self::$pdo->query("INSERT INTO documents (document_id, token_xpath, name, save_path, hash) VALUES (1, '//w', 'name', 'testtext.xml', 'wrong hash')");
-        self::$pdo->query("INSERT INTO properties (document_id, property_xpath, type_id, name, read_only, ord) VALUES (0, '.', 'free text', 'prop name', bool, 1)");
+        $this->expectException(\UnexpectedValueException::class);
+        self::$pdo->query("INSERT INTO documents (document_id, token_xpath, name, save_path, hash) VALUES (0, '//w', 'name', 'tests/testtext.xml', 'wrong hash')");
+        self::$pdo->query("INSERT INTO properties (document_id, property_xpath, type_id, name, read_only, ord) VALUES (0, '.', 'free text', 'prop name', true, 1)");
         $d = new Document(self::$pdo);
         $d->loadDb(0);
     }
-    
+
     public function testWrongIteratorClass1() {
         $this->expectException(\InvalidArgumentException::class);
         $d = new Document(self::$pdo);
         $d->loadFile(__DIR__ . '/testtext.xml', __DIR__ . '/testtext-schema.xml', 'test name', 'no such class');
     }
 
+    public function testWrongIteratorClass2() {
+        $this->expectException(\InvalidArgumentException::class);
+        $d   = new Document(self::$pdo);
+        $d->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
+        $d->save(self::$saveDir);
+        $d->loadDb($d->getId(), 'wrong class');
+    }
+    
+    public function testPropertiesMissingInData() {
+        $this->expectException(\RuntimeException::class);
+        $d   = new Document(self::$pdo);
+        $xml = file_get_contents(__DIR__ . '/testtext.xml');
+        $xml = str_replace('<type>NN</type>', '', $xml);
+        file_put_contents(self::$saveDir . '/tmp.xml', $xml);
+        $d->loadFile('tests/testtext.xml', '/tmp/tmp.xml', 'test');
+        $d->save(self::$saveDir);
+    }
 
+    public function testGetName() {
+        $d   = new Document(self::$pdo);
+        $d->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test doc');
+        $d->save(self::$saveDir);
+        $this->assertEquals('test doc', $d->getName());
+    }
 }
