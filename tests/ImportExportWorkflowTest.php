@@ -58,7 +58,9 @@ RES;
 
     public static function tearDownAfterClass() {
         self::$pdo->rollback();
-        unlink('tmp.xml');
+        if (file_exists('tmp.xml')) {
+            unlink('tmp.xml');
+        }
     }
 
     protected function setUp() {
@@ -90,7 +92,7 @@ RES;
     protected function checkImport($docId) {
         $query = self::$pdo->prepare("SELECT count(*) FROM orig_values WHERE document_id = ?");
         $query->execute(array($docId));
-        $this->assertEquals(6, $query->fetch(\PDO::FETCH_COLUMN));
+        $this->assertEquals(9, $query->fetch(\PDO::FETCH_COLUMN));
     }
 
     public function testDefaultInPlace() {
@@ -185,10 +187,10 @@ RES;
         $this->checkImport($docId);
         $this->insertValues($docId);
 
-        $doc = new Document(self::$pdo);
+        $doc                 = new Document(self::$pdo);
         $doc->loadDb($docId);
         $this->docsToClean[] = 'csv';
-        $file = self::$saveDir . '/csv.xml';
+        $file                = self::$saveDir . '/csv.xml';
         $doc->exportCsv($file);
         $this->assertEquals('tokenId,token,lemma,type
 1,Hello<type>NE</type>,aaa,bbb
@@ -196,4 +198,5 @@ RES;
 3,!<type>$.</type>,eee,fff
 ', file_get_contents($file));
     }
+
 }

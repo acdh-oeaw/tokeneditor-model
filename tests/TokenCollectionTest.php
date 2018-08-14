@@ -85,7 +85,6 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
 
         // getStats() doesn't skips filters
         $collection->setTokenIdFilter(2);
-        $collection->setTokenValueFilter('xxx');
         $collection->addFilter('@lemma', 'fff');
         $this->assertEquals('[{"value" : "aaa", "count" : 1}, {"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}]', $collection->getStats('@lemma'));
     }
@@ -93,43 +92,34 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
     public function testNoFilters() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "aaa", "type" : "bbb"}, {"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}, {"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "fff"}]}', $collection->getData());
-        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : 1, "token" : "Hello<type>NE</type>"}, {"tokenId" : 2, "token" : "World<type>NN</type>"}, {"tokenId" : 3, "token" : "!<type>$.</type>"}]}', $collection->getTokensOnly());
+        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "1"}, {"tokenId" : "2"}, {"tokenId" : "3"}]}', $collection->getTokensOnly());
     }
 
     public function testTokenIdFilter() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->setTokenIdFilter(2);
         $this->assertEquals($collection->getData(), '{"tokenCount" : 1, "data" : [{"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}]}');
-        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : 2, "token" : "World<type>NN</type>"}]}', $collection->getTokensOnly());
-    }
-    
-    public function testTokenValueFilter() {
-        $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
-        $collection->setTokenValueFilter('%ne%');
-        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "aaa", "type" : "bbb"}]}', $collection->getData());
-        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : 1, "token" : "Hello<type>NE</type>"}]}', $collection->getTokensOnly());
+        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "2"}]}', $collection->getTokensOnly());
     }
     
     public function testFilter() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->addFilter('lemma', 'eee');
         $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "fff"}]}', $collection->getData());
-        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : 3, "token" : "!<type>$.</type>"}]}', $collection->getTokensOnly());
+        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3"}]}', $collection->getTokensOnly());
     }
 
     public function testFilterAll() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->setTokenIdFilter(3);
-        $collection->setTokenValueFilter('%type%');
         $collection->addFilter('lemma', 'eee');
         $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "fff"}]}', $collection->getData());
-        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : 3, "token" : "!<type>$.</type>"}]}', $collection->getTokensOnly());
+        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3"}]}', $collection->getTokensOnly());
     }
     
     public function testFilterNone() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->setTokenIdFilter(2);
-        $collection->setTokenValueFilter('%type%');
         $collection->addFilter('lemma', 'eee');
         $this->assertEquals('{"tokenCount" : 0, "data" : []}', $collection->getData());
         $this->assertEquals('{"tokenCount" : 0, "data" : []}', $collection->getTokensOnly());

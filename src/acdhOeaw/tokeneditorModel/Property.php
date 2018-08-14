@@ -37,12 +37,38 @@ use SimpleXMLElement;
  */
 class Property {
 
-    private $xpath;
-    private $type;
-    private $name;
-    private $ord;
-    private $readOnly = false;
-    private $values   = [];
+    static public function factory(int $ord, string $name, string $xpath,
+                                   string $type, bool $readOnly,
+                                   array $values = []): Property {
+        $xml       = "
+            <property>
+                <propertyName>%s</propertyName>
+                <propertyXPath>%s</propertyXPath>
+                <propertyType>%s</propertyType>
+                %s
+                %s
+            </property>
+        ";
+        $readOnly  = $readOnly ? '<readOnly/>' : '';
+        $valuesXml = '';
+        if (count($values) > 0) {
+            $valuesXml = '<propertyValues>';
+            foreach ($values as $i) {
+                $valuesXml .= '<value>' . htmlentities($i) . '</value>';
+            }
+            $valuesXml .= '</propertyValues>';
+        }
+        $xml = sprintf($xml, htmlentities($name), htmlentities($xpath), htmlentities($type), $readOnly, $valuesXml);
+        $el  = new SimpleXMLElement($xml);
+        return new Property($el, $ord);
+    }
+
+    protected $xpath;
+    protected $type;
+    protected $name;
+    protected $ord;
+    protected $readOnly = false;
+    protected $values   = [];
 
     /**
      * 
@@ -67,7 +93,7 @@ class Property {
             throw new LengthException('exactly one propertyName has to be provided');
         }
         $this->name = (string) $xml->propertyName;
-        if (in_array($this->name, ['token_id', 'token', '_offset', '_pagesize', '_docid'])) {
+        if (in_array($this->name, ['token_id', '_offset', '_pagesize', '_docid'])) {
             throw new \RuntimeException('property uses a reserved name');
         }
 

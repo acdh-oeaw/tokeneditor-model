@@ -38,7 +38,6 @@ class TokenCollection {
     private $documentId;
     private $userId;
     private $tokenIdFilter;
-    private $tokenValueFilter;
     private $filters = [];
 
     public function __construct(PDO $pdo, int $documentId, string $userId) {
@@ -49,10 +48,6 @@ class TokenCollection {
 
     public function setTokenIdFilter(int $id) {
         $this->tokenIdFilter = $id;
-    }
-
-    public function setTokenValueFilter(string $val) {
-        $this->tokenValueFilter = $val;
     }
 
     /**
@@ -72,13 +67,13 @@ class TokenCollection {
 				json_build_object(
 					'tokenCount', (SELECT count(*) FROM filter), 
 					'data', COALESCE( 
-						json_agg(json_object(array_cat(array['tokenId', 'token'], names), array_cat(array[token_id::text, value], values))), 
+						json_agg(json_object(array_cat(array['tokenId'], names), array_cat(array[token_id::text], values))), 
 						array_to_json(array[]::text[]) 
 					) 
 				) 
 			FROM ( 
 				SELECT 
-					token_id, t.value, 
+					token_id, 
 					array_agg(COALESCE(cv.value, v.value) ORDER BY ord) AS values, 
 					array_agg(p.name ORDER BY ord) AS names 
 				FROM
@@ -108,7 +103,7 @@ class TokenCollection {
 						) t
 						WHERE n = 1
 					) cv USING (document_id, property_xpath, token_id)
-				GROUP BY 1, 2 
+				GROUP BY 1
 				ORDER BY token_id 
 			) t
         ";
@@ -127,7 +122,7 @@ class TokenCollection {
 				json_build_object(
 					'tokenCount', (SELECT count(*) FROM filter),
 					'data', COALESCE(
-						json_agg(json_build_object('tokenId', token_id, 'token', value) ORDER BY token_id),
+						json_agg(json_build_object('tokenId', token_id::text) ORDER BY token_id),
 						'[]'
 					)
 				)
@@ -190,19 +185,6 @@ class TokenCollection {
 					SELECT ?::int AS token_id
 				) f" . $n++ . " USING (token_id)";
             $params[] = $this->tokenIdFilter;
-        }
-        if ($this->tokenValueFilter !== null) {
-            $query    .= "
-				JOIN (
-					SELECT token_id
-					FROM tokens
-					WHERE 
-						document_id = ?
-						AND lower(value) LIKE lower(?)
-				) f" . $n++ . " USING (token_id)
-            ";
-            $params[] = $this->documentId;
-            $params[] = $this->tokenValueFilter;
         }
 
         foreach ($this->filters as $prop => $val) {

@@ -165,9 +165,9 @@ class Document implements \IteratorAggregate {
 
         $savePath = $saveDir . '/' . $this->documentId . '.xml';
 
-        $query = $this->pdo->prepare("INSERT INTO documents (document_id, token_xpath, token_value_xpath, name, save_path, hash) VALUES (?, ?, ?, ?, ?, ?)");
+        $query = $this->pdo->prepare("INSERT INTO documents (document_id, token_xpath, name, save_path, hash) VALUES (?, ?, ?, ?, ?)");
         $query->execute([$this->documentId, $this->schema->getTokenXPath(),
-            $this->schema->getTokenValueXPath(), $this->name, $savePath, md5_file($this->path)]);
+            $this->name, $savePath, md5_file($this->path)]);
         unset($query); // free memory
 
         $this->schema->save($this->documentId);
@@ -232,7 +232,7 @@ class Document implements \IteratorAggregate {
             throw new RuntimeException('Unable to open file for writing');
         }
 
-        $header = ['tokenId', 'token'];
+        $header = ['tokenId'];
         foreach ($this->schema as $property) {
             $header[] = $property->getName();
         }

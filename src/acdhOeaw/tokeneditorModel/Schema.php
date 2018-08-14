@@ -38,7 +38,6 @@ class Schema implements \IteratorAggregate {
     private $pdo;
     private $documentId;
     private $tokenXPath;
-    private $tokenValueXPath;
     private $namespaces = [];
     private $properties = [];
 
@@ -61,23 +60,26 @@ class Schema implements \IteratorAggregate {
 
     public function loadXML(string $xml) {
         $dom = new \SimpleXMLElement($xml);
+        $n   = 1;
 
         if (!isset($dom->tokenXPath) || count($dom->tokenXPath) != 1) {
             throw new \LengthException('exactly one tokenXPath has to be provided');
         }
         $this->tokenXPath = $dom->tokenXPath;
 
-        if (!isset($dom->tokenValueXPath) || count($dom->tokenValueXPath) != 1) {
-            throw new \LengthException('exactly one tokenValueXPath has to be provided');
+        if (isset($dom->tokenValueXPath)) {
+            if (count($dom->tokenValueXPath) != 1) {
+                throw new \LengthException('exactly one tokenValueXPath has to be provided');
+            }
+            // convert old-style schema to new format
+            $this->properties[] = Property::factory($n++, 'token', (string) $dom->tokenValueXPath[0], 'free text', true);
         }
-        $this->tokenValueXPath = $dom->tokenValueXPath;
 
         if (
-            !isset($dom->properties) || !isset($dom->properties->property) || count($dom->properties->property) == 0
+            !isset($dom->properties) || !isset($dom->properties->property) || count($dom->properties->property) == 0 && count($this->properties) == 0
         ) {
             throw new \LengthException('no token properties defined');
         }
-        $n     = 1;
         $names = [];
         foreach ($dom->properties->property as $i) {
             $prop               = new Property($i, $n++);
@@ -107,11 +109,10 @@ class Schema implements \IteratorAggregate {
         }
         $schema .= '</namespaces>';
 
-        $query  = $this->pdo->prepare("SELECT token_xpath, token_value_xpath FROM documents WHERE document_id = ?");
+        $query  = $this->pdo->prepare("SELECT token_xpath FROM documents WHERE document_id = ?");
         $query->execute([$this->documentId]);
         $data   = $query->fetch(PDO::FETCH_OBJ);
         $schema .= '<tokenXPath>' . htmlspecialchars($data->token_xpath) . '</tokenXPath>';
-        $schema .= '<tokenValueXPath>' . htmlspecialchars($data->token_value_xpath) . '</tokenValueXPath>';
 
         $schema      .= '<properties>';
         $query       = $this->pdo->prepare("SELECT property_xpath, type_id, name, read_only FROM properties WHERE document_id = ? ORDER BY ord");
@@ -151,14 +152,6 @@ class Schema implements \IteratorAggregate {
      */
     public function getTokenXPath() {
         return (string) $this->tokenXPath;
-    }
-
-    /**
-     * 
-     * @return string
-     */
-    public function getTokenValueXPath() {
-        return (string) $this->tokenValueXPath;
     }
 
     /**

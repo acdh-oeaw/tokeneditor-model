@@ -37,7 +37,13 @@ class Token {
      *
      * @var \PDOStatement
      */
-    private static $valuesQuery = null;
+    private static $valuesQuery;
+
+    /**
+     *
+     * @var \PDOStatement
+     */
+    private static $origValuesQuery;
 
     /**
      *
@@ -51,12 +57,6 @@ class Token {
      */
     private $document;
     private $tokenId;
-
-    /**
-     *
-     * @var type \DOMElement
-     */
-    private $value;
     private $properties        = [];
     private $invalidProperties = [];
 
@@ -74,19 +74,6 @@ class Token {
         $xpath = new \DOMXPath($dom->ownerDocument);
         foreach ($this->document->getSchema()->getNs() as $prefix => $ns) {
             $xpath->registerNamespace($prefix, $ns);
-        }
-
-        $valueXPath = $this->document->getSchema()->getTokenValueXPath();
-        if ($valueXPath == '') {
-            $this->value = $this->dom->nodeValue;
-        } else {
-            $value = $xpath->query($valueXPath, $this->dom);
-            if ($value->length != 1) {
-                throw new \LengthException('token has no value or more then one value');
-            } else {
-                $value       = $value->item(0);
-                $this->value = isset($value->value) ? $value->value : $this->innerXml($value);
-            }
         }
 
         foreach ($this->document->getSchema() as $prop) {
@@ -128,8 +115,8 @@ class Token {
         $pdo   = $this->document->getPdo();
         $docId = $this->document->getId();
 
-        $query = $pdo->prepare("INSERT INTO tokens (document_id, token_id, value) VALUES (?, ?, ?)");
-        $query->execute([$docId, $this->tokenId, $this->value]);
+        $query = $pdo->prepare("INSERT INTO tokens (document_id, token_id) VALUES (?, ?)");
+        $query->execute([$docId, $this->tokenId]);
 
         $query = $pdo->prepare("INSERT INTO orig_values (document_id, token_id, property_xpath, value) VALUES (?, ?, ?, ?)");
         foreach ($this->properties as $xpath => $prop) {
@@ -196,11 +183,16 @@ class Token {
     public function exportCsv($csvFile, string $delimiter = ',') {
         $this->checkValuesQuery();
 
-        $values = [$this->tokenId, $this->value];
+        $values = [$this->tokenId];
         foreach ($this->properties as $xpath => $prop) {
             self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
             $userValue = self::$valuesQuery->fetch(\PDO::FETCH_OBJ);
-            $values[]  = $userValue !== false ? $userValue->value : $prop->value;
+            if ($userValue) {
+                $values[] = $userValue->value;
+            } else {
+                self::$origValuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
+                $values[] = self::$origValuesQuery->fetch(\PDO::FETCH_OBJ)->value;
+            }
         }
         fputcsv($csvFile, $values, $delimiter);
     }
@@ -228,6 +220,10 @@ class Token {
         if (self::$valuesQuery === null) {
             self::$valuesQuery = $this->document->getPdo()->
                 prepare("SELECT user_id, value, date FROM values WHERE (document_id, property_xpath, token_id) = (?, ?, ?) ORDER BY date DESC");
+        }
+        if (self::$origValuesQuery === null) {
+            self::$origValuesQuery = $this->document->getPdo()->
+                prepare("SELECT value FROM orig_values WHERE (document_id, property_xpath, token_id) = (?, ?, ?)");
         }
     }
 
