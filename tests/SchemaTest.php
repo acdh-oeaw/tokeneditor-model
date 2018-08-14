@@ -50,36 +50,42 @@ class SchemaTest extends \PHPUnit\Framework\TestCase {
 
     public function testLoadNoFile() {
         $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage("no such file is not a valid file");
         $s = new Schema(self::$pdo);
         $s->loadFile('no such file');
     }
 
     public function testNoTokenXPath() {
         $this->expectException(\LengthException::class);
+        $this->expectExceptionMessage("exactly one tokenXPath has to be provided");
         $s = new Schema(self::$pdo);
         $s->loadXML(str_replace('<tokenXPath>//tei:w</tokenXPath>', '', self::$xml));
     }
 
     public function testManyTokenXPaths() {
         $this->expectException(\LengthException::class);
+        $this->expectExceptionMessage("exactly one tokenXPath has to be provided");
         $s = new Schema(self::$pdo);
         $s->loadXML(str_replace('<tokenXPath>//tei:w</tokenXPath>', '<tokenXPath>//tei:w</tokenXPath><tokenXPath>//tei:w</tokenXPath>', self::$xml));
     }
 
     public function testManyTokenValueXPaths() {
         $this->expectException(\LengthException::class);
+        $this->expectExceptionMessage("exactly one tokenValueXPath has to be provided");
         $s = new Schema(self::$pdo);
         $s->loadXML(str_replace('<tokenValueXPath>.</tokenValueXPath>', '<tokenValueXPath>.</tokenValueXPath><tokenValueXPath>.</tokenValueXPath>', self::$xml));
     }
 
     public function testNoProperties() {
         $this->expectException(\LengthException::class);
+        $this->expectExceptionMessage("no token properties defined");
         $s = new Schema(self::$pdo);
         $s->loadXML(str_replace('properties', 'aaa', self::$xml));
     }
 
     public function testDuplicateProperties() {
         $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage("property names are not unique");
         $s = new Schema(self::$pdo);
         $s->loadXML(preg_replace('|<propertyName>[a-zA-Z]+</propertyName>|', '<propertyName>lemma</propertyName>', self::$xml));
     }

@@ -77,7 +77,7 @@ class Document implements \IteratorAggregate {
         } else {
             if (!in_array($iteratorClass, [self::DOM_DOCUMENT, self::XML_READER,
                     self::PDO])) {
-                throw new \InvalidArgumentException('tokenIteratorClass should be one of \acdhOeaw\tokeneditor\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditor\Datafile::XML_READER or \acdhOeaw\tokeneditor\Datafile::PDO');
+                throw new \InvalidArgumentException('tokenIteratorClass should be \acdhOeaw\tokeneditorModel\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditorModel\Datafile::PDO or \acdhOeaw\tokeneditorModel\Datafile::XML_READER');
             }
             $this->tokenIteratorClassName = $iteratorClass;
         }
@@ -228,9 +228,6 @@ class Document implements \IteratorAggregate {
         $this->exportFlag = true;
 
         $csvFile = fopen($path, 'w');
-        if ($csvFile === false) {
-            throw new RuntimeException('Unable to open file for writing');
-        }
 
         $header = ['tokenId'];
         foreach ($this->schema as $property) {

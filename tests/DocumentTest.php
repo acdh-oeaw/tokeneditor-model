@@ -50,6 +50,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
 
     public function testNoSuchFile() {
         $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('no such file is not a valid file');
         $d = new Document(self::$pdo);
         $d->loadFile('no such file', __DIR__ . '/testtext-schema.xml', 'test name');
     }
@@ -64,12 +65,14 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
 
     public function testWrongIteratorClass1() {
         $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('tokenIteratorClass should be \acdhOeaw\tokeneditorModel\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditorModel\Datafile::PDO or \acdhOeaw\tokeneditorModel\Datafile::XML_READER');
         $d = new Document(self::$pdo);
         $d->loadFile(__DIR__ . '/testtext.xml', __DIR__ . '/testtext-schema.xml', 'test name', 'no such class');
     }
 
     public function testWrongIteratorClass2() {
         $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('tokenIteratorClass should be \acdhOeaw\tokeneditorModel\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditorModel\Datafile::PDO or \acdhOeaw\tokeneditorModel\Datafile::XML_READER');
         $d   = new Document(self::$pdo);
         $d->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $d->save(self::$saveDir);
@@ -78,11 +81,12 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
     
     public function testPropertiesMissingInData() {
         $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage("at least one property wasn't found");
         $d   = new Document(self::$pdo);
         $xml = file_get_contents(__DIR__ . '/testtext.xml');
         $xml = str_replace('<type>NN</type>', '', $xml);
         file_put_contents(self::$saveDir . '/tmp.xml', $xml);
-        $d->loadFile('tests/testtext.xml', '/tmp/tmp.xml', 'test');
+        $d->loadFile(self::$saveDir . '/tmp.xml', 'tests/testtext-schema.xml', 'test');
         $d->save(self::$saveDir);
     }
 
@@ -92,4 +96,5 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
         $d->save(self::$saveDir);
         $this->assertEquals('test doc', $d->getName());
     }
+    
 }

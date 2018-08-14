@@ -42,6 +42,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
 
     public function testManyXPaths() {
         $this->expectException(\LengthException::class);
+        $this->expectExceptionMessage("exactly one propertyXPath has to be provided");
         $xml = "
             <property>
                 <propertyName>test</propertyName>
@@ -56,6 +57,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
 
     public function testNoXPath() {
         $this->expectException(\LengthException::class);
+        $this->expectExceptionMessage("exactly one propertyXPath has to be provided");
         $xml = "
             <property>
                 <propertyName>test</propertyName>
@@ -68,6 +70,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
 
     public function testManyNames() {
         $this->expectException(\LengthException::class);
+        $this->expectExceptionMessage("exactly one propertyName has to be provided");
         $xml = "
             <property>
                 <propertyName>test</propertyName>
@@ -82,6 +85,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
 
     public function testNoName() {
         $this->expectException(\LengthException::class);
+        $this->expectExceptionMessage("exactly one propertyName has to be provided");
         $xml = "
             <property>
                 <propertyXPath>.</propertyXPath>
@@ -94,6 +98,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
 
     public function testReservedName() {
         $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage("property uses a reserved name");
         $xml = "
             <property>
                 <propertyName>token_id</propertyName>
@@ -107,6 +112,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
 
     public function testManyTypes() {
         $this->expectException(\LengthException::class);
+        $this->expectExceptionMessage("exactly one propertyType has to be provided");
         $xml = "
             <property>
                 <propertyName>test</propertyName>
@@ -121,6 +127,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
 
     public function testNoType() {
         $this->expectException(\LengthException::class);
+        $this->expectExceptionMessage("exactly one propertyType has to be provided");
         $xml = "
             <property>
                 <propertyName>test</propertyName>
