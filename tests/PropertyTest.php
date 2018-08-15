@@ -138,4 +138,24 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         new Property($el, 0);
     }
 
+    public function testGetters() {
+        $xml = "
+            <property>
+                <propertyName>test name</propertyName>
+                <propertyXPath>.</propertyXPath>
+                <propertyType>test type</propertyType>
+                <propertyValues>
+                    <value>a</value>
+                    <value>b</value>
+                </propertyValues>
+            </property>
+        ";
+        $el  = new \SimpleXMLElement($xml);
+        $p = new Property($el, 0);
+        $this->assertEquals('test name', $p->getName());
+        $this->assertEquals('.', $p->getXPath());
+        $this->assertEquals('test type', $p->getType());
+        $this->assertEquals(false, $p->getReadOnly());
+        $this->assertEquals(['a', 'b'], $p->getValues());
+    }
 }

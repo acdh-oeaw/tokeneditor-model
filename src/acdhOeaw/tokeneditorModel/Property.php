@@ -98,7 +98,9 @@ class Property {
         }
 
         if (isset($xml->propertyValues) && isset($xml->propertyValues->value)) {
-            $this->values = $xml->propertyValues->value;
+            foreach ($xml->propertyValues->value as $i) {
+                $this->values[] = (string) $i;
+            }
         }
 
         if (isset($xml->readOnly)) {
