@@ -113,8 +113,32 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
         $xml = str_replace(' <tokenXPath>//tei:w</tokenXPath>', ' <tokenXPath>//tei:w[@id="w1"] </tokenXPath>', $xml);
         file_put_contents(self::$saveDir . '/tmp.xml', $xml);
         $d->loadFile('tests/testtext.xml', self::$saveDir . '/tmp.xml', 'test');
-        $n = $d->save(self::$saveDir);
+        $n   = $d->save(self::$saveDir);
         $this->assertEquals(1, $n);
+    }
+
+    public function testDelete() {
+        $d    = new Document(self::$pdo);
+        $d->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test doc');
+        $d->save(self::$saveDir);
+        $path = $d->getXmlPath(self::$saveDir);
+
+        $query = self::$pdo->prepare("SELECT count(*) FROM documents WHERE document_id = ?");
+        $query->execute([$d->getId()]);
+        $this->assertEquals(1, $query->fetchColumn());
+        $query = self::$pdo->prepare("SELECT count(*) FROM tokens WHERE document_id = ?");
+        $query->execute([$d->getId()]);
+        $this->assertEquals(3   , $query->fetchColumn());
+        $this->assertEquals(file_get_contents('tests/testtext.xml'), file_get_contents($path));
+
+        $d->delete(self::$saveDir);
+        $query = self::$pdo->prepare("SELECT count(*) FROM documents WHERE document_id = ?");
+        $query->execute([$d->getId()]);
+        $this->assertEquals(0, $query->fetchColumn());
+        $query = self::$pdo->prepare("SELECT count(*) FROM tokens WHERE document_id = ?");
+        $query->execute([$d->getId()]);
+        $this->assertEquals(0, $query->fetchColumn());
+        $this->assertTrue(!file_exists($path));
     }
 
 }

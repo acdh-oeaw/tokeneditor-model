@@ -62,6 +62,15 @@ class Document implements \IteratorAggregate {
         $this->schema = new Schema($this->pdo);
     }
 
+    /**
+     * 
+     * @param string $filePath
+     * @param string $schemaPath
+     * @param string $name
+     * @param string $iteratorClass
+     * @throws RuntimeException
+     * @throws \InvalidArgumentException
+     */
     public function loadFile(string $filePath, string $schemaPath, string $name,
                              string $iteratorClass = null) {
         if (!is_file($filePath)) {
@@ -83,6 +92,13 @@ class Document implements \IteratorAggregate {
         }
     }
 
+    /**
+     * 
+     * @param string $documentId
+     * @param string $iteratorClass
+     * @throws \UnexpectedValueException
+     * @throws \InvalidArgumentException
+     */
     public function loadDb(string $documentId, string $iteratorClass = null) {
         $this->documentId = $documentId;
         $this->schema->loadDb($this->documentId);
@@ -140,6 +156,29 @@ class Document implements \IteratorAggregate {
         return $this->pdo;
     }
 
+    public function getIterator() {
+        $this->tokenIterator = new $this->tokenIteratorClassName($this->path, $this, $this->exportFlag);
+        $this->exportFlag    = false;
+        return $this->tokenIterator;
+    }
+
+    /**
+     * 
+     * @return \acdhOeaw\tokeneditor\tokenIterator\TokenInterator
+     */
+    public function getTokenIterator() {
+        return $this->tokenIterator;
+    }
+
+    /**
+     * 
+     * @param string $saveDir
+     * @return type
+     */
+    public function getXmlPath(string $saveDir) {
+        return $saveDir . '/' . $this->documentId . '.xml';
+    }
+
     /**
      * 
      * @return integer
@@ -163,7 +202,7 @@ class Document implements \IteratorAggregate {
             query("SELECT nextval('document_id_seq')")->
             fetchColumn();
 
-        $savePath = $saveDir . '/' . $this->documentId . '.xml';
+        $savePath = $this->getXmlPath($saveDir);
 
         $query = $this->pdo->prepare("INSERT INTO documents (document_id, token_xpath, name, save_path, hash) VALUES (?, ?, ?, ?, ?)");
         $query->execute([$this->documentId, $this->schema->getTokenXPath(),
@@ -190,6 +229,19 @@ class Document implements \IteratorAggregate {
 
         copy($this->path, $savePath);
         return $n + 1;
+    }
+
+    /**
+     * 
+     * @param string $saveDir
+     */
+    public function delete(string $saveDir) {
+        $query = $this->pdo->prepare("DELETE FROM documents WHERE document_id = ?");
+        $query->execute([$this->documentId]);
+        $path  = $this->getXmlPath($saveDir);
+        if (file_exists($path)) {
+            unlink($path);
+        }
     }
 
     /**
@@ -221,6 +273,12 @@ class Document implements \IteratorAggregate {
         return $this->tokenIterator->export($path);
     }
 
+    /**
+     * 
+     * @param string $path
+     * @param string $delimiter
+     * @param ProgressBar $progressBar
+     */
     public function exportCsv(string $path = null, string $delimiter = ',',
                               ProgressBar $progressBar = null) {
         $this->exportFlag = true;
@@ -235,25 +293,17 @@ class Document implements \IteratorAggregate {
 
         foreach ($this as $token) {
             $token->exportCsv($csvFile, $delimiter);
+            if ($progressBar) {
+                $progressBar->next();
+            }
         }
 
         fclose($csvFile);
     }
 
-    public function getIterator() {
-        $this->tokenIterator = new $this->tokenIteratorClassName($this->path, $this, $this->exportFlag);
-        $this->exportFlag    = false;
-        return $this->tokenIterator;
-    }
-
     /**
      * 
-     * @return \acdhOeaw\tokeneditor\tokenIterator\TokenInterator
      */
-    public function getTokenIterator() {
-        return $this->tokenIterator;
-    }
-
     private function chooseTokenIterator() {
         try {
             new tokenIterator\XMLReader($this->path, $this);
