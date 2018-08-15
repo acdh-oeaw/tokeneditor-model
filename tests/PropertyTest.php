@@ -156,6 +156,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('.', $p->getXPath());
         $this->assertEquals('test type', $p->getType());
         $this->assertEquals(false, $p->getReadOnly());
+        $this->assertEquals(0, $p->getOrd());
         $this->assertEquals(['a', 'b'], $p->getValues());
     }
 }
