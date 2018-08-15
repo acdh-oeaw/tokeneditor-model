@@ -54,11 +54,11 @@ class Property {
         if (count($values) > 0) {
             $valuesXml = '<propertyValues>';
             foreach ($values as $i) {
-                $valuesXml .= '<value>' . htmlentities($i) . '</value>';
+                $valuesXml .= '<value>' . htmlspecialchars($i) . '</value>';
             }
             $valuesXml .= '</propertyValues>';
         }
-        $xml = sprintf($xml, htmlentities($name), htmlentities($xpath), htmlentities($type), $readOnly, $valuesXml);
+        $xml = sprintf($xml, htmlspecialchars($name), htmlspecialchars($xpath), htmlspecialchars($type), $readOnly, $valuesXml);
         $el  = new SimpleXMLElement($xml);
         return new Property($el, $ord);
     }
