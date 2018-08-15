@@ -124,6 +124,38 @@ class Property {
 
     /**
      * 
+     * @return string
+     */
+    public function getType() {
+        return $this->type;
+    }
+
+    /**
+     * 
+     * @return int
+     */
+    public function getOrd() {
+        return $this->ord;
+    }
+
+    /**
+     * 
+     * @return bool
+     */
+    public function getReadOnly() {
+        return $this->readOnly;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function getValues() {
+        return $this->values;
+    }
+
+    /**
+     * 
      * @param PDO $pdo
      * @param integer $documentId
      */
