@@ -59,6 +59,10 @@ class Schema implements \IteratorAggregate {
     }
 
     public function loadXML(string $xml) {
+        $this->tokenXPath = null;
+        $this->properties = [];
+        $this->namespaces = [];
+        
         $dom = new \SimpleXMLElement($xml);
         $n   = 1;
 
