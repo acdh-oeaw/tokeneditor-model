@@ -39,6 +39,7 @@ class TokenCollection {
     private $userId;
     private $tokenIdFilter;
     private $filters = [];
+    private $sorting = [];
 
     public function __construct(PDO $pdo, int $documentId, string $userId) {
         $this->pdo        = $pdo;
@@ -59,6 +60,15 @@ class TokenCollection {
         $this->filters[$prop] = $val;
     }
 
+    /**
+     * 
+     * @param array $columns sorting order (prepend column name with "-" for
+     *   descending
+     */
+    public function setSorting(array $columns) {
+        $this->sorting = $columns;
+    }
+
     public function getData(int $pageSize = 1000, int $offset = 0): string {
         list($filterQuery, $filterParam) = $this->getFilters();
         $queryStr = "
@@ -73,7 +83,7 @@ class TokenCollection {
 				) 
 			FROM ( 
 				SELECT 
-					token_id, 
+					token_id, sort,
 					array_agg(COALESCE(cv.value, v.value) ORDER BY ord) AS values, 
 					array_agg(p.name ORDER BY ord) AS names 
 				FROM
@@ -103,12 +113,12 @@ class TokenCollection {
 						) t
 						WHERE n = 1
 					) cv USING (document_id, property_xpath, token_id)
-				GROUP BY 1
-				ORDER BY token_id 
+				GROUP BY 1, 2
+				ORDER BY sort
 			) t
         ";
-        $query    = $this->pdo->prepare($queryStr);
         $param    = array_merge($filterParam, [$pageSize, $offset, $pageSize, $offset]);
+        $query    = $this->pdo->prepare($queryStr);
         $query->execute($param);
         $result   = $query->fetch(PDO::FETCH_COLUMN);
         return $result;
@@ -122,7 +132,7 @@ class TokenCollection {
 				json_build_object(
 					'tokenCount', (SELECT count(*) FROM filter),
 					'data', COALESCE(
-						json_agg(json_build_object('tokenId', token_id::text) ORDER BY token_id),
+						json_agg(json_build_object('tokenId', token_id::text) ORDER BY sort),
 						'[]'
 					)
 				)
@@ -187,46 +197,69 @@ class TokenCollection {
             $params[] = $this->tokenIdFilter;
         }
 
-        foreach ($this->filters as $prop => $val) {
+        $cols  = '';
+        $props = $this->skipSortDir($this->sorting);
+        $props = array_merge($props, array_diff(array_keys($this->filters), $props));
+        foreach ($props as $prop) {
             if (!isset($propDict[$prop])) {
                 continue;
             }
-            $query    .= "
+
+            $params[] = $this->documentId;
+            $params[] = $propDict[$prop];
+
+            $where = '';
+            if (isset($this->filters[$prop])) {
+                $where    = " AND COALESCE(v.value, o.value) ILIKE ?";
+                $params[] = $this->filters[$prop];
+            }
+
+            $query .= "
 				JOIN (
-					SELECT token_id
+					SELECT document_id, token_id, COALESCE(o.value, v.value) AS v$n
 					FROM 
 						orig_values o
 						LEFT JOIN (
 							SELECT 
 								document_id, property_xpath, token_id,
-								first_value(value) OVER (PARTITION BY document_id, property_xpath, token_id ORDER BY date DESC) AS n
+								first_value(value) OVER (PARTITION BY document_id, property_xpath, token_id ORDER BY date DESC) AS value
 							FROM values
-							WHERE
-								document_id = ?
-								AND property_xpath = ?
 							ORDER BY date DESC
 						) v USING (document_id, property_xpath, token_id)
-					WHERE COALESCE(n, o.value) ILIKE ? AND document_id = ?
-				) f" . $n++ . " USING (token_id)
+                    WHERE document_id = ? AND property_xpath = ? $where
+				) f$n USING (document_id, token_id)
             ";
-            $params[] = $this->documentId;
-            $params[] = $propDict[$prop];
-            $params[] = $val;
-            $params[] = $this->documentId;
+            $cols  .= ', v' . $n;
+            $n++;
         }
-
-        $query    = "				
-			SELECT DISTINCT document_id, token_id
+        
+        $order = [];
+        foreach( $this->sorting as $h => $i) {
+            $order[] = 'v'. ($h + 1) . (substr($i, 0, 1) === '-' ? ' DESC' : '');
+        }
+        $order[] = 'token_id';
+        $order = implode(', ', $order);
+        
+        $query  = "				
+			SELECT 
+                document_id, token_id 
+                $cols,
+                row_number() OVER (ORDER BY $order) AS sort
 			FROM
-				documents_users
+				(SELECT * FROM documents_users WHERE document_id = ? AND user_id = ?) du
 				JOIN tokens USING (document_id)
 				" . $query . " 
-			WHERE document_id = ? AND user_id = ?
-			ORDER BY token_id
         ";
-        $params[] = $this->documentId;
-        $params[] = $this->userId;
+        $params = array_merge([$this->documentId, $this->userId], $params);
         return [$query, $params];
+    }
+
+    private function skipSortDir(array $a): array {
+        $r = [];
+        foreach ($a as $i) {
+            $r[] = preg_replace('/^-/', '', $i);
+        }
+        return $r;
     }
 
 }
