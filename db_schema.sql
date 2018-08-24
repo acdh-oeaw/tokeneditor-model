@@ -48,7 +48,7 @@ CREATE TABLE properties (
 	document_id int not null references documents (document_id) on delete cascade,
 	property_xpath text not null,
 	type_id text not null references property_types (type_id),
-	name text not null check(name not in ('token_id', '_offset', '_pagesize')),
+	name text not null check(name not in ('token_id', '_offset', '_pagesize', '_order')),
     read_only bool not null,
     ord int not null,
 	primary key (document_id, property_xpath),
