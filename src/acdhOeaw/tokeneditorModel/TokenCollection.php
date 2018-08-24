@@ -72,50 +72,50 @@ class TokenCollection {
     public function getData(int $pageSize = 1000, int $offset = 0): string {
         list($filterQuery, $filterParam) = $this->getFilters();
         $queryStr = "
-			WITH filter AS (" . $filterQuery . ")
-			SELECT
-				json_build_object(
-					'tokenCount', (SELECT count(*) FROM filter), 
-					'data', COALESCE( 
-						json_agg(json_object(array_cat(array['tokenId'], names), array_cat(array[token_id::text], values))), 
-						array_to_json(array[]::text[]) 
-					) 
-				) 
-			FROM ( 
-				SELECT 
-					token_id, sort,
-					array_agg(COALESCE(cv.value, v.value) ORDER BY ord) AS values, 
-					array_agg(p.name ORDER BY ord) AS names 
-				FROM
-					(
-						SELECT *
-						FROM filter
-						LIMIT ? 
-						OFFSET ?
-					) f
-					JOIN tokens t USING (document_id, token_id) 
-					JOIN properties p USING (document_id)
-					JOIN orig_values v USING (document_id, property_xpath, token_id) 
-					LEFT JOIN (
-						SELECT *
-						FROM (
-							SELECT 
-								document_id, property_xpath, token_id, value, 
-								row_number() OVER (PARTITION BY document_id, property_xpath, token_id ORDER BY date DESC) AS n
-							FROM 
-								values
-								JOIN (
-									SELECT *
-									FROM filter
-									LIMIT ? 
-									OFFSET ?
-								) ff USING (document_id, token_id)
-						) t
-						WHERE n = 1
-					) cv USING (document_id, property_xpath, token_id)
-				GROUP BY 1, 2
-				ORDER BY sort
-			) t
+            WITH filter AS (" . $filterQuery . ")
+            SELECT
+                json_build_object(
+                    'tokenCount', (SELECT count(*) FROM filter), 
+                    'data', COALESCE( 
+                        json_agg(json_object(array_cat(array['tokenId'], names), array_cat(array[token_id::text], values))), 
+                        array_to_json(array[]::text[]) 
+                    ) 
+                ) 
+            FROM ( 
+                SELECT 
+                    token_id, sort,
+                    array_agg(COALESCE(cv.value, v.value) ORDER BY ord) AS values, 
+                    array_agg(p.name ORDER BY ord) AS names 
+                FROM
+                    (
+                        SELECT *
+                        FROM filter
+                        LIMIT ? 
+                        OFFSET ?
+                    ) f
+                    JOIN tokens t USING (document_id, token_id) 
+                    JOIN properties p USING (document_id)
+                    JOIN orig_values v USING (document_id, property_xpath, token_id) 
+                    LEFT JOIN (
+                        SELECT *
+                        FROM (
+                            SELECT 
+                                document_id, property_xpath, token_id, value, 
+                                row_number() OVER (PARTITION BY document_id, property_xpath, token_id ORDER BY date DESC) AS n
+                            FROM 
+                                values
+                                JOIN (
+                                    SELECT *
+                                    FROM filter
+                                    LIMIT ? 
+                                    OFFSET ?
+                                ) ff USING (document_id, token_id)
+                        ) t
+                        WHERE n = 1
+                    ) cv USING (document_id, property_xpath, token_id)
+                GROUP BY 1, 2
+                ORDER BY sort
+            ) t
         ";
         $param    = array_merge($filterParam, [$pageSize, $offset, $pageSize, $offset]);
         $query    = $this->pdo->prepare($queryStr);
@@ -127,25 +127,25 @@ class TokenCollection {
     public function getTokensOnly(int $pageSize = 1000, int $offset = 0): string {
         list($filterQuery, $filterParam) = $this->getFilters();
         $queryStr = "
-			WITH filter AS (" . $filterQuery . ")
-			SELECT 
-				json_build_object(
-					'tokenCount', (SELECT count(*) FROM filter),
-					'data', COALESCE(
-						json_agg(json_build_object('tokenId', token_id::text) ORDER BY sort),
-						'[]'
-					)
-				)
-			FROM 
-				documents_users
-				JOIN tokens USING (document_id)
-				JOIN (
-					SELECT * 
-					FROM filter 
-					LIMIT ?
-					OFFSET ?
-				) t USING (document_id, token_id)
-			WHERE user_id = ?
+            WITH filter AS (" . $filterQuery . ")
+            SELECT 
+                json_build_object(
+                    'tokenCount', (SELECT count(*) FROM filter),
+                    'data', COALESCE(
+                        json_agg(json_build_object('tokenId', token_id::text) ORDER BY sort),
+                        '[]'
+                    )
+                )
+            FROM 
+                documents_users
+                JOIN tokens USING (document_id)
+                JOIN (
+                    SELECT * 
+                    FROM filter 
+                    LIMIT ?
+                    OFFSET ?
+                ) t USING (document_id, token_id)
+            WHERE user_id = ?
         ";
         $query    = $this->pdo->prepare($queryStr);
         $params   = array_merge($filterParam, [$pageSize, $offset, $this->userId]);
@@ -191,9 +191,9 @@ class TokenCollection {
 
         if ($this->tokenIdFilter !== null) {
             $query    .= "
-				JOIN (
-					SELECT ?::int AS token_id
-				) f" . $n++ . " USING (token_id)";
+                JOIN (
+                    SELECT ?::int AS token_id
+                ) f" . $n++ . " USING (token_id)";
             $params[] = $this->tokenIdFilter;
         }
 
@@ -215,40 +215,44 @@ class TokenCollection {
             }
 
             $query .= "
-				JOIN (
-					SELECT document_id, token_id, COALESCE(o.value, v.value) AS v$n
-					FROM 
-						orig_values o
-						LEFT JOIN (
-							SELECT 
-								document_id, property_xpath, token_id,
-								first_value(value) OVER (PARTITION BY document_id, property_xpath, token_id ORDER BY date DESC) AS value
-							FROM values
-							ORDER BY date DESC
-						) v USING (document_id, property_xpath, token_id)
+                JOIN (
+                    SELECT document_id, token_id, COALESCE(v.value, o.value) AS v$n
+                    FROM 
+                        orig_values o
+                        LEFT JOIN (
+                            SELECT *
+                            FROM (
+                                SELECT 
+                                    document_id, property_xpath, token_id, value,
+                                    row_number() OVER (PARTITION BY document_id, property_xpath, token_id ORDER BY date DESC) AS n
+                                FROM values
+                                ORDER BY date DESC
+                            ) t
+                            WHERE n = 1
+                        ) v USING (document_id, property_xpath, token_id)
                     WHERE document_id = ? AND property_xpath = ? $where
-				) f$n USING (document_id, token_id)
+                ) f$n USING (document_id, token_id)
             ";
             $cols  .= ', v' . $n;
             $n++;
         }
-        
+
         $order = [];
-        foreach( $this->sorting as $h => $i) {
-            $order[] = 'v'. ($h + 1) . (substr($i, 0, 1) === '-' ? ' DESC' : '');
+        foreach ($this->sorting as $h => $i) {
+            $order[] = 'v' . ($h + 1) . (substr($i, 0, 1) === '-' ? ' DESC' : '');
         }
         $order[] = 'token_id';
-        $order = implode(', ', $order);
-        
-        $query  = "				
-			SELECT 
+        $order   = implode(', ', $order);
+
+        $query  = "
+            SELECT 
                 document_id, token_id 
                 $cols,
                 row_number() OVER (ORDER BY $order) AS sort
-			FROM
-				(SELECT * FROM documents_users WHERE document_id = ? AND user_id = ?) du
-				JOIN tokens USING (document_id)
-				" . $query . " 
+            FROM
+                (SELECT * FROM documents_users WHERE document_id = ? AND user_id = ?) du
+                JOIN tokens USING (document_id)
+                " . $query . " 
         ";
         $params = array_merge([$this->documentId, $this->userId], $params);
         return [$query, $params];
