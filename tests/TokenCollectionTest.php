@@ -149,6 +149,13 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2"}, {"tokenId" : "3"}, {"tokenId" : "1"}]}', $collection->getTokensOnly());
     }
 
+    public function testSortNonExisting() {
+        $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
+        $collection->setSorting(['-type', 'xxx', 'lemma']);
+        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}, {"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}, {"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "aaa", "type" : "bbb"}]}', $collection->getData());
+        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2"}, {"tokenId" : "3"}, {"tokenId" : "1"}]}', $collection->getTokensOnly());
+    }
+
     public function testFilterSort() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->addFilter('type', 'ddd');

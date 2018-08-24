@@ -239,7 +239,11 @@ class TokenCollection {
 
         $order = [];
         foreach ($this->sorting as $h => $i) {
-            $order[] = 'v' . ($h + 1) . (substr($i, 0, 1) === '-' ? ' DESC' : '');
+            $dir = substr($i, 0, 1) === '-' ? ' DESC' : '';
+            $i = substr($i, 0, 1) === '-' ? substr($i, 1) : $i;
+            if (isset($propDict[$i])) {
+                $order[] = 'v' . (count($order) + 1) . $dir;
+            }
         }
         $order[] = 'token_id';
         $order   = implode(', ', $order);
