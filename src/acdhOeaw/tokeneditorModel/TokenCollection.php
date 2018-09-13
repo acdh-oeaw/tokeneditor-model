@@ -157,13 +157,18 @@ class TokenCollection {
 
     public function getStats(string $propxpath = '@state'): string {
         $queryStr = "
-            SELECT json_agg(stats)
+		SELECT json_agg(stats)
             FROM (
                 SELECT json_build_object('value', value, 'count', count) AS stats
                 FROM (
                     SELECT value, count(*) AS count
-                    FROM values 
-                    WHERE document_id = ? AND property_xpath = ? 
+                    FROM (
+                        SELECT document_id, property_xpath, token_id, value, 
+                          row_number() OVER (PARTITION BY document_id, property_xpath, token_id ORDER BY date DESC) AS n
+                            FROM 
+                                values) a
+                    where n = 1 and 
+                    document_id = ? AND property_xpath = ?
                     GROUP BY value
                     ORDER BY value
                 ) t
