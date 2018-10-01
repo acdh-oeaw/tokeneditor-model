@@ -1,7 +1,7 @@
 CREATE TABLE roles (
     role text not null primary key
 );
-INSERT INTO roles VALUES ('owner'), ('editor'), ('none');
+INSERT INTO roles VALUES ('owner'), ('editor'), ('viewer'), ('none');
 
 CREATE TABLE users (
 	user_id text not null primary key,

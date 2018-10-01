@@ -39,6 +39,7 @@ use stdClass;
 class User {
 
     const ROLE_NONE   = 'none';
+    const ROLE_VIEWER = 'viewer';
     const ROLE_EDITOR = 'editor';
     const ROLE_OWNER  = 'owner';
 
@@ -86,7 +87,7 @@ class User {
     public function isOwner(string $userId): bool {
         try {
             $user = $this->getUser($userId);
-            return $user->role === 'owner';
+            return $user->role === self::ROLE_OWNER;
         } catch (BadMethodCallException $ex) {
             return false;
         }
@@ -100,7 +101,25 @@ class User {
      * @return bool
      */
     public function isEditor(string $userId, bool $strict = false): bool {
-        $matches = $strict ? ['editor'] : ['editor', 'owner'];
+        $matches = $strict ? [self::ROLE_EDITOR] : [self::ROLE_EDITOR, self::ROLE_OWNER];
+        try {
+            $user = $this->getUser($userId);
+            return in_array($user->role, $matches);
+        } catch (BadMethodCallException $ex) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if a given user has (at least) viewer rights.
+     * @param string $userId
+     * @param bool $strict when `true` it is checked if a given user is a viewer,
+     *   when `false` it is checked if a given user has at least viewer rights
+     * @return bool
+     */
+    public function isViewer(string $userId, bool $strict = false): bool {
+        $matches = $strict ? [self::ROLE_VIEWER] : [self::ROLE_VIEWER, self::ROLE_EDITOR,
+            self::ROLE_OWNER];
         try {
             $user = $this->getUser($userId);
             return in_array($user->role, $matches);
@@ -118,7 +137,8 @@ class User {
      * @param string $name optional alias for the $userId
      */
     public function setRole(string $userId, string $role, string $name = null) {
-        if (!in_array($role, [self::ROLE_NONE, self::ROLE_EDITOR, self::ROLE_OWNER])) {
+        if (!in_array($role, [self::ROLE_NONE, self::ROLE_VIEWER, self::ROLE_EDITOR,
+                self::ROLE_OWNER])) {
             throw new BadMethodCallException('Bad role parameter value', 400);
         }
 
