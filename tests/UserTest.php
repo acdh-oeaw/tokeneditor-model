@@ -99,15 +99,15 @@ class UserTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(true, $u->isViewer('ccc'));
         $this->assertEquals(true, $u->isViewer('ccc', true));
         
-        $u->setRole('aaa', User::ROLE_NONE, 'zzz');
-        $aaa2 = (object) ['userId' => 'aaa', 'role' => USER::ROLE_NONE, 'name' => 'zzz'];
-        $this->assertEquals([$aaa2, $bbb, $ccc], $u->getUsers());
-        $this->assertEquals($aaa2, $u->getUser('aaa'));
-        $this->assertEquals(false, $u->isOwner('aaa'));
-        $this->assertEquals(false, $u->isEditor('aaa'));
-        $this->assertEquals(false, $u->isEditor('aaa', true));
-        $this->assertEquals(false, $u->isViewer('aaa'));
-        $this->assertEquals(false, $u->isViewer('aaa', true));
+        $u->setRole('bbb', User::ROLE_NONE, 'zzz');
+        $bbb2 = (object) ['userId' => 'bbb', 'role' => USER::ROLE_NONE, 'name' => 'zzz'];
+        $this->assertEquals([$aaa, $bbb2, $ccc], $u->getUsers());
+        $this->assertEquals($bbb2, $u->getUser('bbb'));
+        $this->assertEquals(false, $u->isOwner('bbb'));
+        $this->assertEquals(false, $u->isEditor('bbb'));
+        $this->assertEquals(false, $u->isEditor('bbb', true));
+        $this->assertEquals(false, $u->isViewer('bbb'));
+        $this->assertEquals(false, $u->isViewer('bbb', true));
 
         $this->assertEquals(false, $u->isOwner('unknownUser'));
         $this->assertEquals(false, $u->isEditor('unknownUser'));

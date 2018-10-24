@@ -44,6 +44,7 @@ RES;
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0"><!--sample comment--><teiHeader><fileDesc><titleStmt><title>testtext</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc/></fileDesc></teiHeader><text><body><w xmlns="http://www.tei-c.org/ns/1.0" id="w1" lemma="Hello">Hello<type>NE<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>bbb</string></f></fs></type><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>aaa</string></f></fs></w><w xmlns="http://www.tei-c.org/ns/1.0" id="w2" lemma="World">World<type>NN<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>ddd</string></f></fs></type><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>ccc</string></f></fs></w><w xmlns="http://www.tei-c.org/ns/1.0" id="w3" lemma="!">!<type>$.<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>fff</string></f></fs></type><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>eee</string></f></fs></w></body></text></TEI>
 RES;
+    static private $date;
     private $docsToClean         = array();
 
     static public function setUpBeforeClass() {
@@ -53,7 +54,8 @@ RES;
         self::$pdo->query("TRUNCATE documents CASCADE");
         self::$pdo->query("TRUNCATE users CASCADE");
         self::$pdo->query("INSERT INTO users VALUES ('test')");
-        self::$validFull = str_replace('%DATE', date('Y-m-d'), self::$validFull);
+        self::$date      = self::$pdo->query("SELECT now()::date")->fetchColumn();
+        self::$validFull = str_replace('%DATE', self::$date, self::$validFull);
     }
 
     public static function tearDownAfterClass() {
@@ -124,8 +126,7 @@ RES;
         $doc    = new Document(self::$pdo);
         $doc->loadDb($docId);
         $result = trim($doc->export());
-        $date   = date('Y-m-d');
-        $result = preg_replace('/<string>' . $date . '[0-9 :.]+/', '<string>' . $date, $result);
+        $result = preg_replace('/<string>' . self::$date . '[0-9 :.]+/', '<string>' . self::$date, $result);
         $this->assertEquals(trim(self::$validFull), $result);
     }
 
@@ -220,4 +221,5 @@ RES;
 3,!<type>$.</type>,,fff
 ', file_get_contents($file));
     }
+
 }
