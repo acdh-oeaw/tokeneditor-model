@@ -57,7 +57,6 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
 			INSERT INTO values (document_id, property_xpath, token_id, user_id, value, date) 
 			SELECT document_id, property_xpath, token_id, 'test', ?, now() FROM orig_values WHERE document_id = ? AND property_xpath = ? AND token_id = ?
 		");
-        $query->execute(array('aaa', self::$docId, '@lemma', 1));
         $query->execute(array('bbb', self::$docId, './tei:type', 1));
         $query->execute(array('ccc', self::$docId, '@lemma', 2));
         $query->execute(array('ddd', self::$docId, './tei:type', 2));
@@ -88,18 +87,29 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
 
     public function testGetStats() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
-
-        $this->assertEquals($collection->getStats('@lemma'), '[{"value" : "aaa", "count" : 1}, {"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}]');
-
-        // getStats() doesn't skips filters
-        $collection->setTokenIdFilter(2);
-        $collection->addFilter('@lemma', 'fff');
-        $this->assertEquals('[{"value" : "aaa", "count" : 1}, {"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}]', $collection->getStats('@lemma'));
+        $this->assertEquals($collection->getStats('lemma'), '[{"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}, {"value" : "Hello", "count" : 1}]');
     }
-
+    public function testGetStatsFilter() {
+        $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
+        $collection->setTokenIdFilter(2);
+        $collection->addFilter('type', 'ddd');
+        $this->assertEquals('[{"value" : "ccc", "count" : 1}]', $collection->getStats('lemma'));
+    }
+    public function testGetStatsNoHits() {
+        $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
+        $collection->setTokenIdFilter(2);
+        $collection->addFilter('type', 'xxx');
+        $this->assertEquals('[]', $collection->getStats('lemma'));
+    }
+    public function testGetStatsWrongProp() {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unknown property @lemma');
+        $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
+        $collection->getStats('@lemma');
+    }
     public function testNoFilters() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
-        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "aaa", "type" : "bbb"}, {"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}, {"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}]}', $collection->getData());
+        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "Hello", "type" : "bbb"}, {"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}, {"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}]}', $collection->getData());
         $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "1"}, {"tokenId" : "2"}, {"tokenId" : "3"}]}', $collection->getTokensOnly());
     }
 
@@ -145,14 +155,14 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
     public function testSort() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->setSorting(['-type', 'lemma']);
-        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}, {"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}, {"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "aaa", "type" : "bbb"}]}', $collection->getData());
+        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}, {"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}, {"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "Hello", "type" : "bbb"}]}', $collection->getData());
         $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2"}, {"tokenId" : "3"}, {"tokenId" : "1"}]}', $collection->getTokensOnly());
     }
 
     public function testSortNonExisting() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->setSorting(['-type', 'xxx', 'lemma']);
-        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}, {"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}, {"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "aaa", "type" : "bbb"}]}', $collection->getData());
+        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}, {"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}, {"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "Hello", "type" : "bbb"}]}', $collection->getData());
         $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2"}, {"tokenId" : "3"}, {"tokenId" : "1"}]}', $collection->getTokensOnly());
     }
 

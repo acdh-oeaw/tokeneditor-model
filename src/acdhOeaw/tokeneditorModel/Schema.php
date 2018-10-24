@@ -76,7 +76,7 @@ class Schema implements \IteratorAggregate {
                 throw new \LengthException('exactly one tokenValueXPath has to be provided');
             }
             // convert old-style schema to new format
-            $this->properties[] = Property::factory($n++, 'token', (string) $dom->tokenValueXPath[0], 'free text', true);
+            $this->properties[] = Property::factory($n++, 'token', (string) $dom->tokenValueXPath[0], 'free text', true, false);
         }
 
         if (

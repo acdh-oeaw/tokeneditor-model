@@ -26,6 +26,7 @@
 
 namespace acdhOeaw\tokeneditorModel;
 
+use InvalidArgumentException;
 use PDO;
 
 class TokenCollection {
@@ -38,13 +39,20 @@ class TokenCollection {
     private $documentId;
     private $userId;
     private $tokenIdFilter;
-    private $filters = [];
-    private $sorting = [];
+    private $filters  = [];
+    private $sorting  = [];
+    private $propDict = [];
 
     public function __construct(PDO $pdo, int $documentId, string $userId) {
         $this->pdo        = $pdo;
         $this->documentId = $documentId;
         $this->userId     = $userId;
+
+        $query    = $this->pdo->prepare("SELECT property_xpath, name FROM properties WHERE document_id = ?");
+        $query->execute([$this->documentId]);
+        while ($prop     = $query->fetch(PDO::FETCH_OBJ)) {
+            $this->propDict[$prop->name] = $prop->property_xpath;
+        }
     }
 
     public function setTokenIdFilter(int $id) {
@@ -53,7 +61,7 @@ class TokenCollection {
 
     /**
      * 
-     * @param type $prop property xpath
+     * @param type $prop property name
      * @param type $val filter value
      */
     public function addFilter(string $prop, string $val) {
@@ -155,41 +163,58 @@ class TokenCollection {
         return $result ? $result : '[]';
     }
 
-    public function getStats(string $propxpath = '@state'): string {
+    /**
+     * Returns given property values frequencies.
+     * 
+     * Honors filters.
+     * 
+     * Values are ordered descending by count.
+     * 
+     * Returned data are serialized to a JSON string.
+     * @param string $prop property name
+     * @return string
+     */
+    public function getStats(string $prop): string {
+        if (!isset($this->propDict[$prop])) {
+            throw new InvalidArgumentException('Unknown property ' . $prop);
+        }
+        
+        list($filterQuery, $filterParam) = $this->getFilters();
         $queryStr = "
-		SELECT json_agg(stats)
-            FROM (
-                SELECT json_build_object('value', value, 'count', count) AS stats
-                FROM (
-                    SELECT value, count(*) AS count
-                    FROM (
-                        SELECT document_id, property_xpath, token_id, value, 
-                          row_number() OVER (PARTITION BY document_id, property_xpath, token_id ORDER BY date DESC) AS n
+            WITH filter AS (" . $filterQuery . ")
+            SELECT json_agg(json_build_object('value', value, 'count', count))
+            FROM ( 
+                SELECT 
+                    coalesce(cv.value, v.value) AS value, 
+                    count(*) AS count
+                FROM
+                    filter
+                    JOIN orig_values v USING (document_id, token_id) 
+                    LEFT JOIN (
+                        SELECT *
+                        FROM (
+                            SELECT 
+                                document_id, property_xpath, token_id, value, 
+                                row_number() OVER (PARTITION BY document_id, property_xpath, token_id ORDER BY date DESC) AS n
                             FROM 
-                                values) a
-                    where n = 1 and 
-                    document_id = ? AND property_xpath = ?
-                    GROUP BY value
-                    ORDER BY value
-                ) t
-            ) AS stats
+                                values
+                        ) t
+                        WHERE n = 1
+                    ) cv USING (document_id, property_xpath, token_id)
+                WHERE property_xpath = ?
+                GROUP BY 1
+                ORDER BY count DESC, value
+            ) t
         ";
+        $param    = array_merge($filterParam, [$this->propDict[$prop]]);
         $query    = $this->pdo->prepare($queryStr);
-        $params   = [$this->documentId, $propxpath];
-        $query->execute($params);
+        $query->execute($param);
         $result   = $query->fetch(PDO::FETCH_COLUMN);
 
         return $result ? $result : '[]';
     }
 
     private function getFilters() {
-        $query    = $this->pdo->prepare("SELECT property_xpath, name FROM properties WHERE document_id = ?");
-        $query->execute([$this->documentId]);
-        $propDict = [];
-        while ($prop     = $query->fetch(PDO::FETCH_OBJ)) {
-            $propDict[$prop->name] = $prop->property_xpath;
-        }
-
         $query  = "";
         $n      = 1;
         $params = [];
@@ -206,12 +231,12 @@ class TokenCollection {
         $props = $this->skipSortDir($this->sorting);
         $props = array_merge($props, array_diff(array_keys($this->filters), $props));
         foreach ($props as $prop) {
-            if (!isset($propDict[$prop])) {
+            if (!isset($this->propDict[$prop])) {
                 continue;
             }
 
             $params[] = $this->documentId;
-            $params[] = $propDict[$prop];
+            $params[] = $this->propDict[$prop];
 
             $where = '';
             if (isset($this->filters[$prop])) {
@@ -245,8 +270,8 @@ class TokenCollection {
         $order = [];
         foreach ($this->sorting as $h => $i) {
             $dir = substr($i, 0, 1) === '-' ? ' DESC' : '';
-            $i = substr($i, 0, 1) === '-' ? substr($i, 1) : $i;
-            if (isset($propDict[$i])) {
+            $i   = substr($i, 0, 1) === '-' ? substr($i, 1) : $i;
+            if (isset($this->propDict[$i])) {
                 $order[] = 'v' . (count($order) + 1) . $dir;
             }
         }

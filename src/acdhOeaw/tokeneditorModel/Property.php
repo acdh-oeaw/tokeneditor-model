@@ -38,7 +38,7 @@ use SimpleXMLElement;
 class Property {
 
     static public function factory(int $ord, string $name, string $xpath,
-                                   string $type, bool $readOnly,
+                                   string $type, bool $readOnly, bool $optional,
                                    array $values = []): Property {
         $xml       = "
             <property>
@@ -47,9 +47,11 @@ class Property {
                 <propertyType>%s</propertyType>
                 %s
                 %s
+                %s
             </property>
         ";
         $readOnly  = $readOnly ? '<readOnly/>' : '';
+        $optional  = $optional ? '<optional/>' : '';
         $valuesXml = '';
         if (count($values) > 0) {
             $valuesXml = '<propertyValues>';
@@ -58,7 +60,7 @@ class Property {
             }
             $valuesXml .= '</propertyValues>';
         }
-        $xml = sprintf($xml, htmlspecialchars($name), htmlspecialchars($xpath), htmlspecialchars($type), $readOnly, $valuesXml);
+        $xml = sprintf($xml, htmlspecialchars($name), htmlspecialchars($xpath), htmlspecialchars($type), $readOnly, $optional, $valuesXml);
         $el  = new SimpleXMLElement($xml);
         return new Property($el, $ord);
     }
@@ -68,6 +70,7 @@ class Property {
     private $name;
     private $ord;
     private $readOnly = false;
+    private $optional = false;
     private $values   = [];
 
     /**
@@ -93,7 +96,8 @@ class Property {
             throw new LengthException('exactly one propertyName has to be provided');
         }
         $this->name = (string) $xml->propertyName;
-        if (in_array($this->name, ['token_id', '_offset', '_pagesize', '_docid', '_order'])) {
+        if (in_array($this->name, ['token_id', '_offset', '_pagesize', '_docid',
+                '_order'])) {
             throw new \RuntimeException('property uses a reserved name');
         }
 
@@ -105,6 +109,10 @@ class Property {
 
         if (isset($xml->readOnly)) {
             $this->readOnly = true;
+        }
+
+        if (isset($xml->optional)) {
+            $this->optional = true;
         }
     }
 
@@ -150,6 +158,14 @@ class Property {
 
     /**
      * 
+     * @return bool
+     */
+    public function getOptional() {
+        return $this->optional;
+    }
+    
+    /**
+     * 
      * @return array
      */
     public function getValues() {
@@ -162,9 +178,9 @@ class Property {
      * @param integer $documentId
      */
     public function save(PDO $pdo, int $documentId) {
-        $query = $pdo->prepare("INSERT INTO properties (document_id, property_xpath, type_id, name, ord, read_only) VALUES (?, ?, ?, ?, ?, ?)");
+        $query = $pdo->prepare("INSERT INTO properties (document_id, property_xpath, type_id, name, read_only, optional, ord) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $query->execute([$documentId, $this->xpath, $this->type, $this->name,
-            $this->ord, (int) $this->readOnly]);
+            (int) $this->readOnly, (int) $this->optional, $this->ord]);
 
         $query = $pdo->prepare("INSERT INTO dict_values (document_id, property_xpath, value) VALUES (?, ?, ?)");
         foreach ($this->values as $v) {

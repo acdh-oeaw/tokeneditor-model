@@ -79,11 +79,11 @@ class Token {
         foreach ($this->document->getSchema() as $prop) {
             try {
                 $value = $xpath->query($prop->getXPath(), $this->dom);
-                if ($value->length !== 1) {
+                if ($value->length === 1) {
+                    $this->properties[$prop->getXPath()] = $value->item(0);
+                } else if ($value->length !== 0 || !$prop->getOptional()) {
                     throw new \LengthException('property not found or many properties found');
                 }
-
-                $this->properties[$prop->getXPath()] = $value->item(0);
             } catch (\LengthException $e) {
                 $this->invalidProperties[$prop->getXPath()] = $e->getMessage();
             }
@@ -190,7 +190,8 @@ class Token {
             if ($userValue) {
                 $values[] = $userValue->value;
             } else {
-                self::$origValuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
+                self::$origValuesQuery->execute([$this->document->getId(), $xpath,
+                    $this->tokenId]);
                 $values[] = self::$origValuesQuery->fetch(\PDO::FETCH_OBJ)->value;
             }
         }

@@ -34,8 +34,8 @@ namespace acdhOeaw\tokeneditorModel;
 class PropertyTest extends \PHPUnit\Framework\TestCase {
 
     public function testFactory() {
-        $p = Property::factory(1, 'test name', '.', 'test type', true, ['a', 'b',
-                'c']);
+        $p = Property::factory(1, 'test name', '.', 'test type', true, true, ['a',
+                'b', 'c']);
         $this->assertEquals('test name', $p->getName());
         $this->assertEquals('.', $p->getXPath());
     }
@@ -151,7 +151,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
             </property>
         ";
         $el  = new \SimpleXMLElement($xml);
-        $p = new Property($el, 0);
+        $p   = new Property($el, 0);
         $this->assertEquals('test name', $p->getName());
         $this->assertEquals('.', $p->getXPath());
         $this->assertEquals('test type', $p->getType());
@@ -159,4 +159,5 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(0, $p->getOrd());
         $this->assertEquals(['a', 'b'], $p->getValues());
     }
+
 }
