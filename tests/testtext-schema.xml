@@ -14,12 +14,12 @@
             <propertyXPath>@lemma</propertyXPath>
             <propertyType>free text</propertyType>
             <readOnly/>
+            <optional/>
         </property>
         <property>
             <propertyName>type</propertyName>
             <propertyXPath>./tei:type</propertyXPath>
             <propertyType>closed list</propertyType>
-            <optional/>
             <propertyValues>
                 <value>$.</value>
                 <value>NN</value>

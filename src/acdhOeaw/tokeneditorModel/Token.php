@@ -83,6 +83,8 @@ class Token {
                     $this->properties[$prop->getXPath()] = $value->item(0);
                 } else if ($value->length !== 0 || !$prop->getOptional()) {
                     throw new \LengthException('property not found or many properties found');
+                } else {
+                    $this->properties[$prop->getXPath()] = null;
                 }
             } catch (\LengthException $e) {
                 $this->invalidProperties[$prop->getXPath()] = $e->getMessage();
@@ -119,7 +121,7 @@ class Token {
         $query->execute([$docId, $this->tokenId]);
 
         $query = $pdo->prepare("INSERT INTO orig_values (document_id, token_id, property_xpath, value) VALUES (?, ?, ?, ?)");
-        foreach ($this->properties as $xpath => $prop) {
+        foreach ($this->getValidProperties() as $xpath => $prop) {
             $value = '';
             if ($prop) {
                 $value = isset($prop->value) ? $prop->value : $this->innerXml($prop);
@@ -135,7 +137,7 @@ class Token {
     public function update() {
         $this->checkValuesQuery();
 
-        foreach ($this->properties as $xpath => $prop) {
+        foreach ($this->getValidProperties() as $xpath => $prop) {
             self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
             $value = self::$valuesQuery->fetch(\PDO::FETCH_OBJ);
             if ($value !== false) {
@@ -157,7 +159,7 @@ class Token {
     public function enrich() {
         $this->checkValuesQuery();
 
-        foreach ($this->properties as $xpath => $prop) {
+        foreach ($this->getValidProperties() as $xpath => $prop) {
             self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
             while ($value = self::$valuesQuery->fetch(\PDO::FETCH_OBJ)) {
                 $user = $this->createTeiFeature('user', $value->user_id);
@@ -185,14 +187,18 @@ class Token {
 
         $values = [$this->tokenId];
         foreach ($this->properties as $xpath => $prop) {
-            self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
-            $userValue = self::$valuesQuery->fetch(\PDO::FETCH_OBJ);
-            if ($userValue) {
-                $values[] = $userValue->value;
+            if ($prop === null) {
+                $values[] = '';
             } else {
-                self::$origValuesQuery->execute([$this->document->getId(), $xpath,
-                    $this->tokenId]);
-                $values[] = self::$origValuesQuery->fetch(\PDO::FETCH_OBJ)->value;
+                self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
+                $userValue = self::$valuesQuery->fetch(\PDO::FETCH_OBJ);
+                if ($userValue) {
+                    $values[] = $userValue->value;
+                } else {
+                    self::$origValuesQuery->execute([$this->document->getId(), $xpath,
+                        $this->tokenId]);
+                    $values[] = self::$origValuesQuery->fetch(\PDO::FETCH_OBJ)->value;
+                }
             }
         }
         fputcsv($csvFile, $values, $delimiter);
@@ -270,6 +276,20 @@ class Token {
         $f->appendChild($v);
 
         return $f;
+    }
+
+    /**
+     * Returns array of properties without missing optional properties.
+     * @return array
+     */
+    private function getValidProperties(): array {
+        $r = [];
+        foreach ($this->properties as $k => $v) {
+            if ($v !== null) {
+                $r[$k] = $v;
+            }
+        }
+        return $r;
     }
 
 }

@@ -119,7 +119,7 @@ class Schema implements \IteratorAggregate {
         $schema .= '<tokenXPath>' . htmlspecialchars($data->token_xpath) . '</tokenXPath>';
 
         $schema      .= '<properties>';
-        $query       = $this->pdo->prepare("SELECT property_xpath, type_id, name, read_only FROM properties WHERE document_id = ? ORDER BY ord");
+        $query       = $this->pdo->prepare("SELECT property_xpath, type_id, name, read_only, optional FROM properties WHERE document_id = ? ORDER BY ord");
         $valuesQuery = $this->pdo->prepare("SELECT value FROM dict_values WHERE (document_id, property_xpath) = (?, ?)");
         $query->execute([$this->documentId]);
         while ($prop        = $query->fetch(PDO::FETCH_OBJ)) {
@@ -130,6 +130,9 @@ class Schema implements \IteratorAggregate {
 
             if ($prop->read_only) {
                 $schema .= '<readOnly/>';
+            }
+            if ($prop->optional) {
+                $schema .= '<optional/>';
             }
 
             $valuesQuery->execute([$this->documentId, $prop->property_xpath]);

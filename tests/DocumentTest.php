@@ -84,7 +84,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
         $this->expectExceptionMessage("at least one property wasn't found");
         $d   = new Document(self::$pdo);
         $xml = file_get_contents(__DIR__ . '/testtext.xml');
-        $xml = str_replace(' lemma="World"', '', $xml);
+        $xml = str_replace('<type>NN</type>', '', $xml);
         file_put_contents(self::$saveDir . '/tmp.xml', $xml);
         $d->loadFile(self::$saveDir . '/tmp.xml', 'tests/testtext-schema.xml', 'test');
         $d->save(self::$saveDir);
@@ -93,7 +93,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
     public function testOptionalPropertiesMissingInData() {
         $d   = new Document(self::$pdo);
         $xml = file_get_contents(__DIR__ . '/testtext.xml');
-        $xml = str_replace('<type>NN</type>', '', $xml);
+        $xml = str_replace('lemma="World"', '', $xml);
         file_put_contents(self::$saveDir . '/tmp.xml', $xml);
         $d->loadFile(self::$saveDir . '/tmp.xml', 'tests/testtext-schema.xml', 'test doc');
         $d->save(self::$saveDir);

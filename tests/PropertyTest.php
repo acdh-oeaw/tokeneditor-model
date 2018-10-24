@@ -144,6 +144,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
                 <propertyName>test name</propertyName>
                 <propertyXPath>.</propertyXPath>
                 <propertyType>test type</propertyType>
+                <readOnly/>
                 <propertyValues>
                     <value>a</value>
                     <value>b</value>
@@ -155,9 +156,28 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('test name', $p->getName());
         $this->assertEquals('.', $p->getXPath());
         $this->assertEquals('test type', $p->getType());
-        $this->assertEquals(false, $p->getReadOnly());
+        $this->assertEquals(true, $p->getReadOnly());
+        $this->assertEquals(false, $p->getOptional());
         $this->assertEquals(0, $p->getOrd());
         $this->assertEquals(['a', 'b'], $p->getValues());
+        
+        $xml = "
+            <property>
+                <propertyName>test name</propertyName>
+                <propertyXPath>.</propertyXPath>
+                <propertyType>test type</propertyType>
+                <optional/>
+            </property>
+        ";
+        $el  = new \SimpleXMLElement($xml);
+        $p   = new Property($el, 0);
+        $this->assertEquals('test name', $p->getName());
+        $this->assertEquals('.', $p->getXPath());
+        $this->assertEquals('test type', $p->getType());
+        $this->assertEquals(false, $p->getReadOnly());
+        $this->assertEquals(true, $p->getOptional());
+        $this->assertEquals(0, $p->getOrd());
+        $this->assertEquals([], $p->getValues());
     }
 
 }

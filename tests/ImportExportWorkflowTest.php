@@ -89,10 +89,10 @@ RES;
         $query->execute(array('fff', $docId, './tei:type', 3));
     }
 
-    protected function checkImport($docId) {
+    protected function checkImport(int $docId, int $count = 9) {
         $query = self::$pdo->prepare("SELECT count(*) FROM orig_values WHERE document_id = ?");
         $query->execute(array($docId));
-        $this->assertEquals(9, $query->fetch(\PDO::FETCH_COLUMN));
+        $this->assertEquals($count, $query->fetch(\PDO::FETCH_COLUMN));
     }
 
     public function testDefaultInPlace() {
@@ -199,4 +199,25 @@ RES;
 ', file_get_contents($file));
     }
 
+    public function testCsvExportOptional() {
+        $doc                 = new Document(self::$pdo);
+        $doc->loadFile('tests/testtext_optional.xml', 'tests/testtext-schema.xml', 'test');
+        $doc->save(self::$saveDir);
+        $docId               = $doc->getId();
+        $this->docsToClean[] = $docId;
+
+        $this->checkImport($docId, 8);
+        $this->insertValues($docId);
+
+        $doc                 = new Document(self::$pdo);
+        $doc->loadDb($docId);
+        $this->docsToClean[] = 'csv';
+        $file                = self::$saveDir . '/csv.xml';
+        $doc->exportCsv($file);
+        $this->assertEquals('tokenId,token,lemma,type
+1,Hello<type>NE</type>,aaa,bbb
+2,World<type>NN</type>,ccc,ddd
+3,!<type>$.</type>,,fff
+', file_get_contents($file));
+    }
 }

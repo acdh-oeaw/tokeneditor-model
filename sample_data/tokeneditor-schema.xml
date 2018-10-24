@@ -12,12 +12,14 @@
         <property>
             <propertyName>morph</propertyName>
             <propertyXPath>@morph</propertyXPath>
-            <propertyType>free text</propertyType>
+	    <propertyType>free text</propertyType>
+            <optional/>
         </property>
         <property>
             <propertyName>state</propertyName>
             <propertyXPath>@state</propertyXPath>
-            <propertyType>free text</propertyType>
+	    <propertyType>free text</propertyType>
+            <optional/>
         </property>
         <property>
             <propertyName>lemma</propertyName>
