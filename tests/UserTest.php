@@ -76,6 +76,8 @@ class UserTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(true, $u->isOwner('aaa'));
         $this->assertEquals(true, $u->isEditor('aaa'));
         $this->assertEquals(false, $u->isEditor('aaa', true));
+        $this->assertEquals(true, $u->isViewer('aaa'));
+        $this->assertEquals(false, $u->isViewer('aaa', true));
 
         $u->setRole('bbb', User::ROLE_EDITOR);
         $bbb = (object) ['userId' => 'bbb', 'role' => USER::ROLE_EDITOR, 'name' => null];
@@ -84,17 +86,32 @@ class UserTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(false, $u->isOwner('bbb'));
         $this->assertEquals(true, $u->isEditor('bbb'));
         $this->assertEquals(true, $u->isEditor('bbb', true));
+        $this->assertEquals(true, $u->isViewer('bbb'));
+        $this->assertEquals(false, $u->isViewer('bbb', true));
 
-        $u->setRole('bbb', User::ROLE_NONE, 'xxx');
-        $bbb = (object) ['userId' => 'bbb', 'role' => USER::ROLE_NONE, 'name' => 'xxx'];
-        $this->assertEquals([$aaa, $bbb], $u->getUsers());
-        $this->assertEquals($bbb, $u->getUser('bbb'));
-        $this->assertEquals(false, $u->isOwner('bbb'));
-        $this->assertEquals(false, $u->isEditor('bbb'));
-        $this->assertEquals(false, $u->isEditor('bbb', true));
+        $u->setRole('ccc', User::ROLE_VIEWER, 'xxx');
+        $ccc = (object) ['userId' => 'ccc', 'role' => USER::ROLE_VIEWER, 'name' => 'xxx'];
+        $this->assertEquals([$aaa, $bbb, $ccc], $u->getUsers());
+        $this->assertEquals($ccc, $u->getUser('ccc'));
+        $this->assertEquals(false, $u->isOwner('ccc'));
+        $this->assertEquals(false, $u->isEditor('ccc'));
+        $this->assertEquals(false, $u->isEditor('ccc', true));
+        $this->assertEquals(true, $u->isViewer('ccc'));
+        $this->assertEquals(true, $u->isViewer('ccc', true));
+        
+        $u->setRole('aaa', User::ROLE_NONE, 'zzz');
+        $aaa2 = (object) ['userId' => 'aaa', 'role' => USER::ROLE_NONE, 'name' => 'zzz'];
+        $this->assertEquals([$aaa2, $bbb, $ccc], $u->getUsers());
+        $this->assertEquals($aaa2, $u->getUser('aaa'));
+        $this->assertEquals(false, $u->isOwner('aaa'));
+        $this->assertEquals(false, $u->isEditor('aaa'));
+        $this->assertEquals(false, $u->isEditor('aaa', true));
+        $this->assertEquals(false, $u->isViewer('aaa'));
+        $this->assertEquals(false, $u->isViewer('aaa', true));
 
-        $this->assertEquals(false, $u->isOwner('zzz'));
-        $this->assertEquals(false, $u->isEditor('zzz'));
+        $this->assertEquals(false, $u->isOwner('unknownUser'));
+        $this->assertEquals(false, $u->isEditor('unknownUser'));
+        $this->assertEquals(false, $u->isViewer('unknownUser'));
     }
 
     public function testAtLeastOneOwner() {
