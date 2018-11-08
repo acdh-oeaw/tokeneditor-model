@@ -89,41 +89,62 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $this->assertEquals($collection->getStats('lemma'), '[{"value" : "ccc", "count" : 1}, {"value" : "eee", "count" : 1}, {"value" : "Hello", "count" : 1}]');
     }
+
     public function testGetStatsFilter() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->setTokenIdFilter(2);
         $collection->addFilter('type', 'ddd');
         $this->assertEquals('[{"value" : "ccc", "count" : 1}]', $collection->getStats('lemma'));
     }
+
     public function testGetStatsNoHits() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->setTokenIdFilter(2);
         $collection->addFilter('type', 'xxx');
         $this->assertEquals('[]', $collection->getStats('lemma'));
     }
+
     public function testGetStatsWrongProp() {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unknown property @lemma');
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->getStats('@lemma');
     }
+
     public function testNoFilters() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
-        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "Hello", "type" : "bbb"}, {"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}, {"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}]}', $collection->getData());
+        $this->assertEquals(
+            '{"tokenCount" : 3, "data" : [' .
+            '{"tokenId" : "1", "token" : "Hello<type>NE</type><txml>a<foo:b>c</foo:b>d</txml>", "xml" : "a<foo:b>c</foo:b>d", "lemma" : "Hello", "type" : "bbb"}, ' .
+            '{"tokenId" : "2", "token" : "World<type>NN</type><txml>a<b>c</b>d</txml>", "xml" : "a<b>c</b>d", "lemma" : "ccc", "type" : "ddd"}, ' .
+            '{"tokenId" : "3", "token" : "!<type>$.</type><txml>a<b>c</b>d</txml>", "xml" : "a<b>c</b>d", "lemma" : "eee", "type" : "ddd"}' .
+            ']}',
+            $collection->getData()
+        );
         $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "1"}, {"tokenId" : "2"}, {"tokenId" : "3"}]}', $collection->getTokensOnly());
     }
 
     public function testTokenIdFilter() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->setTokenIdFilter(2);
-        $this->assertEquals($collection->getData(), '{"tokenCount" : 1, "data" : [{"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}]}');
+        $this->assertEquals(
+            '{"tokenCount" : 1, "data" : [' .
+            '{"tokenId" : "2", "token" : "World<type>NN</type><txml>a<b>c</b>d</txml>", "xml" : "a<b>c</b>d", "lemma" : "ccc", "type" : "ddd"}' .
+            ']}',
+            $collection->getData()
+        );
         $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "2"}]}', $collection->getTokensOnly());
     }
 
     public function testFilter() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->addFilter('lemma', 'eee');
-        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}]}', $collection->getData());
+        $this->assertEquals(
+            '{"tokenCount" : 1, "data" : [' .
+            '{"tokenId" : "3", "token" : "!<type>$.</type><txml>a<b>c</b>d</txml>", "xml" : "a<b>c</b>d", "lemma" : "eee", "type" : "ddd"}' .
+            ']}',
+            $collection->getData()
+        );
         $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3"}]}', $collection->getTokensOnly());
     }
 
@@ -131,7 +152,12 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->setTokenIdFilter(3);
         $collection->addFilter('type', 'ddd');
-        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}]}', $collection->getData());
+        $this->assertEquals(
+            '{"tokenCount" : 1, "data" : [' .
+            '{"tokenId" : "3", "token" : "!<type>$.</type><txml>a<b>c</b>d</txml>", "xml" : "a<b>c</b>d", "lemma" : "eee", "type" : "ddd"}' .
+            ']}',
+            $collection->getData()
+        );
         $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3"}]}', $collection->getTokensOnly());
     }
 
@@ -148,21 +174,40 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
         $collection->setTokenIdFilter(3);
         $collection->addFilter('lemma', 'eee');
         $collection->addFilter('xxx', 'eee'); // non-existent property
-        $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}]}', $collection->getData());
+        $this->assertEquals(
+            '{"tokenCount" : 1, "data" : [' .
+            '{"tokenId" : "3", "token" : "!<type>$.</type><txml>a<b>c</b>d</txml>", "xml" : "a<b>c</b>d", "lemma" : "eee", "type" : "ddd"}' .
+            ']}',
+            $collection->getData()
+        );
         $this->assertEquals('{"tokenCount" : 1, "data" : [{"tokenId" : "3"}]}', $collection->getTokensOnly());
     }
 
     public function testSort() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->setSorting(['-type', 'lemma']);
-        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}, {"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}, {"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "Hello", "type" : "bbb"}]}', $collection->getData());
-        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2"}, {"tokenId" : "3"}, {"tokenId" : "1"}]}', $collection->getTokensOnly());
+        $this->assertEquals('{"tokenCount" : 3, "data" : [' .
+            '{"tokenId" : "2", "token" : "World<type>NN</type><txml>a<b>c</b>d</txml>", "xml" : "a<b>c</b>d", "lemma" : "ccc", "type" : "ddd"}, ' .
+            '{"tokenId" : "3", "token" : "!<type>$.</type><txml>a<b>c</b>d</txml>", "xml" : "a<b>c</b>d", "lemma" : "eee", "type" : "ddd"}, ' .
+            '{"tokenId" : "1", "token" : "Hello<type>NE</type><txml>a<foo:b>c</foo:b>d</txml>", "xml" : "a<foo:b>c</foo:b>d", "lemma" : "Hello", "type" : "bbb"}' .
+            ']}',
+                            $collection->getData()
+        );
+        $this->assertEquals('{"tokenCount" : 3, "data" : [' .
+            '{"tokenId" : "2"}, {"tokenId" : "3"}, {"tokenId" : "1"}]}', $collection->getTokensOnly());
     }
 
     public function testSortNonExisting() {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->setSorting(['-type', 'xxx', 'lemma']);
-        $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}, {"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}, {"tokenId" : "1", "token" : "Hello<type>NE</type>", "lemma" : "Hello", "type" : "bbb"}]}', $collection->getData());
+        $this->assertEquals(
+            '{"tokenCount" : 3, "data" : [' .
+            '{"tokenId" : "2", "token" : "World<type>NN</type><txml>a<b>c</b>d</txml>", "xml" : "a<b>c</b>d", "lemma" : "ccc", "type" : "ddd"}, ' .
+            '{"tokenId" : "3", "token" : "!<type>$.</type><txml>a<b>c</b>d</txml>", "xml" : "a<b>c</b>d", "lemma" : "eee", "type" : "ddd"}, ' .
+            '{"tokenId" : "1", "token" : "Hello<type>NE</type><txml>a<foo:b>c</foo:b>d</txml>", "xml" : "a<foo:b>c</foo:b>d", "lemma" : "Hello", "type" : "bbb"}' .
+            ']}',
+            $collection->getData()
+        );
         $this->assertEquals('{"tokenCount" : 3, "data" : [{"tokenId" : "2"}, {"tokenId" : "3"}, {"tokenId" : "1"}]}', $collection->getTokensOnly());
     }
 
@@ -170,7 +215,13 @@ class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
         $collection = new TokenCollection(self::$pdo, self::$docId, 'test');
         $collection->addFilter('type', 'ddd');
         $collection->setSorting(['-lemma']);
-        $this->assertEquals('{"tokenCount" : 2, "data" : [{"tokenId" : "3", "token" : "!<type>$.</type>", "lemma" : "eee", "type" : "ddd"}, {"tokenId" : "2", "token" : "World<type>NN</type>", "lemma" : "ccc", "type" : "ddd"}]}', $collection->getData());
+        $this->assertEquals(
+            '{"tokenCount" : 2, "data" : [' .
+            '{"tokenId" : "3", "token" : "!<type>$.</type><txml>a<b>c</b>d</txml>", "xml" : "a<b>c</b>d", "lemma" : "eee", "type" : "ddd"}, ' .
+            '{"tokenId" : "2", "token" : "World<type>NN</type><txml>a<b>c</b>d</txml>", "xml" : "a<b>c</b>d", "lemma" : "ccc", "type" : "ddd"}' .
+            ']}',
+            $collection->getData()
+        );
         $this->assertEquals('{"tokenCount" : 2, "data" : [{"tokenId" : "3"}, {"tokenId" : "2"}]}', $collection->getTokensOnly());
     }
 

@@ -160,7 +160,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(false, $p->getOptional());
         $this->assertEquals(0, $p->getOrd());
         $this->assertEquals(['a', 'b'], $p->getValues());
-        
+
         $xml = "
             <property>
                 <propertyName>test name</propertyName>

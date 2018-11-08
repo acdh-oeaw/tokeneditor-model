@@ -114,6 +114,10 @@ class Property {
         if (isset($xml->optional)) {
             $this->optional = true;
         }
+
+        if (isset($xml->xml)) {
+            $this->xml = true;
+        }
     }
 
     /**
@@ -163,7 +167,7 @@ class Property {
     public function getOptional() {
         return $this->optional;
     }
-    
+
     /**
      * 
      * @return array
@@ -178,7 +182,10 @@ class Property {
      * @param integer $documentId
      */
     public function save(PDO $pdo, int $documentId) {
-        $query = $pdo->prepare("INSERT INTO properties (document_id, property_xpath, type_id, name, read_only, optional, ord) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $query = $pdo->prepare("
+            INSERT INTO properties (document_id, property_xpath, type_id, name, read_only, optional, ord) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ");
         $query->execute([$documentId, $this->xpath, $this->type, $this->name,
             (int) $this->readOnly, (int) $this->optional, $this->ord]);
 

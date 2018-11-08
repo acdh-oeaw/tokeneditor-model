@@ -10,6 +10,11 @@
     <tokenValueXPath>.</tokenValueXPath>
     <properties>
         <property>
+            <propertyName>xml</propertyName>
+            <propertyXPath>./tei:txml</propertyXPath>
+            <propertyType>xml</propertyType>
+        </property>
+        <property>
             <propertyName>lemma</propertyName>
             <propertyXPath>@lemma</propertyXPath>
             <propertyType>free text</propertyType>

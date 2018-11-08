@@ -59,6 +59,7 @@ class Token {
     private $tokenId;
     private $properties        = [];
     private $invalidProperties = [];
+    private $xpath;
 
     /**
      * 
@@ -71,16 +72,19 @@ class Token {
         $this->document = $document;
         $this->tokenId  = $this->document->generateTokenId();
 
-        $xpath = new \DOMXPath($dom->ownerDocument);
+        $this->xpath = new \DOMXPath($dom->ownerDocument);
         foreach ($this->document->getSchema()->getNs() as $prefix => $ns) {
-            $xpath->registerNamespace($prefix, $ns);
+            $this->xpath->registerNamespace($prefix, $ns);
         }
 
         foreach ($this->document->getSchema() as $prop) {
             try {
-                $value = $xpath->query($prop->getXPath(), $this->dom);
+                $value = $this->xpath->query($prop->getXPath(), $this->dom);
                 if ($value->length === 1) {
-                    $this->properties[$prop->getXPath()] = $value->item(0);
+                    $this->properties[$prop->getXPath()] = (object) [
+                            'prop' => $prop,
+                            'node' => $value->item(0)
+                    ];
                 } else if ($value->length !== 0 || !$prop->getOptional()) {
                     throw new \LengthException('property not found or many properties found');
                 } else {
@@ -124,7 +128,7 @@ class Token {
         foreach ($this->getValidProperties() as $xpath => $prop) {
             $value = '';
             if ($prop) {
-                $value = isset($prop->value) ? $prop->value : $this->innerXml($prop);
+                $value = isset($prop->node->value) ? $prop->node->value : $this->innerXml($prop->node);
             }
             $query->execute([$docId, $this->tokenId, $xpath, $value]);
         }
@@ -141,10 +145,12 @@ class Token {
             self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
             $value = self::$valuesQuery->fetch(\PDO::FETCH_OBJ);
             if ($value !== false) {
-                if (isset($prop->value)) {
-                    $prop->value = $value->value;
+                if (isset($prop->node->value)) {
+                    $prop->node->value = $value->value;
+                } else if ($prop->prop->getType() === 'xml') {
+                    $this->replaceNodeWithXml($prop->node, $value->value);
                 } else {
-                    $prop->nodeValue = $value->value;
+                    $prop->node->nodeValue = $value->value;
                 }
             }
         }
@@ -161,20 +167,21 @@ class Token {
 
         foreach ($this->getValidProperties() as $xpath => $prop) {
             self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
+            $node  = $prop->node;
             while ($value = self::$valuesQuery->fetch(\PDO::FETCH_OBJ)) {
-                $user = $this->createTeiFeature('user', $value->user_id);
-                $date = $this->createTeiFeature('date', $value->date);
-                $xpth = $this->createTeiFeature('property_xpath', $xpath);
-                $val  = $this->createTeiFeature('value', $value->value);
+                $user = $this->createTeiFeature($node, $value->user_id, 'user');
+                $date = $this->createTeiFeature($node, $value->date, 'date');
+                $xpth = $this->createTeiFeature($node, $xpath, 'property_xpath');
+                $val  = $this->createTeiFeature($node, $value->value, 'value', $prop->prop->getType() === 'xml');
                 $fs   = $this->createTeiFeatureSet();
                 $fs->appendChild($user);
                 $fs->appendChild($date);
                 $fs->appendChild($xpth);
                 $fs->appendChild($val);
-                if ($prop->nodeType !== XML_ELEMENT_NODE) {
-                    $prop->parentNode->appendChild($fs);
+                if ($prop->node->nodeType !== XML_ELEMENT_NODE) {
+                    $prop->node->parentNode->appendChild($fs);
                 } else {
-                    $prop->appendChild($fs);
+                    $prop->node->appendChild($fs);
                 }
             }
         }
@@ -242,6 +249,20 @@ class Token {
     }
 
     /**
+     * Returns array of properties without missing optional properties.
+     * @return array
+     */
+    private function getValidProperties(): array {
+        $r = [];
+        foreach ($this->properties as $k => $v) {
+            if ($v !== null) {
+                $r[$k] = $v;
+            }
+        }
+        return $r;
+    }
+
+    /**
      * 
      * @return \DOMNode
      */
@@ -259,37 +280,72 @@ class Token {
 
     /**
      * 
-     * @param string $name
+     * @param \DOMElement $node
      * @param string $value
-     * @return \DOMNode
+     * @param string $name
+     * @param bool $xmlValue
+     * @return type
      */
-    private function createTeiFeature(string $name, string $value) {
-        $doc = $this->dom->ownerDocument;
+    private function createTeiFeature(\DOMNode $node, string $value,
+                                      string $name, bool $xmlValue = false): \DOMNode {
+        $doc = $node->ownerDocument;
 
         $fn        = $doc->createAttribute('name');
         $fn->value = $name;
 
-        $v = $doc->createElement('string', $value);
-
-        $f = $doc->createElement('f');
+        if ($xmlValue) {
+            $f = $this->createElementWithNs($node, $value, 'f');
+        } else {
+            $v = $doc->createElement('string', $value);
+            $f = $doc->createElement('f');
+            $f->appendChild($v);
+        }
         $f->appendChild($fn);
-        $f->appendChild($v);
 
         return $f;
     }
 
     /**
-     * Returns array of properties without missing optional properties.
-     * @return array
+     * Creates an XML element containing an XML content given by string evaluated
+     * in the context of all $nsSrcMode namespaces.
+     * @param \DOMElement $nsSrcNode
+     * @param string $value
+     * @param string $name
+     * @return \DOMNode
      */
-    private function getValidProperties(): array {
-        $r = [];
-        foreach ($this->properties as $k => $v) {
-            if ($v !== null) {
-                $r[$k] = $v;
+    private function createElementWithNs(\DOMElement $nsSrcNode, string $value,
+                                         string $name): \DOMNode {
+        $fakeRoot = '<' . $name;
+        foreach ($this->xpath->query('namespace::*', $nsSrcNode) as $i) {
+            if (!empty($i->localName)) {
+                $fakeRoot .= ' ' . $i->nodeName . '="' . $i->nodeValue . '"';
             }
         }
-        return $r;
+        $fakeRoot .= '>';
+        $fakeRoot = $fakeRoot . $value . '</' . $name . '>';
+
+        $df = $nsSrcNode->ownerDocument->createDocumentFragment();
+        try {
+            $df->appendXML($fakeRoot);
+        } catch (\Exception $e) {
+            print_r([$fakeRoot]);
+        }
+        return $df->removeChild($df->firstChild);
+    }
+
+    /**
+     * Replaces node value with an XML content
+     * @param \DOMNode $node node which content is to be replaced
+     * @param string $newContent new content as a string containing XML code to be
+     *   parsed in the $node namespaces context
+     */
+    private function replaceNodeWithXml(\DOMNode $node, string $newContent) {
+        $node->nodeValue = '';
+
+        $newNode = $this->createElementWithNs($node, $newContent, 'a');
+        while ($newNode->hasChildNodes()) {
+            $node->appendChild($newNode->removeChild($newNode->firstChild));
+        }
     }
 
 }

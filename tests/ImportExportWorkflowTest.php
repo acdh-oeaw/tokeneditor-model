@@ -36,14 +36,18 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
     static private $saveDir      = 'build';
     static private $connSettings = 'pgsql: dbname=tokeneditor';
     static private $pdo;
-    static private $validInPlace = <<<RES
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0"><!--sample comment--><teiHeader><fileDesc><titleStmt><title>testtext</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc/></fileDesc></teiHeader><text><body><w xmlns="http://www.tei-c.org/ns/1.0" id="w1" lemma="aaa">Hello<type>bbb</type></w><w xmlns="http://www.tei-c.org/ns/1.0" id="w2" lemma="ccc">World<type>ddd</type></w><w xmlns="http://www.tei-c.org/ns/1.0" id="w3" lemma="eee">!<type>fff</type></w></body></text></TEI>
-RES;
-    static private $validFull    = <<<RES
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0"><!--sample comment--><teiHeader><fileDesc><titleStmt><title>testtext</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc/></fileDesc></teiHeader><text><body><w xmlns="http://www.tei-c.org/ns/1.0" id="w1" lemma="Hello">Hello<type>NE<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>bbb</string></f></fs></type><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>aaa</string></f></fs></w><w xmlns="http://www.tei-c.org/ns/1.0" id="w2" lemma="World">World<type>NN<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>ddd</string></f></fs></type><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>ccc</string></f></fs></w><w xmlns="http://www.tei-c.org/ns/1.0" id="w3" lemma="!">!<type>$.<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>fff</string></f></fs></type><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>eee</string></f></fs></w></body></text></TEI>
-RES;
+    static private $validInPlace = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . "\n" .
+        '<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:foo="http://foo"><!--sample comment--><teiHeader><fileDesc><titleStmt><title>testtext</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc/></fileDesc></teiHeader><text><body>' .
+        '<w xmlns="http://www.tei-c.org/ns/1.0" xmlns:foo="http://foo" id="w1" lemma="aaa">Hello<type>bbb</type><txml>k<l>m</l>o<foo:n>p</foo:n>r</txml></w>' .
+        '<w xmlns="http://www.tei-c.org/ns/1.0" id="w2" lemma="ccc">World<type>ddd</type><txml>a<b>c</b>d</txml></w>' .
+        '<w xmlns="http://www.tei-c.org/ns/1.0" id="w3" lemma="eee">!<type>fff</type><txml>k<l>m</l>n</txml></w>' .
+        '</body></text></TEI>';
+    static private $validFull    = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . "\n" .
+        '<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:foo="http://foo"><!--sample comment--><teiHeader><fileDesc><titleStmt><title>testtext</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc/></fileDesc></teiHeader><text><body>' .
+        '<w xmlns="http://www.tei-c.org/ns/1.0" xmlns:foo="http://foo" id="w1" lemma="Hello">Hello<type>NE<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>bbb</string></f></fs></type><txml>a<foo:b>c</foo:b>d<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>2018-11-08</string></f><f name="property_xpath"><string>./tei:txml</string></f><f xmlns:foo="http://foo" xmlns="http://www.tei-c.org/ns/1.0" name="value">k<l>m</l>o<foo:n>p</foo:n>r</f></fs></txml><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>aaa</string></f></fs></w>' .
+        '<w xmlns="http://www.tei-c.org/ns/1.0" id="w2" lemma="World">World<type>NN<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>ddd</string></f></fs></type><txml>a<b>c</b>d</txml><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>ccc</string></f></fs></w>' .
+        '<w xmlns="http://www.tei-c.org/ns/1.0" id="w3" lemma="!">!<type>$.<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>fff</string></f></fs></type><txml>a<b>c</b>d<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>2018-11-08</string></f><f name="property_xpath"><string>./tei:txml</string></f><f xmlns="http://www.tei-c.org/ns/1.0" name="value">k<l>m</l>n</f></fs></txml><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>eee</string></f></fs></w>' .
+        '</body></text></TEI>';
     static private $date;
     private $docsToClean         = array();
 
@@ -83,15 +87,17 @@ RES;
 			INSERT INTO values (document_id, property_xpath, token_id, user_id, value, date) 
 			SELECT document_id, property_xpath, token_id, 'test', ?, now() FROM orig_values WHERE document_id = ? AND property_xpath = ? AND token_id = ?
 		");
-        $query->execute(array('aaa', $docId, '@lemma', 1));
-        $query->execute(array('bbb', $docId, './tei:type', 1));
-        $query->execute(array('ccc', $docId, '@lemma', 2));
-        $query->execute(array('ddd', $docId, './tei:type', 2));
-        $query->execute(array('eee', $docId, '@lemma', 3));
-        $query->execute(array('fff', $docId, './tei:type', 3));
+        $query->execute(['aaa', $docId, '@lemma', 1]);
+        $query->execute(['bbb', $docId, './tei:type', 1]);
+        $query->execute(['k<l>m</l>o<foo:n>p</foo:n>r', $docId, './tei:txml', 1]);
+        $query->execute(['ccc', $docId, '@lemma', 2]);
+        $query->execute(['ddd', $docId, './tei:type', 2]);
+        $query->execute(['eee', $docId, '@lemma', 3]);
+        $query->execute(['fff', $docId, './tei:type', 3]);
+        $query->execute(['k<l>m</l>n', $docId, './tei:txml', 3]);
     }
 
-    protected function checkImport(int $docId, int $count = 9) {
+    protected function checkImport(int $docId, int $count = 12) {
         $query = self::$pdo->prepare("SELECT count(*) FROM orig_values WHERE document_id = ?");
         $query->execute(array($docId));
         $this->assertEquals($count, $query->fetch(\PDO::FETCH_COLUMN));
@@ -145,8 +151,6 @@ RES;
         $this->assertEquals(trim(self::$validInPlace), trim($doc->export(true)));
     }
 
-    /* Does not work in Travis, as Travis Postgresql does not include parent nodes namespaces in the xpath() results (sic!) */
-
     public function testPDO() {
         $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::PDO);
@@ -174,7 +178,7 @@ RES;
 
         $doc   = new Document(self::$pdo);
         $doc->loadDb($docId, Document::DOM_DOCUMENT);
-        $valid = trim(str_replace('<w xmlns="http://www.tei-c.org/ns/1.0"', '<w', self::$validInPlace));
+        $valid = trim(preg_replace('|<w[^>]+ id|', '<w id', self::$validInPlace));
         $this->assertEquals($valid, trim($doc->export(true)));
     }
 
@@ -193,10 +197,10 @@ RES;
         $this->docsToClean[] = 'csv';
         $file                = self::$saveDir . '/csv.xml';
         $doc->exportCsv($file);
-        $this->assertEquals('tokenId,token,lemma,type
-1,Hello<type>NE</type>,aaa,bbb
-2,World<type>NN</type>,ccc,ddd
-3,!<type>$.</type>,eee,fff
+        $this->assertEquals('tokenId,token,xml,lemma,type
+1,Hello<type>NE</type><txml>a<foo:b>c</foo:b>d</txml>,k<l>m</l>o<foo:n>p</foo:n>r,aaa,bbb
+2,World<type>NN</type><txml>a<b>c</b>d</txml>,a<b>c</b>d,ccc,ddd
+3,!<type>$.</type><txml>a<b>c</b>d</txml>,k<l>m</l>n,eee,fff
 ', file_get_contents($file));
     }
 
@@ -207,7 +211,7 @@ RES;
         $docId               = $doc->getId();
         $this->docsToClean[] = $docId;
 
-        $this->checkImport($docId, 8);
+        $this->checkImport($docId, 11);
         $this->insertValues($docId);
 
         $doc                 = new Document(self::$pdo);
@@ -215,10 +219,10 @@ RES;
         $this->docsToClean[] = 'csv';
         $file                = self::$saveDir . '/csv.xml';
         $doc->exportCsv($file);
-        $this->assertEquals('tokenId,token,lemma,type
-1,Hello<type>NE</type>,aaa,bbb
-2,World<type>NN</type>,ccc,ddd
-3,!<type>$.</type>,,fff
+        $this->assertEquals('tokenId,token,xml,lemma,type
+1,Hello<type>NE</type><txml>a<foo:b>c</foo:b>d</txml>,k<l>m</l>o<foo:n>p</foo:n>r,aaa,bbb
+2,World<type>NN</type><txml>a<b>c</b>d</txml>,a<b>c</b>d,ccc,ddd
+3,!<type>$.</type><txml>a<b>c</b>d</txml>,k<l>m</l>n,,fff
 ', file_get_contents($file));
     }
 
