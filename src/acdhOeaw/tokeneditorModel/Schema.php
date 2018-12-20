@@ -26,6 +26,7 @@
 
 namespace acdhOeaw\tokeneditorModel;
 
+use ArrayIterator;
 use PDO;
 
 /**
@@ -100,7 +101,7 @@ class Schema implements \IteratorAggregate {
         }
     }
 
-    public function loadDb(int $documentId) {
+    public function loadDb(int $documentId): string {
         $this->documentId = $documentId;
 
         $schema = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><schema>';
@@ -151,13 +152,15 @@ class Schema implements \IteratorAggregate {
         $schema .= '</schema>';
 
         $this->loadXML($schema);
+        
+        return($schema);
     }
 
     /**
      * 
      * @return string
      */
-    public function getTokenXPath() {
+    public function getTokenXPath(): string {
         return (string) $this->tokenXPath;
     }
 
@@ -165,7 +168,7 @@ class Schema implements \IteratorAggregate {
      * 
      * @return array
      */
-    public function getNs() {
+    public function getNs(): array {
         return $this->namespaces;
     }
 
@@ -173,8 +176,8 @@ class Schema implements \IteratorAggregate {
      * 
      * @return \ArrayIterator
      */
-    public function getIterator() {
-        return new \ArrayIterator($this->properties);
+    public function getIterator(): ArrayIterator {
+        return new ArrayIterator($this->properties);
     }
 
     /**
