@@ -298,34 +298,6 @@ class Document implements \IteratorAggregate {
     
     /**
      * 
-     * @param string $path
-     * @param string $delimiter
-     * @param ProgressBar $progressBar
-     */
-    public function exportCsv(string $path, string $delimiter = ',',
-                              ProgressBar $progressBar = null) {
-        $this->exportFlag = true;
-
-        $csvFile = fopen($path, 'w');
-
-        $header = ['tokenId'];
-        foreach ($this->schema as $property) {
-            $header[] = $property->getName();
-        }
-        fputcsv($csvFile, $header, $delimiter);
-
-        foreach ($this as $token) {
-            $token->exportCsv($csvFile, $delimiter);
-            if ($progressBar) {
-                $progressBar->next();
-            }
-        }
-
-        fclose($csvFile);
-    }
-    
-    /**
-     * 
      */
     private function chooseTokenIterator() {
         try {
