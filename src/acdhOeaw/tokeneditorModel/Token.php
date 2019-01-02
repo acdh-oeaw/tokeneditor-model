@@ -26,6 +26,9 @@
 
 namespace acdhOeaw\tokeneditorModel;
 
+use DOMElement;
+use DOMNode;
+
 /**
  * Description of Token
  *
@@ -101,7 +104,7 @@ class Token {
      * @param \DOMNode $node
      * @return string
      */
-    private function innerXml(\DOMNode $node) {
+    private function innerXml(DOMNode $node): string {
         $out = '';
         for ($i = 0; $i < $node->childNodes->length; $i++) {
             $out .= $node->ownerDocument->saveXML($node->childNodes->item($i));
@@ -113,7 +116,7 @@ class Token {
      * 
      * @throws \RuntimeException
      */
-    public function save() {
+    public function save(): void {
         if (count($this->invalidProperties) > 0) {
             throw new \RuntimeException("at least one property wasn't found");
         }
@@ -138,7 +141,7 @@ class Token {
      * 
      * @return boolean
      */
-    public function update() {
+    public function update(): void {
         $this->checkValuesQuery();
 
         foreach ($this->getValidProperties() as $xpath => $prop) {
@@ -155,21 +158,21 @@ class Token {
             }
         }
 
-        return $this->updateDocument();
+        $this->updateDocument();
     }
 
     /**
      * 
      * @return boolean
      */
-    public function enrich() {
+    public function enrich(): void {
         $this->checkValuesQuery();
 
         foreach ($this->getValidProperties() as $xpath => $prop) {
             self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
             $node  = $prop->node;
             while ($value = self::$valuesQuery->fetch(\PDO::FETCH_OBJ)) {
-                $user = $this->createTeiFeature($node, $value->user_id, 'user');
+                $user = $this->createTeiFeature($node, $value->userId, 'user');
                 $date = $this->createTeiFeature($node, $value->date, 'date');
                 $xpth = $this->createTeiFeature($node, $xpath, 'property_xpath');
                 $val  = $this->createTeiFeature($node, $value->value, 'value', $prop->prop->getType() === 'xml');
@@ -186,36 +189,50 @@ class Token {
             }
         }
 
-        return $this->updateDocument();
+        $this->updateDocument();
     }
 
-    public function exportCsv($csvFile, string $delimiter = ',') {
+    /**
+     * Returns an array representation of a token.
+     * @param bool $replace should only the final value be returned for every 
+     *   property? (if false, a whole history of value changes is returned)
+     * @return array
+     */
+    public function asArray(bool $replace): array {
         $this->checkValuesQuery();
-
-        $values = [$this->tokenId];
+        $values = ['tokenId' => $this->tokenId];
         foreach ($this->properties as $xpath => $prop) {
             if ($prop === null) {
                 $values[] = '';
             } else {
                 self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
-                $userValue = self::$valuesQuery->fetch(\PDO::FETCH_OBJ);
-                if ($userValue) {
-                    $values[] = $userValue->value;
-                } else {
+                $tmp   = [];
+                while (($value = self::$valuesQuery->fetch(\PDO::FETCH_OBJ)) && ($replace || count($tmp) == 0)) {
+                    $tmp[] = $value;
+                }
+                if (count($tmp) == 0 || !$replace) {
                     self::$origValuesQuery->execute([$this->document->getId(), $xpath,
                         $this->tokenId]);
-                    $values[] = self::$origValuesQuery->fetch(\PDO::FETCH_OBJ)->value;
+                    $tmp[] = (object) [
+                            'value'  => self::$origValuesQuery->fetch(\PDO::FETCH_OBJ)->value,
+                            'date'   => null,
+                            'userId' => null
+                    ];
                 }
+                if ($replace) {
+                    $tmp = $tmp[0]->value;
+                }
+                $values[$prop->prop->getName()] = $tmp;
             }
         }
-        fputcsv($csvFile, $values, $delimiter);
+        return $values;
     }
 
     /**
      * 
      * @return \DOMNode
      */
-    public function getNode() {
+    public function getNode(): DOMNode {
         return $this->dom;
     }
 
@@ -223,17 +240,17 @@ class Token {
      * 
      * @return int
      */
-    public function getId() {
+    public function getId(): int {
         return $this->tokenId;
     }
 
     /**
      * 
      */
-    private function checkValuesQuery() {
+    private function checkValuesQuery(): void {
         if (self::$valuesQuery === null) {
             self::$valuesQuery = $this->document->getPdo()->
-                prepare("SELECT user_id, value, date FROM values WHERE (document_id, property_xpath, token_id) = (?, ?, ?) ORDER BY date DESC");
+                prepare("SELECT user_id AS \"userId\", value, date FROM values WHERE (document_id, property_xpath, token_id) = (?, ?, ?) ORDER BY date DESC");
         }
         if (self::$origValuesQuery === null) {
             self::$origValuesQuery = $this->document->getPdo()->
@@ -244,7 +261,7 @@ class Token {
     /**
      * 
      */
-    private function updateDocument() {
+    private function updateDocument(): void {
         $this->document->getTokenIterator()->replaceToken($this);
     }
 
@@ -264,9 +281,9 @@ class Token {
 
     /**
      * 
-     * @return \DOMNode
+     * @return \DOMElement
      */
-    private function createTeiFeatureSet() {
+    private function createTeiFeatureSet(): DOMElement {
         $doc = $this->dom->ownerDocument;
 
         $type        = $doc->createAttribute('type');
@@ -280,14 +297,14 @@ class Token {
 
     /**
      * 
-     * @param \DOMElement $node
+     * @param \DOMNode $node
      * @param string $value
      * @param string $name
      * @param bool $xmlValue
-     * @return type
+     * @return \DOMElement
      */
-    private function createTeiFeature(\DOMNode $node, string $value,
-                                      string $name, bool $xmlValue = false): \DOMNode {
+    private function createTeiFeature(DOMNode $node, string $value,
+                                      string $name, bool $xmlValue = false): DOMElement {
         $doc = $node->ownerDocument;
 
         $fn        = $doc->createAttribute('name');
@@ -313,8 +330,8 @@ class Token {
      * @param string $name
      * @return \DOMNode
      */
-    private function createElementWithNs(\DOMElement $nsSrcNode, string $value,
-                                         string $name): \DOMNode {
+    private function createElementWithNs(DOMElement $nsSrcNode, string $value,
+                                         string $name): DOMNode {
         $fakeRoot = '<' . $name;
         foreach ($this->xpath->query('namespace::*', $nsSrcNode) as $i) {
             if (!empty($i->localName)) {
@@ -335,11 +352,11 @@ class Token {
 
     /**
      * Replaces node value with an XML content
-     * @param \DOMNode $node node which content is to be replaced
+     * @param \DOMElement $node node which content is to be replaced
      * @param string $newContent new content as a string containing XML code to be
      *   parsed in the $node namespaces context
      */
-    private function replaceNodeWithXml(\DOMNode $node, string $newContent) {
+    private function replaceNodeWithXml(DOMElement $node, string $newContent): void {
         $node->nodeValue = '';
 
         $newNode = $this->createElementWithNs($node, $newContent, 'a');

@@ -274,6 +274,29 @@ class Document implements \IteratorAggregate {
     }
 
     /**
+     * Exports data in formats providing straightforward representations of
+     * tabular data like CSV, JSON, YAML, etc.
+     * @param \acdhOeaw\tokeneditorModel\ExportTableInterface $formatter
+     *   object responsible for output formatting (e.g. a CSV or JSON formatter)
+     * @param bool $replace should only the final value be exported for every 
+     *   property? (if false, a whole history of value should be exported but
+     *   the actual output depends on formatter capabilities)
+     * @param ProgressBar $progressBar progress bar instance - if provided,
+     *   export progress is shown
+     */
+    public function exportTable(ExportTableInterface $formatter, bool $replace = true, ProgressBar $progressBar = null) {
+        $this->exportFlag = true;
+        $formatter->begin($this->schema);
+        foreach($this as $token){
+            $formatter->writeRow($token, $replace);
+            if ($progressBar) {
+                $progressBar->next();
+            }
+        }
+        $formatter->end();
+    }
+    
+    /**
      * 
      * @param string $path
      * @param string $delimiter
@@ -300,7 +323,7 @@ class Document implements \IteratorAggregate {
 
         fclose($csvFile);
     }
-
+    
     /**
      * 
      */

@@ -196,11 +196,12 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         $doc->loadDb($docId);
         $this->docsToClean[] = 'csv';
         $file                = self::$saveDir . '/csv.xml';
-        $doc->exportCsv($file);
-        $this->assertEquals('tokenId,token,xml,lemma,type
-1,Hello<type>NE</type><txml>a<foo:b>c</foo:b>d</txml>,k<l>m</l>o<foo:n>p</foo:n>r,aaa,bbb
-2,World<type>NN</type><txml>a<b>c</b>d</txml>,a<b>c</b>d,ccc,ddd
-3,!<type>$.</type><txml>a<b>c</b>d</txml>,k<l>m</l>n,eee,fff
+        $formatter           = new ExportCsv($file, ';');
+        $doc->exportTable($formatter);
+        $this->assertEquals('tokenId;token;xml;lemma;type
+1;Hello<type>NE</type><txml>a<foo:b>c</foo:b>d</txml>;k<l>m</l>o<foo:n>p</foo:n>r;aaa;bbb
+2;World<type>NN</type><txml>a<b>c</b>d</txml>;a<b>c</b>d;ccc;ddd
+3;!<type>$.</type><txml>a<b>c</b>d</txml>;k<l>m</l>n;eee;fff
 ', file_get_contents($file));
     }
 
@@ -218,12 +219,68 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         $doc->loadDb($docId);
         $this->docsToClean[] = 'csv';
         $file                = self::$saveDir . '/csv.xml';
-        $doc->exportCsv($file);
+        $formatter           = new ExportCsv($file);
+        $doc->exportTable($formatter);
         $this->assertEquals('tokenId,token,xml,lemma,type
 1,Hello<type>NE</type><txml>a<foo:b>c</foo:b>d</txml>,k<l>m</l>o<foo:n>p</foo:n>r,aaa,bbb
 2,World<type>NN</type><txml>a<b>c</b>d</txml>,a<b>c</b>d,ccc,ddd
 3,!<type>$.</type><txml>a<b>c</b>d</txml>,k<l>m</l>n,,fff
 ', file_get_contents($file));
+    }
+
+    public function testJsonExportInPlace() {
+        $doc                 = new Document(self::$pdo);
+        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
+        $doc->save(self::$saveDir);
+        $docId               = $doc->getId();
+        $this->docsToClean[] = $docId;
+
+        $this->checkImport($docId);
+        $this->insertValues($docId);
+
+        $doc                 = new Document(self::$pdo);
+        $doc->loadDb($docId);
+        $this->docsToClean[] = 'csv';
+        $file                = self::$saveDir . '/csv.xml';
+        $formatter           = new ExportJson($file);
+        $doc->exportTable($formatter);
+        $this->assertEquals(
+            '[' .
+            '{"tokenId":1,"token":"Hello<type>NE<\/type><txml>a<foo:b>c<\/foo:b>d<\/txml>","xml":"k<l>m<\/l>o<foo:n>p<\/foo:n>r","lemma":"aaa","type":"bbb"},' .
+            '{"tokenId":2,"token":"World<type>NN<\/type><txml>a<b>c<\/b>d<\/txml>","xml":"a<b>c<\/b>d","lemma":"ccc","type":"ddd"},' .
+            '{"tokenId":3,"token":"!<type>$.<\/type><txml>a<b>c<\/b>d<\/txml>","xml":"k<l>m<\/l>n","lemma":"eee","type":"fff"}' .
+            ']',
+            file_get_contents($file)
+        );
+    }
+
+    public function testJsonExportFull() {
+        $doc                 = new Document(self::$pdo);
+        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
+        $doc->save(self::$saveDir);
+        $docId               = $doc->getId();
+        $this->docsToClean[] = $docId;
+
+        $this->checkImport($docId);
+        $this->insertValues($docId);
+
+        $doc                 = new Document(self::$pdo);
+        $doc->loadDb($docId);
+        $this->docsToClean[] = 'csv';
+
+        $file      = self::$saveDir . '/csv.xml';
+        $formatter = new ExportJson($file);
+        $doc->exportTable($formatter, false);
+        $result    = file_get_contents($file);
+        $result    = preg_replace('/"date":"' . self::$date . '[0-9 :.]+/', '"date":"' . self::$date, $result);
+
+        $validFull = '[' .
+            '{"tokenId":1,"token":[{"value":"Hello<type>NE<\/type><txml>a<foo:b>c<\/foo:b>d<\/txml>","date":null,"userId":null}],"xml":[{"userId":"test","value":"k<l>m<\/l>o<foo:n>p<\/foo:n>r","date":"%DATE"},{"value":"a<foo:b>c<\/foo:b>d","date":null,"userId":null}],"lemma":[{"userId":"test","value":"aaa","date":"%DATE"},{"value":"Hello","date":null,"userId":null}],"type":[{"userId":"test","value":"bbb","date":"%DATE"},{"value":"NE","date":null,"userId":null}]},' .
+            '{"tokenId":2,"token":[{"value":"World<type>NN<\/type><txml>a<b>c<\/b>d<\/txml>","date":null,"userId":null}],"xml":[{"value":"a<b>c<\/b>d","date":null,"userId":null}],"lemma":[{"userId":"test","value":"ccc","date":"%DATE"},{"value":"World","date":null,"userId":null}],"type":[{"userId":"test","value":"ddd","date":"%DATE"},{"value":"NN","date":null,"userId":null}]},' .
+            '{"tokenId":3,"token":[{"value":"!<type>$.<\/type><txml>a<b>c<\/b>d<\/txml>","date":null,"userId":null}],"xml":[{"userId":"test","value":"k<l>m<\/l>n","date":"%DATE"},{"value":"a<b>c<\/b>d","date":null,"userId":null}],"lemma":[{"userId":"test","value":"eee","date":"%DATE"},{"value":"!","date":null,"userId":null}],"type":[{"userId":"test","value":"fff","date":"%DATE"},{"value":"$.","date":null,"userId":null}]}' .
+            ']';
+        $validFull = str_replace('%DATE', self::$date, $validFull);
+        $this->assertEquals($validFull, $result);
     }
 
 }

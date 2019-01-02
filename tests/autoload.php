@@ -1,8 +1,5 @@
 <?php
-spl_autoload_register(function($class){
-    $file = 'src/' . str_replace('\\', '/', $class) . '.php';
-    if(is_file($file)){
-        require_once $file;
-    }
-});
+
+$composer = require_once __DIR__ . '/../vendor/autoload.php';
+$composer->addPsr4('acdhOeaw\\', __DIR__ . '/../src/acdhOeaw');
 
