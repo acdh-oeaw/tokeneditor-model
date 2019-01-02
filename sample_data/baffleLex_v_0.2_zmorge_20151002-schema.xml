@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <schema>
     <tokenXPath>//entry</tokenXPath>
-    <tokenValueXPath>./form[@type='lemma']/orth</tokenValueXPath>
     <properties>
+        <property>
+            <propertyName>orth</propertyName>
+            <propertyXPath>./form[@type='lemma']/orth</propertyXPath>
+            <propertyType>free text</propertyType>
+            <readOnly/>
+        </property>
         <property>
             <propertyName>pos</propertyName>
             <propertyXPath>.//gram[@type='pos']</propertyXPath>

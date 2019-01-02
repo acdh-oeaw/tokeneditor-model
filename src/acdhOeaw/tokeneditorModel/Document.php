@@ -279,7 +279,7 @@ class Document implements \IteratorAggregate {
      * @param string $delimiter
      * @param ProgressBar $progressBar
      */
-    public function exportCsv(string $path = null, string $delimiter = ',',
+    public function exportCsv(string $path, string $delimiter = ',',
                               ProgressBar $progressBar = null) {
         $this->exportFlag = true;
 

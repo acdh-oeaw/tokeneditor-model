@@ -7,8 +7,13 @@
         </namespace>
     </namespaces>
     <tokenXPath>//tei:w</tokenXPath>
-    <tokenValueXPath>.</tokenValueXPath>
     <properties>
+        <property>
+            <propertyName>token</propertyName>
+            <propertyXPath>.</propertyXPath>
+            <propertyType>free text</propertyType>
+            <readOnly/>
+        </property>
         <property>
             <propertyName>lemma</propertyName>
             <propertyXPath>@lemma</propertyXPath>

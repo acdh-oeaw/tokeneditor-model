@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <schema>
     <tokenXPath>//item</tokenXPath>
-    <tokenValueXPath>./word</tokenValueXPath>
     <properties>
+        <property>
+            <propertyName>word</propertyName>
+            <propertyXPath>./word</propertyXPath>
+            <propertyType>free text</propertyType>
+            <readOnly/>
+        </property>
         <property>
             <propertyName>lemma</propertyName>
             <propertyXPath>./lemma</propertyXPath>
@@ -19,9 +24,6 @@
             <propertyName>POS base</propertyName>
             <propertyXPath>./posbase</propertyXPath>
             <readOnly/>
-    <!--
-            <propertyType>free text</propertyType>
-      -->  
             <propertyType>closed list</propertyType>
  	    <propertyValues>
 		<value>ADJA</value>
