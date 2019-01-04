@@ -101,7 +101,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->expectExceptionMessage("property uses a reserved name");
         $xml = "
             <property>
-                <propertyName>token_id</propertyName>
+                <propertyName>tokenId</propertyName>
                 <propertyXPath>.</propertyXPath>
                 <propertyType>test</propertyType>
             </property>
