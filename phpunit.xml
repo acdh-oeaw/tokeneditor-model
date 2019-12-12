@@ -1,4 +1,4 @@
-<phpunit colors="true" verbose="true" bootstrap="tests/autoload.php">
+<phpunit colors="true" verbose="true" bootstrap="vendor/autoload.php">
 	<logging>
 		<log type="coverage-clover" target="build/logs/clover.xml"/>
 	</logging>

@@ -52,17 +52,10 @@ CREATE TABLE properties (
     read_only bool not null,
     optional bool not null,
     ord int not null,
+    properties jsonb not null default '{}',
 	primary key (document_id, property_xpath),
     unique (document_id, ord),
     unique (document_id, name)
-);
-
-CREATE TABLE dict_values (
-	document_id int not null,
-	property_xpath text not null,
-	value text not null,
-	primary key (document_id, property_xpath, value),
-	foreign key (document_id, property_xpath) references properties (document_id, property_xpath) on delete cascade
 );
 
 CREATE TABLE orig_values (

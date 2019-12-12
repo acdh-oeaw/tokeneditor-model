@@ -63,7 +63,7 @@ class Schema implements \IteratorAggregate {
         $this->tokenXPath = null;
         $this->properties = [];
         $this->namespaces = [];
-        
+
         $dom = new \SimpleXMLElement($xml);
         $n   = 1;
 
@@ -119,11 +119,15 @@ class Schema implements \IteratorAggregate {
         $data   = $query->fetch(PDO::FETCH_OBJ);
         $schema .= '<tokenXPath>' . htmlspecialchars($data->token_xpath) . '</tokenXPath>';
 
-        $schema      .= '<properties>';
-        $query       = $this->pdo->prepare("SELECT property_xpath, type_id, name, read_only, optional FROM properties WHERE document_id = ? ORDER BY ord");
-        $valuesQuery = $this->pdo->prepare("SELECT value FROM dict_values WHERE (document_id, property_xpath) = (?, ?)");
+        $schema .= '<properties>';
+        $query  = $this->pdo->prepare("
+            SELECT property_xpath, type_id, name, read_only, optional, properties 
+            FROM properties 
+            WHERE document_id = ? 
+            ORDER BY ord
+        ");
         $query->execute([$this->documentId]);
-        while ($prop        = $query->fetch(PDO::FETCH_OBJ)) {
+        while ($prop   = $query->fetch(PDO::FETCH_OBJ)) {
             $schema .= '<property>';
             $schema .= '<propertyName>' . htmlspecialchars($prop->name) . '</propertyName>';
             $schema .= '<propertyXPath>' . htmlspecialchars($prop->property_xpath) . '</propertyXPath>';
@@ -136,15 +140,8 @@ class Schema implements \IteratorAggregate {
                 $schema .= '<optional/>';
             }
 
-            $valuesQuery->execute([$this->documentId, $prop->property_xpath]);
-            $values = $valuesQuery->fetchAll(PDO::FETCH_COLUMN);
-            if (count($values) > 0) {
-                $schema .= '<propertyValues>';
-                foreach ($values as $v) {
-                    $schema .= '<value>' . htmlspecialchars($v) . '</value>';
-                }
-                $schema .= '</propertyValues>';
-            }
+            $schema .= $this->propPropToXml($prop->properties);
+            
             $schema .= '</property>';
         }
         $schema .= '</properties>';
@@ -152,8 +149,25 @@ class Schema implements \IteratorAggregate {
         $schema .= '</schema>';
 
         $this->loadXML($schema);
-        
+
         return($schema);
+    }
+
+    private function propPropToXml($v) {
+        if (!is_object($v) && !is_array($v)) {
+            return $v;
+        }
+        $ret = '';
+        if (is_array($v)) {
+            foreach ($v as $i) {
+                $ret .= $this->propPropToXml($i);
+            }
+        } else if (is_object($v)) {
+            foreach ($v as $k => $i) {
+                $ret .= "<$k>" . $this->propPropToXml($i) . "</$k>";
+            }
+        }
+        return $ret;
     }
 
     /**

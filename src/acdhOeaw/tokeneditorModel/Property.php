@@ -69,9 +69,9 @@ class Property {
     private $type;
     private $name;
     private $ord;
-    private $readOnly = false;
-    private $optional = false;
-    private $values   = [];
+    private $readOnly   = false;
+    private $optional   = false;
+    private $properties = null;
 
     /**
      * 
@@ -101,11 +101,15 @@ class Property {
             throw new \RuntimeException('property uses a reserved name');
         }
 
-        if (isset($xml->propertyValues) && isset($xml->propertyValues->value)) {
-            foreach ($xml->propertyValues->value as $i) {
-                $this->values[] = (string) $i;
+        $this->properties = new \stdClass();
+        foreach ($xml as $k => $v) {
+            if (!in_array($k, ['propertyXPath', 'propertyType', 'propertyName', 'ord',
+                    'readOnly', 'optional'])) {
+                $this->properties->$k = $this->parseProperties($v);
             }
         }
+
+        $this->parseProperties($xml);
 
         if (isset($xml->readOnly)) {
             $this->readOnly = true;
@@ -118,6 +122,17 @@ class Property {
         if (isset($xml->xml)) {
             $this->xml = true;
         }
+    }
+
+    private function parseProperties(SimpleXMLElement $xml) {
+        if ($xml->count() === 0) {
+            return (string) $xml;
+        }
+        $ret = [];
+        foreach ($xml as $k => $v) {
+            $ret[] = (object) [$k => $this->parseProperties($v)];
+        }
+        return $ret;
     }
 
     /**
@@ -170,12 +185,23 @@ class Property {
 
     /**
      * 
-     * @return array
+     * @return mixed
      */
-    public function getValues() {
-        return $this->values;
+    public function getProperty(string $property) {
+        if (!isset($this->properties->$property)) {
+            throw new \InvalidArgumentException('No such property');
+        }
+        return $this->properties->$property;
     }
 
+    /**
+     * 
+     * @return mixed
+     */
+    public function getProperties() {
+        return $this->properties;
+    }
+    
     /**
      * 
      * @param PDO $pdo
@@ -183,16 +209,11 @@ class Property {
      */
     public function save(PDO $pdo, int $documentId) {
         $query = $pdo->prepare("
-            INSERT INTO properties (document_id, property_xpath, type_id, name, read_only, optional, ord) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO properties (document_id, property_xpath, type_id, name, read_only, optional, ord, properties) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ");
         $query->execute([$documentId, $this->xpath, $this->type, $this->name,
-            (int) $this->readOnly, (int) $this->optional, $this->ord]);
-
-        $query = $pdo->prepare("INSERT INTO dict_values (document_id, property_xpath, value) VALUES (?, ?, ?)");
-        foreach ($this->values as $v) {
-            $query->execute([$documentId, $this->xpath, $v]);
-        }
+            (int) $this->readOnly, (int) $this->optional, $this->ord, json_encode($this->properties)]);
     }
 
 }
