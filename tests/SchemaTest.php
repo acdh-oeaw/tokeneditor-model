@@ -37,53 +37,53 @@ class SchemaTest extends \PHPUnit\Framework\TestCase {
     static private $pdo;
     static private $xml;
 
-    static public function setUpBeforeClass() {
+    static public function setUpBeforeClass(): void {
         self::$pdo = new \PDO(self::$connSettings);
         self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         self::$pdo->beginTransaction();
         self::$xml = file_get_contents(__DIR__ . '/testtext-schema.xml');
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
         self::$pdo->rollback();
     }
 
-    public function testLoadNoFile() {
+    public function testLoadNoFile(): void {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage("no such file is not a valid file");
         $s = new Schema(self::$pdo);
         $s->loadFile('no such file');
     }
 
-    public function testNoTokenXPath() {
+    public function testNoTokenXPath(): void {
         $this->expectException(\LengthException::class);
         $this->expectExceptionMessage("exactly one tokenXPath has to be provided");
         $s = new Schema(self::$pdo);
         $s->loadXML(str_replace('<tokenXPath>//tei:w</tokenXPath>', '', self::$xml));
     }
 
-    public function testManyTokenXPaths() {
+    public function testManyTokenXPaths(): void {
         $this->expectException(\LengthException::class);
         $this->expectExceptionMessage("exactly one tokenXPath has to be provided");
         $s = new Schema(self::$pdo);
         $s->loadXML(str_replace('<tokenXPath>//tei:w</tokenXPath>', '<tokenXPath>//tei:w</tokenXPath><tokenXPath>//tei:w</tokenXPath>', self::$xml));
     }
 
-    public function testManyTokenValueXPaths() {
+    public function testManyTokenValueXPaths(): void {
         $this->expectException(\LengthException::class);
         $this->expectExceptionMessage("exactly one tokenValueXPath has to be provided");
         $s = new Schema(self::$pdo);
         $s->loadXML(str_replace('<tokenValueXPath>.</tokenValueXPath>', '<tokenValueXPath>.</tokenValueXPath><tokenValueXPath>.</tokenValueXPath>', self::$xml));
     }
 
-    public function testNoProperties() {
+    public function testNoProperties(): void {
         $this->expectException(\LengthException::class);
         $this->expectExceptionMessage("no token properties defined");
         $s = new Schema(self::$pdo);
         $s->loadXML(str_replace('properties', 'aaa', self::$xml));
     }
 
-    public function testDuplicateProperties() {
+    public function testDuplicateProperties(): void {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage("property names are not unique");
         $s = new Schema(self::$pdo);

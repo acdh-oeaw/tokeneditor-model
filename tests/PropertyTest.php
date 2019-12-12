@@ -33,14 +33,14 @@ namespace acdhOeaw\tokeneditorModel;
  */
 class PropertyTest extends \PHPUnit\Framework\TestCase {
 
-    public function testFactory() {
+    public function testFactory(): void {
         $p = Property::factory(1, 'test name', '.', 'test type', true, true, ['a',
                 'b', 'c']);
         $this->assertEquals('test name', $p->getName());
         $this->assertEquals('.', $p->getXPath());
     }
 
-    public function testManyXPaths() {
+    public function testManyXPaths(): void {
         $this->expectException(\LengthException::class);
         $this->expectExceptionMessage("exactly one propertyXPath has to be provided");
         $xml = "
@@ -55,7 +55,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         new Property($el, 0);
     }
 
-    public function testNoXPath() {
+    public function testNoXPath(): void {
         $this->expectException(\LengthException::class);
         $this->expectExceptionMessage("exactly one propertyXPath has to be provided");
         $xml = "
@@ -68,7 +68,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         new Property($el, 0);
     }
 
-    public function testManyNames() {
+    public function testManyNames(): void {
         $this->expectException(\LengthException::class);
         $this->expectExceptionMessage("exactly one propertyName has to be provided");
         $xml = "
@@ -83,7 +83,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         new Property($el, 0);
     }
 
-    public function testNoName() {
+    public function testNoName(): void {
         $this->expectException(\LengthException::class);
         $this->expectExceptionMessage("exactly one propertyName has to be provided");
         $xml = "
@@ -96,7 +96,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         new Property($el, 0);
     }
 
-    public function testReservedName() {
+    public function testReservedName(): void {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage("property uses a reserved name");
         $xml = "
@@ -110,7 +110,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         new Property($el, 0);
     }
 
-    public function testManyTypes() {
+    public function testManyTypes(): void {
         $this->expectException(\LengthException::class);
         $this->expectExceptionMessage("exactly one propertyType has to be provided");
         $xml = "
@@ -125,7 +125,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         new Property($el, 0);
     }
 
-    public function testNoType() {
+    public function testNoType(): void {
         $this->expectException(\LengthException::class);
         $this->expectExceptionMessage("exactly one propertyType has to be provided");
         $xml = "
@@ -138,7 +138,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         new Property($el, 0);
     }
 
-    public function testGetters() {
+    public function testGetters(): void {
         $xml   = "
             <property>
                 <propertyName>test name</propertyName>

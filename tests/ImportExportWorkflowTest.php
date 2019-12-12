@@ -49,9 +49,9 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         '<w xmlns="http://www.tei-c.org/ns/1.0" id="w3" lemma="!">!<type>$.<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>fff</string></f></fs></type><txml>a<b>c</b>d<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:txml</string></f><f xmlns="http://www.tei-c.org/ns/1.0" name="value">k<l>m</l>n</f></fs></txml><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>eee</string></f></fs></w>' .
         '</body></text></TEI>';
     static private $date;
-    private $docsToClean         = array();
+    private $docsToClean         = [];
 
-    static public function setUpBeforeClass() {
+    static public function setUpBeforeClass(): void {
         self::$pdo       = new \PDO(self::$connSettings);
         self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         self::$pdo->beginTransaction();
@@ -62,25 +62,25 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         self::$validFull = str_replace('%DATE', self::$date, self::$validFull);
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
         self::$pdo->rollback();
         if (file_exists('tmp.xml')) {
             unlink('tmp.xml');
         }
     }
 
-    protected function setUp() {
+    protected function setUp(): void {
         parent::setUp();
     }
 
-    protected function tearDown() {
+    protected function tearDown(): void {
         parent::tearDown();
         foreach ($this->docsToClean as $i) {
             unlink(self::$saveDir . '/' . $i . '.xml');
         }
     }
 
-    protected function insertValues($docId) {
+    protected function insertValues($docId): void {
         $query = self::$pdo->prepare("INSERT INTO documents_users VALUES (?, 'test', 'owner')");
         $query->execute(array($docId));
         $query = self::$pdo->prepare("
@@ -97,13 +97,13 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         $query->execute(['k<l>m</l>n', $docId, './tei:txml', 3]);
     }
 
-    protected function checkImport(int $docId, int $count = 12) {
+    protected function checkImport(int $docId, int $count = 12): void {
         $query = self::$pdo->prepare("SELECT count(*) FROM orig_values WHERE document_id = ?");
         $query->execute(array($docId));
         $this->assertEquals($count, $query->fetch(\PDO::FETCH_COLUMN));
     }
 
-    public function testDefaultInPlace() {
+    public function testDefaultInPlace(): void {
         $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $doc->save(self::$saveDir);
@@ -119,7 +119,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(trim(self::$validInPlace), trim(file_get_contents('tmp.xml')));
     }
 
-    public function testDefaultFull() {
+    public function testDefaultFull(): void {
         $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $doc->save(self::$saveDir);
@@ -136,7 +136,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(trim(self::$validFull), $result);
     }
 
-    public function testXMLReader() {
+    public function testXMLReader(): void {
         $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::XML_READER);
         $doc->save(self::$saveDir);
@@ -151,7 +151,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(trim(self::$validInPlace), trim($doc->export(true)));
     }
 
-    public function testPDO() {
+    public function testPDO(): void {
         $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::PDO);
         $doc->save(self::$saveDir);
@@ -166,7 +166,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(trim(self::$validInPlace), trim($doc->export(true)));
     }
 
-    public function testDOMDocument() {
+    public function testDOMDocument(): void {
         $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::DOM_DOCUMENT);
         $doc->save(self::$saveDir);
@@ -182,7 +182,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($valid, trim($doc->export(true)));
     }
 
-    public function testCsvExport() {
+    public function testCsvExport(): void {
         $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $doc->save(self::$saveDir);
@@ -205,7 +205,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 ', file_get_contents($file));
     }
 
-    public function testCsvExportOptional() {
+    public function testCsvExportOptional(): void {
         $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext_optional.xml', 'tests/testtext-schema.xml', 'test');
         $doc->save(self::$saveDir);
@@ -228,7 +228,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 ', file_get_contents($file));
     }
 
-    public function testJsonExportInPlace() {
+    public function testJsonExportInPlace(): void {
         $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $doc->save(self::$saveDir);
@@ -254,7 +254,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testJsonExportFull() {
+    public function testJsonExportFull(): void {
         $doc                 = new Document(self::$pdo);
         $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $doc->save(self::$saveDir);

@@ -38,7 +38,7 @@ class UserTest extends \PHPUnit\Framework\TestCase {
     static private $pdo;
     static private $docId;
 
-    static public function setUpBeforeClass() {
+    static public function setUpBeforeClass(): void {
         self::$pdo = new \PDO(self::$connSettings);
         self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         self::$pdo->beginTransaction();
@@ -51,20 +51,20 @@ class UserTest extends \PHPUnit\Framework\TestCase {
         self::$docId = $doc->getId();
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
         self::$pdo->rollback();
         unlink(self::$saveDir . '/' . self::$docId . '.xml');
     }
 
-    protected function setUp() {
+    protected function setUp(): void {
         parent::setUp();
     }
 
-    protected function tearDown() {
+    protected function tearDown(): void {
         parent::tearDown();
     }
 
-    public function testUsers() {
+    public function testUsers(): void {
         $u = new User(self::$pdo, self::$docId);
 
         $this->assertEquals([], $u->getUsers());
@@ -114,21 +114,21 @@ class UserTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(false, $u->isViewer('unknownUser'));
     }
 
-    public function testAtLeastOneOwner() {
+    public function testAtLeastOneOwner(): void {
         $u = new User(self::$pdo, self::$docId);
 
         $this->expectException(\RuntimeException::class);
         $u->setRole('aaa', User::ROLE_NONE);
     }
 
-    public function testRoleParam() {
+    public function testRoleParam(): void {
         $u = new User(self::$pdo, self::$docId);
 
         $this->expectException(\BadMethodCallException::class);
         $u->setRole('aaa', 'xxx');
     }
 
-    public function testNoUser() {
+    public function testNoUser(): void {
         $u = new User(self::$pdo, self::$docId);
 
         $this->expectException(\BadMethodCallException::class);

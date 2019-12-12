@@ -37,25 +37,25 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
     static private $connSettings = 'pgsql: dbname=tokeneditor';
     static private $pdo;
 
-    static public function setUpBeforeClass() {
+    static public function setUpBeforeClass(): void {
         self::$pdo = new \PDO(self::$connSettings);
         self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         self::$pdo->beginTransaction();
         self::$pdo->query("TRUNCATE documents CASCADE");
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
         self::$pdo->rollback();
     }
 
-    public function testNoSuchFile() {
+    public function testNoSuchFile(): void {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('no such file is not a valid file');
         $d = new Document(self::$pdo);
         $d->loadFile('no such file', __DIR__ . '/testtext-schema.xml', 'test name');
     }
 
-    public function testWrongHash() {
+    public function testWrongHash(): void {
         $this->expectException(\UnexpectedValueException::class);
         self::$pdo->query("INSERT INTO documents (document_id, token_xpath, name, save_path, hash) VALUES (0, '//w', 'name', 'tests/testtext.xml', 'wrong hash')");
         self::$pdo->query("INSERT INTO properties (document_id, property_xpath, type_id, name, read_only, optional, ord) VALUES (0, '.', 'free text', 'prop name', true, true, 1)");
