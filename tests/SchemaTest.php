@@ -89,4 +89,33 @@ class SchemaTest extends \PHPUnit\Framework\TestCase {
         $s = new Schema(self::$pdo);
         $s->loadXML(preg_replace('|<propertyName>[a-zA-Z]+</propertyName>|', '<propertyName>lemma</propertyName>', self::$xml));
     }
+
+    public function testPropertyLoadDb(): void {
+        self::$pdo->query("INSERT INTO documents (document_id, token_xpath, name, save_path, hash) VALUES (1, '', '', '', '')");
+        self::$pdo->query("
+            INSERT INTO properties (document_id, property_xpath, type_id, name, ord, read_only, optional, attributes) 
+            VALUES (1, '/foo', 'closed list', 'bar', 1, false, true, '{\"propertyValues\": [{\"value\": \"foo\"}, {\"value\": \"bar\"}], \"baseUrl\": \"https://foo.bar\"}')
+        ");
+        $s = new Schema(self::$pdo);
+        $s->loadDb(1);
+        foreach ($s as $n => $p) {
+            /* @var $p Property */
+            $this->assertEquals('/foo', $p->getXPath());
+            $this->assertEquals('closed list', $p->getType());
+            $this->assertEquals('bar', $p->getName());
+            $this->assertEquals(1, $p->getOrd());
+            $this->assertEquals(false, $p->getReadOnly());
+            $this->assertEquals(true, $p->getOptional());
+
+            $this->assertEquals((object) [
+                    'baseUrl'        => 'https://foo.bar',
+                    'propertyValues' => [
+                        (object) ['value' => 'foo'],
+                        (object) ['value' => 'bar']
+                    ]
+                ], $p->getAttributes());
+        }
+        $this->assertEquals(0, $n);
+    }
+
 }

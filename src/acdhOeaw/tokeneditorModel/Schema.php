@@ -121,7 +121,7 @@ class Schema implements \IteratorAggregate {
 
         $schema .= '<properties>';
         $query  = $this->pdo->prepare("
-            SELECT property_xpath, type_id, name, read_only, optional, properties 
+            SELECT property_xpath, type_id, name, read_only, optional, attributes 
             FROM properties 
             WHERE document_id = ? 
             ORDER BY ord
@@ -140,7 +140,7 @@ class Schema implements \IteratorAggregate {
                 $schema .= '<optional/>';
             }
 
-            $schema .= $this->propPropToXml($prop->properties);
+            $schema .= $this->propAttrToXml(json_decode($prop->attributes));
             
             $schema .= '</property>';
         }
@@ -153,18 +153,18 @@ class Schema implements \IteratorAggregate {
         return($schema);
     }
 
-    private function propPropToXml($v) {
+    private function propAttrToXml($v) {
         if (!is_object($v) && !is_array($v)) {
             return $v;
         }
         $ret = '';
         if (is_array($v)) {
             foreach ($v as $i) {
-                $ret .= $this->propPropToXml($i);
+                $ret .= $this->propAttrToXml($i);
             }
         } else if (is_object($v)) {
             foreach ($v as $k => $i) {
-                $ret .= "<$k>" . $this->propPropToXml($i) . "</$k>";
+                $ret .= "<$k>" . $this->propAttrToXml($i) . "</$k>";
             }
         }
         return $ret;

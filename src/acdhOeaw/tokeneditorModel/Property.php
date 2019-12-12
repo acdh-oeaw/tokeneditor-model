@@ -38,8 +38,7 @@ use SimpleXMLElement;
 class Property {
 
     static public function factory(int $ord, string $name, string $xpath,
-                                   string $type, bool $readOnly, bool $optional,
-                                   array $values = []): Property {
+                                   string $type, bool $readOnly, bool $optional): Property {
         $xml       = "
             <property>
                 <propertyName>%s</propertyName>
@@ -47,20 +46,11 @@ class Property {
                 <propertyType>%s</propertyType>
                 %s
                 %s
-                %s
             </property>
         ";
         $readOnly  = $readOnly ? '<readOnly/>' : '';
         $optional  = $optional ? '<optional/>' : '';
-        $valuesXml = '';
-        if (count($values) > 0) {
-            $valuesXml = '<propertyValues>';
-            foreach ($values as $i) {
-                $valuesXml .= '<value>' . htmlspecialchars($i) . '</value>';
-            }
-            $valuesXml .= '</propertyValues>';
-        }
-        $xml = sprintf($xml, htmlspecialchars($name), htmlspecialchars($xpath), htmlspecialchars($type), $readOnly, $optional, $valuesXml);
+        $xml = sprintf($xml, htmlspecialchars($name), htmlspecialchars($xpath), htmlspecialchars($type), $readOnly, $optional);
         $el  = new SimpleXMLElement($xml);
         return new Property($el, $ord);
     }
