@@ -160,13 +160,13 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(true, $p->getReadOnly());
         $this->assertEquals(false, $p->getOptional());
         $this->assertEquals(0, $p->getOrd());
-        $this->assertEquals([(object) ['value' => 'a'], (object) ['value' => 'b']], $p->getProperty('propertyValues'));
-        $this->assertEquals('http://some.url', $p->getProperty('apiUrl'));
+        $this->assertEquals([(object) ['value' => 'a'], (object) ['value' => 'b']], $p->getAttribute('propertyValues'));
+        $this->assertEquals('http://some.url', $p->getAttribute('apiUrl'));
         $props = (object) [
                 'apiUrl'         => 'http://some.url',
                 'propertyValues' => [(object) ['value' => 'a'], (object) ['value' => 'b']],
         ];
-        $this->assertEquals($props, $p->getProperties());
+        $this->assertEquals($props, $p->getAttributes());
 
         $xml = "
             <property>
@@ -184,9 +184,9 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(false, $p->getReadOnly());
         $this->assertEquals(true, $p->getOptional());
         $this->assertEquals(0, $p->getOrd());
-        $this->assertEquals(new \stdClass(), $p->getProperties());
+        $this->assertEquals(new \stdClass(), $p->getAttributes());
         $this->expectException('InvalidArgumentException');
-        $p->getProperty('propertyValues');
+        $p->getAttribute('propertyValues');
     }
 
 }

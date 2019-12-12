@@ -52,7 +52,7 @@ CREATE TABLE properties (
     read_only bool not null,
     optional bool not null,
     ord int not null,
-    properties jsonb not null default '{}',
+    attributes jsonb not null default '{}',
 	primary key (document_id, property_xpath),
     unique (document_id, ord),
     unique (document_id, name)
