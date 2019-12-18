@@ -94,7 +94,7 @@ class SchemaTest extends \PHPUnit\Framework\TestCase {
         self::$pdo->query("INSERT INTO documents (document_id, token_xpath, name, save_path, hash) VALUES (1, '', '', '', '')");
         self::$pdo->query("
             INSERT INTO properties (document_id, property_xpath, type_id, name, ord, read_only, optional, attributes) 
-            VALUES (1, '/foo', 'closed list', 'bar', 1, false, true, '{\"propertyValues\": [{\"value\": \"foo\"}, {\"value\": \"bar\"}], \"baseUrl\": \"https://foo.bar\"}')
+            VALUES (1, '/foo', 'closed list', 'bar', 1, false, true, '{\"propertyValues\": [{\"value\": \"foo\"}, {\"value\": \"bar\"}], \"baseUrl\": \"https://foo.bar?a=x&b=y\"}')
         ");
         $s = new Schema(self::$pdo);
         $s->loadDb(1);
@@ -108,7 +108,7 @@ class SchemaTest extends \PHPUnit\Framework\TestCase {
             $this->assertEquals(true, $p->getOptional());
 
             $this->assertEquals((object) [
-                    'baseUrl'        => 'https://foo.bar',
+                    'baseUrl'        => 'https://foo.bar?a=x&b=y',
                     'propertyValues' => [
                         (object) ['value' => 'foo'],
                         (object) ['value' => 'bar']

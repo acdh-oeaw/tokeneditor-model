@@ -155,7 +155,7 @@ class Schema implements \IteratorAggregate {
 
     private function propAttrToXml($v) {
         if (!is_object($v) && !is_array($v)) {
-            return $v;
+            return htmlspecialchars($v);
         }
         $ret = '';
         if (is_array($v)) {
