@@ -84,7 +84,7 @@ class XMLReader extends TokenIterator {
     }
 
     public function next(): void {
-        if ($this->token) {
+        if ($this->outStream && $this->token) {
             $tmp = $this->token->getNode()->ownerDocument->saveXML();
             $tmp = trim(str_replace('<?xml version="1.0"?>' . "\n", '', $tmp));
             $this->outStream->fwrite($tmp);

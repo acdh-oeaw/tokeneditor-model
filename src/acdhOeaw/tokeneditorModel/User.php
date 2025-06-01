@@ -138,7 +138,7 @@ class User {
 
         $query = $this->pdo->prepare("
             INSERT INTO users (user_id, name) VALUES (?, ?)
-            ON CONFLICT (user_id) " . (strlen($name) > 0 ? "DO UPDATE SET name = EXCLUDED.name" : "DO NOTHING")
+            ON CONFLICT (user_id) " . (strlen((string) $name) > 0 ? "DO UPDATE SET name = EXCLUDED.name" : "DO NOTHING")
         );
         $query->execute([$userId, $name]);
 

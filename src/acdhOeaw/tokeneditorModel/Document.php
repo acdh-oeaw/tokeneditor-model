@@ -51,7 +51,7 @@ class Document implements \IteratorAggregate {
     private PDO $pdo;
     private string $tokenIteratorClassName;
     private TokenIterator $tokenIterator;
-    private bool $exportFlag;
+    private bool $exportFlag = false;
     private int $documentId;
     private int $tokenId = 0;
 
@@ -210,7 +210,7 @@ class Document implements \IteratorAggregate {
                 }
             }
         }
-        return $this->tokenIterator->export($path);
+        return (string) $this->tokenIterator->export($path);
     }
 
     /**

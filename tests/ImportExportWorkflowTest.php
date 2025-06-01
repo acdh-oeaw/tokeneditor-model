@@ -27,6 +27,9 @@
 namespace acdhOeaw\tokeneditorModel;
 
 use PDO;
+use acdhOeaw\tokeneditorModel\tokenIterator\PDO as iPDO;
+use acdhOeaw\tokeneditorModel\tokenIterator\DOMDocument as iDOMDocument;
+use acdhOeaw\tokeneditorModel\tokenIterator\XMLReader as iXMLReader;
 
 /**
  * Description of ImportExportWorkflowTest
@@ -143,7 +146,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 
     public function testXMLReader(): void {
         $doc                 = new Document(self::$pdo);
-        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', \XMLReader::class);
+        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', iXMLReader::class);
         $doc->save(self::$saveDir);
         $docId               = $doc->getId();
         $this->docsToClean[] = $docId;
@@ -152,13 +155,13 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         $this->insertValues($docId);
 
         $doc = new Document(self::$pdo);
-        $doc->loadDb($docId, \XMLReader::class);
+        $doc->loadDb($docId, iXMLReader::class);
         $this->assertEquals(trim(self::$validInPlace), trim($doc->export(true)));
     }
 
     public function testPDO(): void {
         $doc                 = new Document(self::$pdo);
-        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', \PDO::class);
+        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', iPDO::class);
         $doc->save(self::$saveDir);
         $docId               = $doc->getId();
         $this->docsToClean[] = $docId;
@@ -173,7 +176,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 
     public function testDOMDocument(): void {
         $doc                 = new Document(self::$pdo);
-        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', \DOMDocument::class);
+        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', iDOMDocument::class);
 
         $doc->save(self::$saveDir);
         $docId               = $doc->getId();
@@ -183,7 +186,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         $this->insertValues($docId);
 
         $doc   = new Document(self::$pdo);
-        $doc->loadDb($docId, \DOMDocument::class);
+        $doc->loadDb($docId, iDOMDocument::class);
         $valid = trim(preg_replace('|<w[^>]+ id|', '<w id', self::$validInPlace));
         $this->assertEquals($valid, trim($doc->export(true)));
     }

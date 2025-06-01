@@ -154,7 +154,10 @@ class Property {
         return $this->optional;
     }
 
-    public function getAttribute(string $property): Property {
+    /**
+     * @return array<stdClass>|string
+     */
+    public function getAttribute(string $property): array | string {
         if (!isset($this->attributes->$property)) {
             throw new \InvalidArgumentException('No such property');
         }

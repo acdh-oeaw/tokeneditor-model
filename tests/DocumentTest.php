@@ -67,14 +67,14 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
 
     public function testWrongIteratorClass1(): void {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('tokenIteratorClass should be \acdhOeaw\tokeneditorModel\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditorModel\Datafile::PDO or \acdhOeaw\tokeneditorModel\Datafile::XML_READER');
+        $this->expectExceptionMessage('tokenIteratorClass should be one of ' . implode(', ', \acdhOeaw\tokeneditorModel\Document::TOKEN_ITERATORS));
         $d = new Document(self::$pdo);
         $d->loadFile(__DIR__ . '/testtext.xml', __DIR__ . '/testtext-schema.xml', 'test name', 'no such class');
     }
 
     public function testWrongIteratorClass2(): void {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('tokenIteratorClass should be \acdhOeaw\tokeneditorModel\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditorModel\Datafile::PDO or \acdhOeaw\tokeneditorModel\Datafile::XML_READER');
+        $this->expectExceptionMessage('tokenIteratorClass should be one of ' . implode(', ', \acdhOeaw\tokeneditorModel\Document::TOKEN_ITERATORS));
         $d = new Document(self::$pdo);
         $d->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test');
         $d->save(self::$saveDir);
@@ -119,7 +119,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(1, $query->fetchColumn());
     }
 
-    public function testTokenXPathToComplicated(): void {
+    public function testTokenXPathTooComplicated(): void {
         $d   = new Document(self::$pdo);
         $xml = file_get_contents(__DIR__ . '/testtext-schema.xml');
         $xml = str_replace(' <tokenXPath>//tei:w</tokenXPath>', ' <tokenXPath>//tei:w[@id="w1"] </tokenXPath>', $xml);

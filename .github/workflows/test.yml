@@ -41,6 +41,7 @@ jobs:
     - name: phpunit
       run: |
         PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -f db_schema.sql
+        mkdir -p build/logs
         XDEBUG_MODE=coverage vendor/bin/phpunit
     - name: coveralls
       run: |

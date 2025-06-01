@@ -168,9 +168,9 @@ class Token {
         $this->checkValuesQuery();
         $values = ['tokenId' => $this->tokenId];
         foreach ($this->properties as $xpath => $prop) {
-            //if ($prop === null) {
-            //    $values[] = '';
-            //} else {
+            if ($prop === null) {
+                $values[] = '';
+            } else {
                 self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
                 $tmp   = [];
                 while (($value = self::$valuesQuery->fetch(\PDO::FETCH_OBJ)) && ($replace || count($tmp) == 0)) {
@@ -189,7 +189,7 @@ class Token {
                     $tmp = $tmp[0]->value;
                 }
                 $values[$prop->prop->getName()] = $tmp;
-            //}
+            }
         }
         return $values;
     }
