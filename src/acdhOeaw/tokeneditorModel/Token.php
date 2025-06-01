@@ -168,6 +168,7 @@ class Token {
         $this->checkValuesQuery();
         $values = ['tokenId' => $this->tokenId];
         foreach ($this->properties as $xpath => $prop) {
+            /** @phpstan-ignore identical.alwaysFalse */
             if ($prop === null) {
                 $values[] = '';
             } else {
