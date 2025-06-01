@@ -34,7 +34,7 @@ namespace acdhOeaw\tokeneditorModel;
 class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
 
     static private $saveDir      = 'build';
-    static private $connSettings = 'pgsql: port=5432 user=postgres password=postgres';
+    static private $connSettings = 'pgsql: host=127.0.0.1 port=5432 user=postgres password=postgres';
     static private $pdo;
     static private $docId;
 

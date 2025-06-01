@@ -34,7 +34,7 @@ namespace acdhOeaw\tokeneditorModel;
 class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 
     static private $saveDir      = 'build';
-    static private $connSettings = 'pgsql: port=5432 user=postgres password=postgres';
+    static private $connSettings = 'pgsql: host=127.0.0.1 port=5432 user=postgres password=postgres';
     static private $pdo;
     static private $validInPlace = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . "\n" .
         '<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:foo="http://foo"><!--sample comment--><teiHeader><fileDesc><titleStmt><title>testtext</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc/></fileDesc></teiHeader><text><body>' .
