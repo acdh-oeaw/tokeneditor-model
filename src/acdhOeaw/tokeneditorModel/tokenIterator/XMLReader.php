@@ -26,6 +26,7 @@
 
 namespace acdhOeaw\tokeneditorModel\tokenIterator;
 
+use SplFileObject;
 use acdhOeaw\tokeneditorModel\Document;
 use acdhOeaw\tokeneditorModel\Token;
 
@@ -42,18 +43,16 @@ use acdhOeaw\tokeneditorModel\Token;
  */
 class XMLReader extends TokenIterator {
 
-    private $reader;
-    private $outStream;
+    private \XMLReader $reader;
+    private SplFileObject | null $outStream = null;
+    private string $tokenXPath;
 
     /**
      * 
-     * @param type $xmlPath
-     * @param Document $document
-     * @param type $export
      * @throws \RuntimeException
      */
     public function __construct(string $xmlPath, Document $document,
-                                $export = false) {
+                                bool $export = false) {
         parent::__construct($xmlPath, $document);
 
         $this->reader = new \XMLReader();
@@ -73,24 +72,19 @@ class XMLReader extends TokenIterator {
 
         if ($export) {
             $filename        = tempnam(sys_get_temp_dir(), '');
-            $this->outStream = new \SplFileObject($filename, 'w');
+            $this->outStream = new SplFileObject($filename, 'w');
             $this->outStream->fwrite('<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . "\n");
         }
     }
 
     public function __destruct() {
         if ($this->outStream) {
-            $filename        = $this->outStream->getRealPath();
-            $this->outStream = null;
-            unlink($filename);
+            unlink($this->outStream->getRealPath());
         }
     }
 
-    /**
-     * 
-     */
-    public function next() {
-        if ($this->outStream && $this->token) {
+    public function next(): void {
+        if ($this->token) {
             $tmp = $this->token->getNode()->ownerDocument->saveXML();
             $tmp = trim(str_replace('<?xml version="1.0"?>' . "\n", '', $tmp));
             $this->outStream->fwrite($tmp);
@@ -120,10 +114,7 @@ class XMLReader extends TokenIterator {
         }
     }
 
-    /**
-     * 
-     */
-    public function rewind() {
+    public function rewind(): void {
         $this->reader->open($this->xmlPath);
         $this->pos = -1;
         $this->next();
@@ -131,17 +122,17 @@ class XMLReader extends TokenIterator {
 
     /**
      * 
-     * @param type $path
      * @throws \BadMethodCallException
      */
-    public function export($path = null) {
-        if (!$this->outStream) {
+    public function export(string | null $path = null): string | null {
+        if ($this->outStream === null) {
             throw new \RuntimeException('Set $export to true when calling object constructor to enable export');
         }
         $currPath        = $this->outStream->getRealPath();
         $this->outStream = null;
-        if ($path != '') {
+        if (!empty($path)) {
             rename($currPath, $path);
+            return null;
         } else {
             $data = file_get_contents($currPath);
             unlink($currPath);
@@ -149,11 +140,7 @@ class XMLReader extends TokenIterator {
         }
     }
 
-    /**
-     * 
-     * @param Token $new
-     */
-    public function replaceToken(Token $new) {
+    public function replaceToken(Token $new): void {
         if ($new->getId() != $this->token->getId()) {
             throw new \RuntimeException('Only current token can be replaced when you are using \XMLReader token iterator');
         }
@@ -166,7 +153,7 @@ class XMLReader extends TokenIterator {
      * Rewrites current node to the output.
      * Used to rewrite nodes which ate not tokens.
      */
-    private function writeElement() {
+    private function writeElement(): void {
         $el = $this->getElementBeg();
         $el .= $this->getElementContent();
         $el .= $this->getElementEnd();
@@ -176,9 +163,8 @@ class XMLReader extends TokenIterator {
     /**
      * Returns node beginning ('<', '<![CDATA[', etc.) for a current node.
      * Used to rewrite nodes which are not tokens to the output.
-     * @return string
      */
-    private function getElementBeg() {
+    private function getElementBeg(): string {
         $beg   = '';
         $types = [\XMLReader::ELEMENT, \XMLReader::END_ELEMENT];
         $beg   .= in_array($this->reader->nodeType, $types) ? '<' : '';
@@ -192,9 +178,8 @@ class XMLReader extends TokenIterator {
     /**
      * Returns node ending ('>', ']]>', etc.) for a current node.
      * Used to rewrite nodes which are not tokens to the output.
-     * @return string
      */
-    private function getElementEnd() {
+    private function getElementEnd(): string {
         $this->reader->moveToElement();
         $end   = '';
         $end   .= $this->reader->isEmptyElement ? '/' : '';
@@ -210,9 +195,8 @@ class XMLReader extends TokenIterator {
      * Returns node content (e.g. 'prefix:tag attr="value"' or comment/cdata 
      * text) for a current node.
      * Used to rewrite nodes which are not tokens to the output.
-     * @return string
      */
-    private function getElementContent() {
+    private function getElementContent(): string {
         $str = '';
 
         $types = [\XMLReader::ELEMENT, \XMLReader::END_ELEMENT, \XMLReader::PI];

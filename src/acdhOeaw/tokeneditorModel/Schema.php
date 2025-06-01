@@ -36,31 +36,31 @@ use PDO;
  */
 class Schema implements \IteratorAggregate {
 
-    private $pdo;
-    private $documentId;
-    private $tokenXPath;
-    private $namespaces = [];
-    private $properties = [];
-
-    /**
-     * 
-     * @param PDO $pdo
-     * @throws \RuntimeException
-     * @throws \LengthException
+    private PDO $pdo;
+    private int $documentId;
+    private string $tokenXPath;
+    /*
+     * @var array<string, string>
      */
+    private array $namespaces = [];
+    /*
+     * @var array<Property>
+     */
+    private array $properties = [];
+
     public function __construct(PDO $pdo) {
         $this->pdo = $pdo;
     }
 
-    public function loadFile(string $path) {
+    public function loadFile(string $path): void {
         if (!is_file($path)) {
             throw new \RuntimeException($path . ' is not a valid file');
         }
         $this->loadXML(file_get_contents($path));
     }
 
-    public function loadXML(string $xml) {
-        $this->tokenXPath = null;
+    public function loadXML(string $xml): void {
+        unset($this->tokenXPath);
         $this->properties = [];
         $this->namespaces = [];
 
@@ -153,7 +153,7 @@ class Schema implements \IteratorAggregate {
         return($schema);
     }
 
-    private function propAttrToXml($v) {
+    private function propAttrToXml(object | array | string $v): string {
         if (!is_object($v) && !is_array($v)) {
             return htmlspecialchars($v);
         }
@@ -162,7 +162,7 @@ class Schema implements \IteratorAggregate {
             foreach ($v as $i) {
                 $ret .= $this->propAttrToXml($i);
             }
-        } else if (is_object($v)) {
+        } else {
             foreach ($v as $k => $i) {
                 $ret .= "<$k>" . $this->propAttrToXml($i) . "</$k>";
             }
@@ -170,17 +170,13 @@ class Schema implements \IteratorAggregate {
         return $ret;
     }
 
-    /**
-     * 
-     * @return string
-     */
     public function getTokenXPath(): string {
         return (string) $this->tokenXPath;
     }
 
     /**
      * 
-     * @return array
+     * @return array<string>
      */
     public function getNs(): array {
         return $this->namespaces;
@@ -188,18 +184,13 @@ class Schema implements \IteratorAggregate {
 
     /**
      * 
-     * @return \ArrayIterator
+     * @return ArrayIterator<Property>
      */
     public function getIterator(): ArrayIterator {
         return new ArrayIterator($this->properties);
     }
 
-    /**
-     * 
-     * @param PDO $pdo
-     * @param type $datafileId
-     */
-    public function save(int $documentId) {
+    public function save(int $documentId): void {
         $query = $this->pdo->prepare("INSERT INTO documents_namespaces (document_id, prefix, ns) VALUES (?, ?, ?)");
         foreach ($this->getNs() as $prefix => $ns) {
             $query->execute([$documentId, $prefix, $ns]);

@@ -70,7 +70,7 @@ class UserTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals([], $u->getUsers());
 
         $u->setRole('aaa', User::ROLE_OWNER);
-        $aaa = (object) ['userId' => 'aaa', 'role' => USER::ROLE_OWNER, 'name' => null];
+        $aaa = (object) ['userId' => 'aaa', 'role' => User::ROLE_OWNER, 'name' => null];
         $this->assertEquals([$aaa], $u->getUsers());
         $this->assertEquals($aaa, $u->getUser('aaa'));
         $this->assertEquals(true, $u->isOwner('aaa'));
@@ -80,7 +80,7 @@ class UserTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(false, $u->isViewer('aaa', true));
 
         $u->setRole('bbb', User::ROLE_EDITOR);
-        $bbb = (object) ['userId' => 'bbb', 'role' => USER::ROLE_EDITOR, 'name' => null];
+        $bbb = (object) ['userId' => 'bbb', 'role' => User::ROLE_EDITOR, 'name' => null];
         $this->assertEquals([$aaa, $bbb], $u->getUsers());
         $this->assertEquals($bbb, $u->getUser('bbb'));
         $this->assertEquals(false, $u->isOwner('bbb'));
@@ -90,7 +90,7 @@ class UserTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(false, $u->isViewer('bbb', true));
 
         $u->setRole('ccc', User::ROLE_VIEWER, 'xxx');
-        $ccc = (object) ['userId' => 'ccc', 'role' => USER::ROLE_VIEWER, 'name' => 'xxx'];
+        $ccc = (object) ['userId' => 'ccc', 'role' => User::ROLE_VIEWER, 'name' => 'xxx'];
         $this->assertEquals([$aaa, $bbb, $ccc], $u->getUsers());
         $this->assertEquals($ccc, $u->getUser('ccc'));
         $this->assertEquals(false, $u->isOwner('ccc'));
@@ -100,7 +100,7 @@ class UserTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(true, $u->isViewer('ccc', true));
         
         $u->setRole('bbb', User::ROLE_NONE, 'zzz');
-        $bbb2 = (object) ['userId' => 'bbb', 'role' => USER::ROLE_NONE, 'name' => 'zzz'];
+        $bbb2 = (object) ['userId' => 'bbb', 'role' => User::ROLE_NONE, 'name' => 'zzz'];
         $this->assertEquals([$aaa, $bbb2, $ccc], $u->getUsers());
         $this->assertEquals($bbb2, $u->getUser('bbb'));
         $this->assertEquals(false, $u->isOwner('bbb'));

@@ -40,16 +40,10 @@ use acdhOeaw\tokeneditorModel\Token;
  */
 class PDO extends TokenIterator {
 
-    private $pdo;
-    private $id;
+    private \PDO $pdo;
+    private int $id;
     private $results;
 
-    /**
-     * 
-     * @param type $path
-     * @param \model\Schema $schema
-     * @param \PDO $pdo
-     */
     public function __construct(string $xmlPath, Document $document) {
         parent::__construct($xmlPath, $document);
         $this->pdo = $this->document->getPdo();
@@ -70,10 +64,7 @@ class PDO extends TokenIterator {
         $query->execute(array($this->id));
     }
 
-    /**
-     * 
-     */
-    public function next() {
+    public function next(): void {
         $this->pos++;
         $this->token = $this->results->fetch(\PDO::FETCH_COLUMN);
         if ($this->token !== false) {
@@ -83,10 +74,7 @@ class PDO extends TokenIterator {
         }
     }
 
-    /**
-     * 
-     */
-    public function rewind() {
+    public function rewind(): void {
         $param = array($this->document->getSchema()->getTokenXPath());
 
         $ns = array();
@@ -108,21 +96,11 @@ class PDO extends TokenIterator {
         $this->next();
     }
 
-    /**
-     * 
-     * @param type $path
-     * @throws \BadMethodCallException
-     */
-    public function export($path = null) {
+    public function export(string | null $path = null): string | null {
         throw new BadMethodCallException('export() is not not implemented for this TokenIterator class');
     }
 
-    /**
-     * 
-     * @param \model\Token $new
-     * @throws \BadMethodCallException
-     */
-    public function replaceToken(Token $new) {
+    public function replaceToken(Token $new): void {
         throw new BadMethodCallException('replaceToken() is not not implemented for this TokenIterator class');
     }
 

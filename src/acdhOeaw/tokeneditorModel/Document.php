@@ -29,6 +29,10 @@ namespace acdhOeaw\tokeneditorModel;
 use PDO;
 use RuntimeException;
 use zozlak\util\ProgressBar;
+use acdhOeaw\tokeneditorModel\tokenIterator\TokenIterator;
+use acdhOeaw\tokeneditorModel\tokenIterator\PDO as iPDO;
+use acdhOeaw\tokeneditorModel\tokenIterator\DOMDocument as iDOMDocument;
+use acdhOeaw\tokeneditorModel\tokenIterator\XMLReader as iXMLReader;
 
 /**
  * Description of Datafile
@@ -37,9 +41,7 @@ use zozlak\util\ProgressBar;
  */
 class Document implements \IteratorAggregate {
 
-    const DOM_DOCUMENT = '\acdhOeaw\tokeneditorModel\tokenIterator\DOMDocument';
-    const XML_READER   = '\acdhOeaw\tokeneditorModel\tokenIterator\XMLReader';
-    const PDO          = '\acdhOeaw\tokeneditorModel\tokenIterator\PDO';
+    const TOKEN_ITERATORS = [iPDO::class, iDOMDocument::class, iXMLReader::class];
 
     private $path;
     private $name;
@@ -53,8 +55,6 @@ class Document implements \IteratorAggregate {
 
     /**
      * 
-     * @param type $path
-     * @param \acdhOeaw\tokeneditor\Schema $schema
      * @throws RuntimeException
      */
     public function __construct(PDO $pdo) {
@@ -64,15 +64,11 @@ class Document implements \IteratorAggregate {
 
     /**
      * 
-     * @param string $filePath
-     * @param string $schemaPath
-     * @param string $name
-     * @param string $iteratorClass
      * @throws RuntimeException
      * @throws \InvalidArgumentException
      */
     public function loadFile(string $filePath, string $schemaPath, string $name,
-                             string $iteratorClass = null) {
+                             string $iteratorClass = null): void {
         if (!is_file($filePath)) {
             throw new RuntimeException($filePath . ' is not a valid file');
         }
@@ -84,9 +80,8 @@ class Document implements \IteratorAggregate {
         if ($iteratorClass === null) {
             $this->chooseTokenIterator();
         } else {
-            if (!in_array($iteratorClass, [self::DOM_DOCUMENT, self::XML_READER,
-                    self::PDO])) {
-                throw new \InvalidArgumentException('tokenIteratorClass should be \acdhOeaw\tokeneditorModel\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditorModel\Datafile::PDO or \acdhOeaw\tokeneditorModel\Datafile::XML_READER');
+            if (!in_array($iteratorClass, self::TOKEN_ITERATORS)) {
+                throw new \InvalidArgumentException('tokenIteratorClass should be one of ' . implode(', ', self::TOKEN_ITERATORS));
             }
             $this->tokenIteratorClassName = $iteratorClass;
         }
@@ -94,12 +89,10 @@ class Document implements \IteratorAggregate {
 
     /**
      * 
-     * @param string $documentId
-     * @param string $iteratorClass
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      */
-    public function loadDb(string $documentId, string $iteratorClass = null) {
+    public function loadDb(string $documentId, string $iteratorClass = null): void {
         $this->documentId = $documentId;
         $this->schema->loadDb($this->documentId);
 
@@ -117,87 +110,50 @@ class Document implements \IteratorAggregate {
         if ($iteratorClass === null) {
             $this->chooseTokenIterator();
         } else {
-            if (!in_array($iteratorClass, [self::DOM_DOCUMENT, self::XML_READER])) {
-                throw new \InvalidArgumentException('tokenIteratorClass should be \acdhOeaw\tokeneditorModel\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditorModel\Datafile::PDO or \acdhOeaw\tokeneditorModel\Datafile::XML_READER');
+            if (!in_array($iteratorClass, self::TOKEN_ITERATORS)) {
+                throw new \InvalidArgumentException('tokenIteratorClass should be one of ' . implode(', ', self::TOKEN_ITERATORS));
             }
             $this->tokenIteratorClassName = $iteratorClass;
         }
     }
 
-    /**
-     * 
-     * @return integer
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->documentId;
     }
 
-    /**
-     * 
-     * @return \acdhOeaw\tokeneditor\Schema
-     */
-    public function getSchema() {
+    public function getSchema(): Schema {
         return $this->schema;
     }
 
-    /**
-     * 
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * 
-     * @return PDO
-     */
-    public function getPdo() {
+    public function getPdo(): PDO {
         return $this->pdo;
     }
 
-    public function getIterator() {
+    public function getIterator(): TokenIterator {
         $this->tokenIterator = new $this->tokenIteratorClassName($this->path, $this, $this->exportFlag);
         $this->exportFlag    = false;
         return $this->tokenIterator;
     }
 
-    /**
-     * 
-     * @return \acdhOeaw\tokeneditor\tokenIterator\TokenInterator
-     */
-    public function getTokenIterator() {
+    public function getTokenIterator(): TokenIterator {
         return $this->tokenIterator;
     }
 
-    /**
-     * 
-     * @param string $saveDir
-     * @return type
-     */
-    public function getXmlPath(string $saveDir) {
+    public function getXmlPath(string $saveDir): string {
         return $saveDir . '/' . $this->documentId . '.xml';
     }
 
-    /**
-     * 
-     * @return integer
-     */
-    public function generateTokenId() {
+    public function generateTokenId(): int {
         $this->tokenId++;
         return $this->tokenId;
     }
 
-    /**
-     * 
-     * @param string $saveDir
-     * @param int $limit
-     * @param \zozlak\util\ProgressBar $progressBar
-     * @param bool $skipErrors
-     * @return int number of proccessed tokens
-     */
     public function save(string $saveDir, int $limit = 0,
-                         ProgressBar $progressBar = null, $skipErrors = false) {
+                         ProgressBar $progressBar = null, $skipErrors = false): int {
         $this->documentId = $this->pdo->
             query("SELECT nextval('document_id_seq')")->
             fetchColumn();
@@ -211,6 +167,7 @@ class Document implements \IteratorAggregate {
 
         $this->schema->save($this->documentId);
 
+        $n = 0;
         foreach ($this as $n => $token) {
             try {
                 $token->save();
@@ -231,11 +188,7 @@ class Document implements \IteratorAggregate {
         return $n + 1;
     }
 
-    /**
-     * 
-     * @param string $saveDir
-     */
-    public function delete(string $saveDir) {
+    public function delete(string $saveDir): void {
         $query = $this->pdo->prepare("DELETE FROM documents WHERE document_id = ?");
         $query->execute([$this->documentId]);
         $path  = $this->getXmlPath($saveDir);
@@ -250,10 +203,9 @@ class Document implements \IteratorAggregate {
      *   (taking the most current value provided by usesrs as the right one). 
      *   If false, review results will be provided as TEI <fs> elements
      * @param string $path path to the file where document will be exported
-     * @param type $progressBar
      */
     public function export(bool $replace = false, string $path = null,
-                           ProgressBar $progressBar = null) {
+                           ProgressBar $progressBar = null): string {
         $this->exportFlag = true;
         if ($replace) {
             foreach ($this as $token) {
@@ -284,7 +236,7 @@ class Document implements \IteratorAggregate {
      * @param ProgressBar $progressBar progress bar instance - if provided,
      *   export progress is shown
      */
-    public function exportTable(ExportTableInterface $formatter, bool $replace = true, ProgressBar $progressBar = null) {
+    public function exportTable(ExportTableInterface $formatter, bool $replace = true, ProgressBar $progressBar = null): void {
         $this->exportFlag = true;
         $formatter->begin($this->schema);
         foreach($this as $token){
@@ -296,15 +248,12 @@ class Document implements \IteratorAggregate {
         $formatter->end();
     }
     
-    /**
-     * 
-     */
-    private function chooseTokenIterator() {
+    private function chooseTokenIterator(): void {
         try {
-            new tokenIterator\XMLReader($this->path, $this);
-            $this->tokenIteratorClassName = self::XML_READER;
+            new iXMLReader($this->path, $this);
+            $this->tokenIteratorClassName = iXMLReader::class;
         } catch (RuntimeException $ex) {
-            $this->tokenIteratorClassName = self::DOM_DOCUMENT;
+            $this->tokenIteratorClassName = iDOMDocument::class;
         }
     }
 

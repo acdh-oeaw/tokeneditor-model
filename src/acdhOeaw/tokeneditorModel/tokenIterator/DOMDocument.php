@@ -39,21 +39,14 @@ use acdhOeaw\tokeneditorModel\Token;
  */
 class DOMDocument extends TokenIterator {
 
-    private $dom;
-    private $tokens;
+    private \DOMDocument $dom;
+    private \DOMNodeList $tokens;
 
-    /**
-     * 
-     * @param type $path
-     */
     public function __construct(string $xmlPath, Document $document) {
         parent::__construct($xmlPath, $document);
     }
 
-    /**
-     * 
-     */
-    public function next() {
+    public function next(): void {
         $this->token = false;
         $this->pos++;
         if ($this->pos < $this->tokens->length) {
@@ -63,10 +56,7 @@ class DOMDocument extends TokenIterator {
         }
     }
 
-    /**
-     * 
-     */
-    public function rewind() {
+    public function rewind(): void {
         $this->dom                     = new \DOMDocument();
         $this->dom->preserveWhiteSpace = false;
         $this->dom->LoadXML(file_get_contents($this->xmlPath));
@@ -79,24 +69,16 @@ class DOMDocument extends TokenIterator {
         $this->next();
     }
 
-    /**
-     * 
-     * @param Token $new
-     */
-    public function replaceToken(Token $new) {
+    public function replaceToken(Token $new): void {
         $old = $this->tokens->item($new->getId() - 1);
         $new = $this->dom->importNode($new->getNode(), true);
         $old->parentNode->replaceChild($new, $old);
     }
 
-    /**
-     * 
-     * @param string $path
-     * @return string
-     */
-    public function export($path = null) {
+    public function export(string | null $path = null): string | null {
         if ($path != '') {
             $this->dom->save($path);
+            return null;
         } else {
             return $this->dom->saveXML();
         }

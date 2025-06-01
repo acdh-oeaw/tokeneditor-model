@@ -31,17 +31,22 @@ use PDO;
 
 class TokenCollection {
 
+    private PDO $pdo;
+    private int $documentId;
+    private string $userId;
+    private int $tokenIdFilter;
     /**
-     *
-     * @var PDO $pdo
+     * @var array<string, string>
      */
-    private $pdo;
-    private $documentId;
-    private $userId;
-    private $tokenIdFilter;
-    private $filters  = [];
-    private $sorting  = [];
-    private $propDict = [];
+    private array $filters  = [];
+    /*
+     * @var array<string>
+     */
+    private array $sorting  = [];
+    /*
+     * @var array<string, string>
+     */
+    private array $propDict = [];
 
     public function __construct(PDO $pdo, int $documentId, string $userId) {
         $this->pdo        = $pdo;
@@ -55,22 +60,17 @@ class TokenCollection {
         }
     }
 
-    public function setTokenIdFilter(int $id) {
+    public function setTokenIdFilter(int $id): void {
         $this->tokenIdFilter = $id;
     }
 
-    /**
-     * 
-     * @param type $prop property name
-     * @param type $val filter value
-     */
-    public function addFilter(string $prop, string $val) {
+    public function addFilter(string $prop, string $val): void {
         $this->filters[$prop] = $val;
     }
 
     /**
      * 
-     * @param array $columns sorting order (prepend column name with "-" for
+     * @param array<string> $columns sorting order (prepend column name with "-" for
      *   descending
      */
     public function setSorting(array $columns) {
@@ -214,12 +214,15 @@ class TokenCollection {
         return $result ? $result : '[]';
     }
 
-    private function getFilters() {
+    /**
+     * @returns array{string, array<mixed>}
+     */
+    private function getFilters(): array {
         $query  = "";
         $n      = 1;
         $params = [];
 
-        if ($this->tokenIdFilter !== null) {
+        if (isset($this->tokenIdFilter)) {
             $query    .= "
                 JOIN (
                     SELECT ?::int AS token_id
@@ -292,6 +295,9 @@ class TokenCollection {
         return [$query, $params];
     }
 
+    /**
+     * @return array<string>
+     */
     private function skipSortDir(array $a): array {
         $r = [];
         foreach ($a as $i) {

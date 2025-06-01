@@ -33,24 +33,20 @@ namespace acdhOeaw\tokeneditorModel;
  */
 class ExportCsv implements ExportTableInterface {
 
-    /**
-     * @var string
-     */
-    private $delimiter;
+    private string $delimiter;
 
     /**
-     * @var string
+     * @var resource|bool
      */
-    private $file;
+    private $file = false;
 
     public function __construct(string $path, string $delimiter = ',') {
-
         $this->file      = fopen($path, 'w');
         $this->delimiter = $delimiter;
     }
 
     public function __destruct() {
-        if ($this->file) {
+        if ($this->file !== false) {
             $this->end();
         }
     }
@@ -65,7 +61,7 @@ class ExportCsv implements ExportTableInterface {
 
     public function end(): void {
         fclose($this->file);
-        $this->file = null;
+        $this->file = false;
     }
 
     public function writeRow(Token $token, bool $replace): void {

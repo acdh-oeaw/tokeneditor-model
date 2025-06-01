@@ -18,12 +18,19 @@
         }
     ],
     "require": {
-        "php": ">=7.2" ,
+        "php": ">=8.1",
+        "ext-dom": "*",
+        "ext-xmlreader": "*",
+        "ext-pdo_pgsql": "*",
         "zozlak/util": "*"
     },
     "autoload": {
         "psr-4": {
             "acdhOeaw\\": "src/acdhOeaw" 
         }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "*",
+        "phpunit/phpunit": "^12.1"
     }
 }

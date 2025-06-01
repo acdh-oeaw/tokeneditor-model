@@ -98,6 +98,7 @@ class SchemaTest extends \PHPUnit\Framework\TestCase {
         ");
         $s = new Schema(self::$pdo);
         $s->loadDb(1);
+        $n = -1;
         foreach ($s as $n => $p) {
             /* @var $p Property */
             $this->assertEquals('/foo', $p->getXPath());

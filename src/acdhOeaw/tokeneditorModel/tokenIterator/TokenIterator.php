@@ -36,56 +36,29 @@ use acdhOeaw\tokeneditorModel\Token;
  */
 abstract class TokenIterator implements \Iterator {
 
-    /**
-     *
-     * @var Document
-     */
-    protected $document;
-    protected $xmlPath;
-    protected $pos;
+    protected Document $document;
+    protected string $xmlPath;
+    protected int $pos;
+    protected Token | bool $token = false;
 
-    /**
-     *
-     * @var type Token
-     */
-    protected $token = false;
-
-    /**
-     * 
-     * @param type $path
-     * @param \acdhOeaw\tokeneditor\Schema $schema
-     * @param \PDO $PDO
-     */
     public function __construct(string $xmlPath, Document $document) {
         $this->xmlPath = $xmlPath;
         $this->document = $document;
     }
 
-    /**
-     * 
-     * @return Token
-     */
-    public function current() {
+    public function current(): Token | bool {
         return $this->token;
     }
 
-    /**
-     * 
-     * @return int
-     */
-    public function key() {
+    public function key(): int {
         return $this->pos;
     }
 
-    /**
-     * 
-     * @return boolean
-     */
-    public function valid() {
+    public function valid(): bool {
         return $this->token !== false;
     }
 
-    abstract public function export($path = null);
+    abstract public function export(string | null $path = null): string | null;
 
-    abstract public function replaceToken(Token $new);
+    abstract public function replaceToken(Token $new): void;
 }

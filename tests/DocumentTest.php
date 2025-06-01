@@ -34,7 +34,7 @@ namespace acdhOeaw\tokeneditorModel;
 class DocumentTest extends \PHPUnit\Framework\TestCase {
 
     static private $saveDir      = 'build';
-    static private $connSettings = 'pgsql: dbname=tokeneditor';
+    static private $connSettings = 'pgsql: port=5432 user=postgres password=postgres';
     static private $pdo;
 
     static public function setUpBeforeClass(): void {

@@ -28,6 +28,7 @@ namespace acdhOeaw\tokeneditorModel;
 
 use LengthException;
 use PDO;
+use stdClass;
 use SimpleXMLElement;
 
 /**
@@ -55,13 +56,14 @@ class Property {
         return new Property($el, $ord);
     }
 
-    private $xpath;
-    private $type;
-    private $name;
-    private $ord;
-    private $readOnly   = false;
-    private $optional   = false;
-    private $attributes = null;
+    private string $xpath;
+    private string $type;
+    private string $name;
+    private int $ord;
+    private bool $xml;
+    private bool $readOnly   = false;
+    private bool $optional   = false;
+    private stdClass $attributes;
 
     /**
      * 
@@ -114,7 +116,10 @@ class Property {
         }
     }
 
-    private function parseAttributes(SimpleXMLElement $xml) {
+    /**
+     * @return array<stdClass>|string
+     */
+    private function parseAttributes(SimpleXMLElement $xml): array | string {
         if ($xml->count() === 0) {
             return (string) $xml;
         }
@@ -125,79 +130,42 @@ class Property {
         return $ret;
     }
 
-    /**
-     * 
-     * @return string
-     */
-    public function getXPath() {
+    public function getXPath(): string {
         return $this->xpath;
     }
 
-    /**
-     * 
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * 
-     * @return string
-     */
-    public function getType() {
+    public function getType(): string {
         return $this->type;
     }
 
-    /**
-     * 
-     * @return int
-     */
-    public function getOrd() {
+    public function getOrd(): int {
         return $this->ord;
     }
 
-    /**
-     * 
-     * @return bool
-     */
-    public function getReadOnly() {
+    public function getReadOnly(): bool {
         return $this->readOnly;
     }
 
-    /**
-     * 
-     * @return bool
-     */
-    public function getOptional() {
+    public function getOptional(): bool {
         return $this->optional;
     }
 
-    /**
-     * 
-     * @return mixed
-     */
-    public function getAttribute(string $property) {
+    public function getAttribute(string $property): Property {
         if (!isset($this->attributes->$property)) {
             throw new \InvalidArgumentException('No such property');
         }
         return $this->attributes->$property;
     }
 
-    /**
-     * 
-     * @return mixed
-     */
-    public function getAttributes() {
+    public function getAttributes(): stdClass {
         return $this->attributes;
     }
 
-    /**
-     * 
-     * @param PDO $pdo
-     * @param integer $documentId
-     */
-    public function save(PDO $pdo, int $documentId) {
+    public function save(PDO $pdo, int $documentId): void {
         $query = $pdo->prepare("
             INSERT INTO properties (document_id, property_xpath, type_id, name, read_only, optional, ord, attributes) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)

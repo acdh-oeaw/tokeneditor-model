@@ -28,6 +28,8 @@ namespace acdhOeaw\tokeneditorModel;
 
 use DOMElement;
 use DOMNode;
+use DOMXPath;
+use PDOStatement;
 
 /**
  * Description of Token
@@ -36,46 +38,27 @@ use DOMNode;
  */
 class Token {
 
+    private static PDOStatement $valuesQuery;
+    private static PDOStatement $origValuesQuery;
+    private DomElement $dom;
+    private Document $document;
+    private int $tokenId;
     /**
-     *
-     * @var \PDOStatement
+     * @var array<string, object>
      */
-    private static $valuesQuery;
+    private array $properties        = [];
+    /**
+     * @var array<string, string>
+     */
+    private array $invalidProperties = [];
+    private DOMXPath $xpath;
 
-    /**
-     *
-     * @var \PDOStatement
-     */
-    private static $origValuesQuery;
-
-    /**
-     *
-     * @var \DomElement
-     */
-    private $dom;
-
-    /**
-     *
-     * @var acdhOeaw\tokeneditor\Document
-     */
-    private $document;
-    private $tokenId;
-    private $properties        = [];
-    private $invalidProperties = [];
-    private $xpath;
-
-    /**
-     * 
-     * @param \DOMElement $dom
-     * @param \acdhOeaw\tokeneditor\Document $document
-     * @throws \LengthException
-     */
-    public function __construct(\DOMElement $dom, Document $document) {
+    public function __construct(DOMElement $dom, Document $document) {
         $this->dom      = $dom;
         $this->document = $document;
         $this->tokenId  = $this->document->generateTokenId();
 
-        $this->xpath = new \DOMXPath($dom->ownerDocument);
+        $this->xpath = new DOMXPath($dom->ownerDocument);
         foreach ($this->document->getSchema()->getNs() as $prefix => $ns) {
             $this->xpath->registerNamespace($prefix, $ns);
         }
@@ -99,11 +82,6 @@ class Token {
         }
     }
 
-    /**
-     * 
-     * @param \DOMNode $node
-     * @return string
-     */
     private function innerXml(DOMNode $node): string {
         $out = '';
         for ($i = 0; $i < $node->childNodes->length; $i++) {
@@ -112,10 +90,6 @@ class Token {
         return $out;
     }
 
-    /**
-     * 
-     * @throws \RuntimeException
-     */
     public function save(): void {
         if (count($this->invalidProperties) > 0) {
             throw new \RuntimeException("at least one property wasn't found");
@@ -129,18 +103,14 @@ class Token {
 
         $query = $pdo->prepare("INSERT INTO orig_values (document_id, token_id, property_xpath, value) VALUES (?, ?, ?, ?)");
         foreach ($this->getValidProperties() as $xpath => $prop) {
-            $value = '';
-            if ($prop) {
-                $value = isset($prop->node->value) ? $prop->node->value : $this->innerXml($prop->node);
-            }
+            //$value = '';
+            //if ($prop) {
+            $value = isset($prop->node->value) ? $prop->node->value : $this->innerXml($prop->node);
+            //}
             $query->execute([$docId, $this->tokenId, $xpath, $value]);
         }
     }
 
-    /**
-     * 
-     * @return boolean
-     */
     public function update(): void {
         $this->checkValuesQuery();
 
@@ -161,10 +131,6 @@ class Token {
         $this->updateDocument();
     }
 
-    /**
-     * 
-     * @return boolean
-     */
     public function enrich(): void {
         $this->checkValuesQuery();
 
@@ -196,7 +162,7 @@ class Token {
      * Returns an array representation of a token.
      * @param bool $replace should only the final value be returned for every 
      *   property? (if false, a whole history of value changes is returned)
-     * @return array
+     * @return array<string, string>
      */
     public function asArray(bool $replace): array {
         $this->checkValuesQuery();
@@ -228,25 +194,14 @@ class Token {
         return $values;
     }
 
-    /**
-     * 
-     * @return \DOMNode
-     */
     public function getNode(): DOMNode {
         return $this->dom;
     }
 
-    /**
-     * 
-     * @return int
-     */
     public function getId(): int {
         return $this->tokenId;
     }
 
-    /**
-     * 
-     */
     private function checkValuesQuery(): void {
         if (self::$valuesQuery === null) {
             self::$valuesQuery = $this->document->getPdo()->
@@ -258,16 +213,13 @@ class Token {
         }
     }
 
-    /**
-     * 
-     */
     private function updateDocument(): void {
         $this->document->getTokenIterator()->replaceToken($this);
     }
 
     /**
      * Returns array of properties without missing optional properties.
-     * @return array
+     * @return array<string, object>
      */
     private function getValidProperties(): array {
         $r = [];
@@ -279,10 +231,6 @@ class Token {
         return $r;
     }
 
-    /**
-     * 
-     * @return \DOMElement
-     */
     private function createTeiFeatureSet(): DOMElement {
         $doc = $this->dom->ownerDocument;
 
@@ -295,16 +243,8 @@ class Token {
         return($fs);
     }
 
-    /**
-     * 
-     * @param \DOMNode $node
-     * @param string $value
-     * @param string $name
-     * @param bool $xmlValue
-     * @return \DOMElement
-     */
     private function createTeiFeature(DOMNode $node, string $value,
-                                      string $name, bool $xmlValue = false): DOMElement {
+                                      string $name, bool $xmlValue = false): DOMNode {
         $doc = $node->ownerDocument;
 
         $fn        = $doc->createAttribute('name');
@@ -325,10 +265,6 @@ class Token {
     /**
      * Creates an XML element containing an XML content given by string evaluated
      * in the context of all $nsSrcMode namespaces.
-     * @param \DOMElement $nsSrcNode
-     * @param string $value
-     * @param string $name
-     * @return \DOMNode
      */
     private function createElementWithNs(DOMElement $nsSrcNode, string $value,
                                          string $name): DOMNode {

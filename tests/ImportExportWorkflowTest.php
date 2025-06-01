@@ -138,7 +138,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 
     public function testXMLReader(): void {
         $doc                 = new Document(self::$pdo);
-        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::XML_READER);
+        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', \XMLReader::class);
         $doc->save(self::$saveDir);
         $docId               = $doc->getId();
         $this->docsToClean[] = $docId;
@@ -147,13 +147,13 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         $this->insertValues($docId);
 
         $doc = new Document(self::$pdo);
-        $doc->loadDb($docId, Document::XML_READER);
+        $doc->loadDb($docId, \XMLReader::class);
         $this->assertEquals(trim(self::$validInPlace), trim($doc->export(true)));
     }
 
     public function testPDO(): void {
         $doc                 = new Document(self::$pdo);
-        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::PDO);
+        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', \PDO::class);
         $doc->save(self::$saveDir);
         $docId               = $doc->getId();
         $this->docsToClean[] = $docId;
@@ -168,7 +168,8 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 
     public function testDOMDocument(): void {
         $doc                 = new Document(self::$pdo);
-        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', Document::DOM_DOCUMENT);
+        $doc->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test', \DOMDocument::class);
+
         $doc->save(self::$saveDir);
         $docId               = $doc->getId();
         $this->docsToClean[] = $docId;
@@ -177,7 +178,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         $this->insertValues($docId);
 
         $doc   = new Document(self::$pdo);
-        $doc->loadDb($docId, Document::DOM_DOCUMENT);
+        $doc->loadDb($docId, \DOMDocument::class);
         $valid = trim(preg_replace('|<w[^>]+ id|', '<w id', self::$validInPlace));
         $this->assertEquals($valid, trim($doc->export(true)));
     }

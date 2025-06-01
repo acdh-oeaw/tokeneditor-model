@@ -34,8 +34,7 @@ namespace acdhOeaw\tokeneditorModel;
 class PropertyTest extends \PHPUnit\Framework\TestCase {
 
     public function testFactory(): void {
-        $p = Property::factory(1, 'test name', '.', 'test type', true, true, ['a',
-                'b', 'c']);
+        $p = Property::factory(1, 'test name', '.', 'test type', true, true);
         $this->assertEquals('test name', $p->getName());
         $this->assertEquals('.', $p->getXPath());
     }
