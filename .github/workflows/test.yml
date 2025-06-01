@@ -1,0 +1,47 @@
+name: phpunit
+
+on: push
+
+jobs:
+  phpunit:
+    strategy:
+      matrix:
+        php: [8.1, 8.2, 8.3, 8.4]
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        ports:
+        - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - uses: actions/checkout@v4
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: dom,xmlreader,json,mbstring,pdo_pgsql
+        coverage: xdebug
+      env:
+        fail-fast: true
+    - uses: actions/cache@v4
+      with:
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
+    - name: phpstan
+      run: vendor/bin/phpstan analyse -l 4 src tests
+    - name: composer
+      run: composer update
+    - name: phpunit
+      run: XDEBUG_MODE=coverage vendor/bin/phpunit
+    - name: coveralls
+      run: |
+        export COVERALLS_RUN_LOCALLY=1
+        export COVERALLS_REPO_TOKEN=${{ secrets.coverallsToken }}
+        php vendor/bin/php-coveralls -v
