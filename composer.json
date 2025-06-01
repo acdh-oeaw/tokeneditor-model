@@ -31,6 +31,6 @@
     },
     "require-dev": {
         "phpstan/phpstan": "*",
-        "phpunit/phpunit": "^11"
+        "phpunit/phpunit": ">=10"
     }
 }
