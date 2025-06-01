@@ -34,10 +34,10 @@ jobs:
         path: vendor
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
-    - name: phpstan
-      run: vendor/bin/phpstan analyse -l 4 src tests
     - name: composer
       run: composer update
+    - name: phpstan
+      run: vendor/bin/phpstan analyse -l 4 src tests
     - name: phpunit
       run: XDEBUG_MODE=coverage vendor/bin/phpunit
     - name: coveralls
