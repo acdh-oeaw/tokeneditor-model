@@ -168,9 +168,9 @@ class Token {
         $this->checkValuesQuery();
         $values = ['tokenId' => $this->tokenId];
         foreach ($this->properties as $xpath => $prop) {
-            if ($prop === null) {
-                $values[] = '';
-            } else {
+            //if ($prop === null) {
+            //    $values[] = '';
+            //} else {
                 self::$valuesQuery->execute([$this->document->getId(), $xpath, $this->tokenId]);
                 $tmp   = [];
                 while (($value = self::$valuesQuery->fetch(\PDO::FETCH_OBJ)) && ($replace || count($tmp) == 0)) {
@@ -189,7 +189,7 @@ class Token {
                     $tmp = $tmp[0]->value;
                 }
                 $values[$prop->prop->getName()] = $tmp;
-            }
+            //}
         }
         return $values;
     }
@@ -203,11 +203,11 @@ class Token {
     }
 
     private function checkValuesQuery(): void {
-        if (self::$valuesQuery === null) {
+        if (!isset(self::$valuesQuery)) {
             self::$valuesQuery = $this->document->getPdo()->
                 prepare("SELECT user_id AS \"userId\", value, date FROM values WHERE (document_id, property_xpath, token_id) = (?, ?, ?) ORDER BY date DESC");
         }
-        if (self::$origValuesQuery === null) {
+        if (!isset(self::$origValuesQuery)) {
             self::$origValuesQuery = $this->document->getPdo()->
                 prepare("SELECT value FROM orig_values WHERE (document_id, property_xpath, token_id) = (?, ?, ?)");
         }
@@ -224,6 +224,7 @@ class Token {
     private function getValidProperties(): array {
         $r = [];
         foreach ($this->properties as $k => $v) {
+            /** @phpstan-ignore notIdentical.alwaysTrue */
             if ($v !== null) {
                 $r[$k] = $v;
             }
