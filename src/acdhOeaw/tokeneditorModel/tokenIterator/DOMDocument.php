@@ -40,6 +40,9 @@ use acdhOeaw\tokeneditorModel\Token;
 class DOMDocument extends TokenIterator {
 
     private \DOMDocument $dom;
+    /**
+     * @var \DOMNodeList<\DOMElement>
+     */
     private \DOMNodeList $tokens;
 
     public function __construct(string $xmlPath, Document $document) {
@@ -52,6 +55,7 @@ class DOMDocument extends TokenIterator {
         if ($this->pos < $this->tokens->length) {
             $doc         = new \DOMDocument();
             $tokenNode   = $doc->importNode($this->tokens->item($this->pos), true);
+            /** @phpstan-ignore argument.type */
             $this->token = new Token($tokenNode, $this->document);
         }
     }

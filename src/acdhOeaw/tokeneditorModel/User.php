@@ -43,19 +43,13 @@ class User {
     const ROLE_EDITOR = 'editor';
     const ROLE_OWNER  = 'owner';
 
+    private PDO $pdo;
+    private int $documentId;
     /**
-     *
-     * @var PDO
+     * @var array<object>
      */
-    private $pdo;
-    private $documentId;
-    private $users;
+    private array $users;
 
-    /**
-     * 
-     * @param PDO $pdo
-     * @param int $documentId
-     */
     public function __construct(PDO $pdo, int $documentId) {
         $this->pdo        = $pdo;
         $this->documentId = $documentId;
@@ -64,7 +58,7 @@ class User {
 
     /**
      * Returns a list of all users connected with the document.
-     * @return array
+     * @return array<object>
      */
     public function getUsers(): array {
         return $this->users;
@@ -134,9 +128,9 @@ class User {
      * If a users doesn't exist, it is automatically created.
      * @param string $userId user's identifier
      * @param string $role role - User::ROLE_NONE, User::ROLE_EDITOR or User::ROLE_OWNER
-     * @param string $name optional alias for the $userId
+     * @param string|null $name optional alias for the $userId
      */
-    public function setRole(string $userId, string $role, string $name = null) {
+    public function setRole(string $userId, string $role, string | null $name = null): void {
         if (!in_array($role, [self::ROLE_NONE, self::ROLE_VIEWER, self::ROLE_EDITOR,
                 self::ROLE_OWNER])) {
             throw new BadMethodCallException('Bad role parameter value', 400);
@@ -165,7 +159,7 @@ class User {
         }
     }
 
-    private function fetchUsers() {
+    private function fetchUsers(): void {
         $query       = $this->pdo->prepare('
             SELECT user_id AS "userId", role, name 
             FROM 

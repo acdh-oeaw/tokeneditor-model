@@ -26,6 +26,8 @@
 
 namespace acdhOeaw\tokeneditorModel;
 
+use PDO;
+
 /**
  * Description of TokenCollectionTest
  *
@@ -33,10 +35,10 @@ namespace acdhOeaw\tokeneditorModel;
  */
 class TokenCollectionTest extends \PHPUnit\Framework\TestCase {
 
-    static private $saveDir      = 'build';
-    static private $connSettings = 'pgsql: host=127.0.0.1 port=5432 user=postgres password=postgres';
-    static private $pdo;
-    static private $docId;
+    static private string $saveDir      = 'build';
+    static private string $connSettings = 'pgsql: host=127.0.0.1 port=5432 user=postgres password=postgres';
+    static private PDO $pdo;
+    static private int $docId;
 
     static public function setUpBeforeClass(): void {
         self::$pdo = new \PDO(self::$connSettings);

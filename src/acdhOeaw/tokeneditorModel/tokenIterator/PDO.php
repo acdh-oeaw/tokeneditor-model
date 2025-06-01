@@ -42,7 +42,7 @@ class PDO extends TokenIterator {
 
     private \PDO $pdo;
     private int $id;
-    private $results;
+    private \PDOStatement $results;
 
     public function __construct(string $xmlPath, Document $document) {
         parent::__construct($xmlPath, $document);
@@ -66,11 +66,13 @@ class PDO extends TokenIterator {
 
     public function next(): void {
         $this->pos++;
-        $this->token = $this->results->fetch(\PDO::FETCH_COLUMN);
-        if ($this->token !== false) {
+        $token = $this->results->fetch(\PDO::FETCH_COLUMN);
+        if ($token !== false) {
             $tokenDom    = new DOMDocument();
-            $tokenDom->loadXml($this->token);
+            $tokenDom->loadXml($token);
             $this->token = new Token($tokenDom->documentElement, $this->document);
+        } else {
+            $this->token = false;
         }
     }
 

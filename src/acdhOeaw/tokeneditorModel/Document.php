@@ -37,38 +37,31 @@ use acdhOeaw\tokeneditorModel\tokenIterator\XMLReader as iXMLReader;
 /**
  * Description of Datafile
  *
+ * @implements \IteratorAggregate<int, Token>
+ *
  * @author zozlak
  */
 class Document implements \IteratorAggregate {
 
     const TOKEN_ITERATORS = [iPDO::class, iDOMDocument::class, iXMLReader::class];
 
-    private $path;
-    private $name;
-    private $schema;
-    private $pdo;
-    private $tokenIteratorClassName;
-    private $tokenIterator;
-    private $exportFlag;
-    private $documentId;
-    private $tokenId = 0;
+    private string $path;
+    private string $name;
+    private Schema $schema;
+    private PDO $pdo;
+    private string $tokenIteratorClassName;
+    private TokenIterator $tokenIterator;
+    private bool $exportFlag;
+    private int $documentId;
+    private int $tokenId = 0;
 
-    /**
-     * 
-     * @throws RuntimeException
-     */
     public function __construct(PDO $pdo) {
         $this->pdo    = $pdo;
         $this->schema = new Schema($this->pdo);
     }
 
-    /**
-     * 
-     * @throws RuntimeException
-     * @throws \InvalidArgumentException
-     */
     public function loadFile(string $filePath, string $schemaPath, string $name,
-                             string $iteratorClass = null): void {
+                             string | null $iteratorClass = null): void {
         if (!is_file($filePath)) {
             throw new RuntimeException($filePath . ' is not a valid file');
         }
@@ -87,12 +80,7 @@ class Document implements \IteratorAggregate {
         }
     }
 
-    /**
-     * 
-     * @throws \UnexpectedValueException
-     * @throws \InvalidArgumentException
-     */
-    public function loadDb(string $documentId, string $iteratorClass = null): void {
+    public function loadDb(int $documentId, string | null $iteratorClass = null): void {
         $this->documentId = $documentId;
         $this->schema->loadDb($this->documentId);
 
@@ -153,7 +141,7 @@ class Document implements \IteratorAggregate {
     }
 
     public function save(string $saveDir, int $limit = 0,
-                         ProgressBar $progressBar = null, $skipErrors = false): int {
+                         ProgressBar | null $progressBar = null, bool $skipErrors = false): int {
         $this->documentId = $this->pdo->
             query("SELECT nextval('document_id_seq')")->
             fetchColumn();
@@ -202,10 +190,10 @@ class Document implements \IteratorAggregate {
      * @param boolean $replace If true, changes will be made in-place 
      *   (taking the most current value provided by usesrs as the right one). 
      *   If false, review results will be provided as TEI <fs> elements
-     * @param string $path path to the file where document will be exported
+     * @param string|null $path path to the file where document will be exported
      */
-    public function export(bool $replace = false, string $path = null,
-                           ProgressBar $progressBar = null): string {
+    public function export(bool $replace = false, string | null $path = null,
+                           ProgressBar | null $progressBar = null): string {
         $this->exportFlag = true;
         if ($replace) {
             foreach ($this as $token) {
@@ -233,10 +221,10 @@ class Document implements \IteratorAggregate {
      * @param bool $replace should only the final value be exported for every 
      *   property? (if false, a whole history of value should be exported but
      *   the actual output depends on formatter capabilities)
-     * @param ProgressBar $progressBar progress bar instance - if provided,
+     * @param ProgressBar|null $progressBar progress bar instance - if provided,
      *   export progress is shown
      */
-    public function exportTable(ExportTableInterface $formatter, bool $replace = true, ProgressBar $progressBar = null): void {
+    public function exportTable(ExportTableInterface $formatter, bool $replace = true, ProgressBar | null $progressBar = null): void {
         $this->exportFlag = true;
         $formatter->begin($this->schema);
         foreach($this as $token){

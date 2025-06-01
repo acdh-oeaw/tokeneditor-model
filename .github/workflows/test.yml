@@ -37,7 +37,7 @@ jobs:
     - name: composer
       run: composer update
     - name: phpstan
-      run: vendor/bin/phpstan analyse -l 4 src tests
+      run: vendor/bin/phpstan analyse -l 6 src tests
     - name: phpunit
       run: |
         PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -f db_schema.sql

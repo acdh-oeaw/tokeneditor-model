@@ -39,11 +39,11 @@ class TokenCollection {
      * @var array<string, string>
      */
     private array $filters  = [];
-    /*
+    /**
      * @var array<string>
      */
     private array $sorting  = [];
-    /*
+    /**
      * @var array<string, string>
      */
     private array $propDict = [];
@@ -73,7 +73,7 @@ class TokenCollection {
      * @param array<string> $columns sorting order (prepend column name with "-" for
      *   descending
      */
-    public function setSorting(array $columns) {
+    public function setSorting(array $columns): void {
         $this->sorting = $columns;
     }
 
@@ -215,7 +215,7 @@ class TokenCollection {
     }
 
     /**
-     * @returns array{string, array<mixed>}
+     * @return array{string, array<mixed>}
      */
     private function getFilters(): array {
         $query  = "";
@@ -296,6 +296,7 @@ class TokenCollection {
     }
 
     /**
+     * @param array<string> $a
      * @return array<string>
      */
     private function skipSortDir(array $a): array {

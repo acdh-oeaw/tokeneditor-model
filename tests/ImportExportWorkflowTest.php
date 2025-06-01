@@ -26,6 +26,8 @@
 
 namespace acdhOeaw\tokeneditorModel;
 
+use PDO;
+
 /**
  * Description of ImportExportWorkflowTest
  *
@@ -33,22 +35,25 @@ namespace acdhOeaw\tokeneditorModel;
  */
 class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
 
-    static private $saveDir      = 'build';
-    static private $connSettings = 'pgsql: host=127.0.0.1 port=5432 user=postgres password=postgres';
-    static private $pdo;
-    static private $validInPlace = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . "\n" .
+    static private string $saveDir      = 'build';
+    static private string $connSettings = 'pgsql: host=127.0.0.1 port=5432 user=postgres password=postgres';
+    static private PDO $pdo;
+    static private string $validInPlace = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . "\n" .
         '<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:foo="http://foo"><!--sample comment--><teiHeader><fileDesc><titleStmt><title>testtext</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc/></fileDesc></teiHeader><text><body>' .
         '<w xmlns="http://www.tei-c.org/ns/1.0" xmlns:foo="http://foo" id="w1" lemma="aaa">Hello<type>bbb</type><txml>k<l>m</l>o<foo:n>p</foo:n>r</txml></w>' .
         '<w xmlns="http://www.tei-c.org/ns/1.0" id="w2" lemma="ccc">World<type>ddd</type><txml>a<b>c</b>d</txml></w>' .
         '<w xmlns="http://www.tei-c.org/ns/1.0" id="w3" lemma="eee">!<type>fff</type><txml>k<l>m</l>n</txml></w>' .
         '</body></text></TEI>';
-    static private $validFull    = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . "\n" .
+    static private string $validFull    = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . "\n" .
         '<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:foo="http://foo"><!--sample comment--><teiHeader><fileDesc><titleStmt><title>testtext</title></titleStmt><publicationStmt><p/></publicationStmt><sourceDesc/></fileDesc></teiHeader><text><body>' .
         '<w xmlns="http://www.tei-c.org/ns/1.0" xmlns:foo="http://foo" id="w1" lemma="Hello">Hello<type>NE<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>bbb</string></f></fs></type><txml>a<foo:b>c</foo:b>d<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:txml</string></f><f xmlns:foo="http://foo" xmlns="http://www.tei-c.org/ns/1.0" name="value">k<l>m</l>o<foo:n>p</foo:n>r</f></fs></txml><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>aaa</string></f></fs></w>' .
         '<w xmlns="http://www.tei-c.org/ns/1.0" id="w2" lemma="World">World<type>NN<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>ddd</string></f></fs></type><txml>a<b>c</b>d</txml><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>ccc</string></f></fs></w>' .
         '<w xmlns="http://www.tei-c.org/ns/1.0" id="w3" lemma="!">!<type>$.<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:type</string></f><f name="value"><string>fff</string></f></fs></type><txml>a<b>c</b>d<fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>./tei:txml</string></f><f xmlns="http://www.tei-c.org/ns/1.0" name="value">k<l>m</l>n</f></fs></txml><fs type="tokeneditor"><f name="user"><string>test</string></f><f name="date"><string>%DATE</string></f><f name="property_xpath"><string>@lemma</string></f><f name="value"><string>eee</string></f></fs></w>' .
         '</body></text></TEI>';
-    static private $date;
+    static private string $date;
+    /**
+     * @var array<int>
+     */
     private $docsToClean         = [];
 
     static public function setUpBeforeClass(): void {
@@ -80,7 +85,7 @@ class ImportExportWorkflowTest extends \PHPUnit\Framework\TestCase {
         }
     }
 
-    protected function insertValues($docId): void {
+    protected function insertValues(int $docId): void {
         $query = self::$pdo->prepare("INSERT INTO documents_users VALUES (?, 'test', 'owner')");
         $query->execute(array($docId));
         $query = self::$pdo->prepare("

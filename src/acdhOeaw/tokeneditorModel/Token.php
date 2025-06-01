@@ -252,6 +252,7 @@ class Token {
         $fn->value = $name;
 
         if ($xmlValue) {
+            /** @phpstan-ignore argument.type */
             $f = $this->createElementWithNs($node, $value, 'f');
         } else {
             $v = $doc->createElement('string', $value);

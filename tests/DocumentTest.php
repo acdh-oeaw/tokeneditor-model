@@ -26,6 +26,8 @@
 
 namespace acdhOeaw\tokeneditorModel;
 
+use PDO;
+
 /**
  * Description of DocumentTest
  *
@@ -33,9 +35,9 @@ namespace acdhOeaw\tokeneditorModel;
  */
 class DocumentTest extends \PHPUnit\Framework\TestCase {
 
-    static private $saveDir      = 'build';
-    static private $connSettings = 'pgsql: host=127.0.0.1 port=5432 user=postgres password=postgres';
-    static private $pdo;
+    static private string $saveDir      = 'build';
+    static private string $connSettings = 'pgsql: host=127.0.0.1 port=5432 user=postgres password=postgres';
+    static private PDO $pdo;
 
     static public function setUpBeforeClass(): void {
         self::$pdo = new \PDO(self::$connSettings);
@@ -63,14 +65,14 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
         $d->loadDb(0);
     }
 
-    public function testWrongIteratorClass1() {
+    public function testWrongIteratorClass1(): void {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('tokenIteratorClass should be \acdhOeaw\tokeneditorModel\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditorModel\Datafile::PDO or \acdhOeaw\tokeneditorModel\Datafile::XML_READER');
         $d = new Document(self::$pdo);
         $d->loadFile(__DIR__ . '/testtext.xml', __DIR__ . '/testtext-schema.xml', 'test name', 'no such class');
     }
 
-    public function testWrongIteratorClass2() {
+    public function testWrongIteratorClass2(): void {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('tokenIteratorClass should be \acdhOeaw\tokeneditorModel\Datafile::DOM_DOCUMENT, \acdhOeaw\tokeneditorModel\Datafile::PDO or \acdhOeaw\tokeneditorModel\Datafile::XML_READER');
         $d = new Document(self::$pdo);
@@ -79,7 +81,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
         $d->loadDb($d->getId(), 'wrong class');
     }
 
-    public function testPropertiesMissingInData() {
+    public function testPropertiesMissingInData(): void {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage("at least one property wasn't found");
         $d   = new Document(self::$pdo);
@@ -90,7 +92,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
         $d->save(self::$saveDir);
     }
 
-    public function testOptionalPropertiesMissingInData() {
+    public function testOptionalPropertiesMissingInData(): void {
         $d   = new Document(self::$pdo);
         $xml = file_get_contents(__DIR__ . '/testtext.xml');
         $xml = str_replace('lemma="World"', '', $xml);
@@ -100,14 +102,14 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('test doc', $d->getName());
     }
 
-    public function testGetName() {
+    public function testGetName(): void {
         $d = new Document(self::$pdo);
         $d->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test doc');
         $d->save(self::$saveDir);
         $this->assertEquals('test doc', $d->getName());
     }
 
-    public function testImportNTokens() {
+    public function testImportNTokens(): void {
         $d     = new Document(self::$pdo);
         $d->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test doc');
         $n     = $d->save(self::$saveDir, 1);
@@ -117,7 +119,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(1, $query->fetchColumn());
     }
 
-    public function testTokenXPathToComplicated() {
+    public function testTokenXPathToComplicated(): void {
         $d   = new Document(self::$pdo);
         $xml = file_get_contents(__DIR__ . '/testtext-schema.xml');
         $xml = str_replace(' <tokenXPath>//tei:w</tokenXPath>', ' <tokenXPath>//tei:w[@id="w1"] </tokenXPath>', $xml);
@@ -127,7 +129,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(1, $n);
     }
 
-    public function testDelete() {
+    public function testDelete(): void {
         $d    = new Document(self::$pdo);
         $d->loadFile('tests/testtext.xml', 'tests/testtext-schema.xml', 'test doc');
         $d->save(self::$saveDir);

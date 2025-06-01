@@ -32,9 +32,11 @@ namespace acdhOeaw\tokeneditorModel;
  * @author zozlak
  */
 class ExportJson implements ExportTableInterface  {
-    
-    private $file;
-    private $n = 0;
+    /**
+     * @var resource|null
+     */
+    private $file = null;
+    private int $n = 0;
     
     public function __construct(string $path) {
         $this->file = fopen($path, 'w');
@@ -42,7 +44,7 @@ class ExportJson implements ExportTableInterface  {
     }
 
     public function __destruct() {
-        if ($this->file) {
+        if ($this->file !== null) {
             $this->end();
         }
     }    

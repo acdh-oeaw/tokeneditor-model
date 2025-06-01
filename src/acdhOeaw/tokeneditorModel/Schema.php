@@ -32,6 +32,8 @@ use PDO;
 /**
  * Description of Schema
  *
+ * @implements \IteratorAggregate<int, Property>
+ *
  * @author zozlak
  */
 class Schema implements \IteratorAggregate {
@@ -39,11 +41,11 @@ class Schema implements \IteratorAggregate {
     private PDO $pdo;
     private int $documentId;
     private string $tokenXPath;
-    /*
+    /**
      * @var array<string, string>
      */
     private array $namespaces = [];
-    /*
+    /**
      * @var array<Property>
      */
     private array $properties = [];
@@ -153,6 +155,9 @@ class Schema implements \IteratorAggregate {
         return($schema);
     }
 
+    /**
+     * @param object|array<string>|string $v
+     */ 
     private function propAttrToXml(object | array | string $v): string {
         if (!is_object($v) && !is_array($v)) {
             return htmlspecialchars($v);
@@ -184,7 +189,7 @@ class Schema implements \IteratorAggregate {
 
     /**
      * 
-     * @return ArrayIterator<Property>
+     * @return ArrayIterator<int, Property>
      */
     public function getIterator(): ArrayIterator {
         return new ArrayIterator($this->properties);

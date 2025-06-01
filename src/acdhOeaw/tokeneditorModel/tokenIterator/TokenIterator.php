@@ -32,6 +32,8 @@ use acdhOeaw\tokeneditorModel\Token;
 /**
  * Description of TokenIterator
  *
+ * @implements \Iterator<int, Token>
+ *
  * @author zozlak
  */
 abstract class TokenIterator implements \Iterator {
