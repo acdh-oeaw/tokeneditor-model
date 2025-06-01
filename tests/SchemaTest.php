@@ -33,7 +33,7 @@ namespace acdhOeaw\tokeneditorModel;
  */
 class SchemaTest extends \PHPUnit\Framework\TestCase {
 
-    static private $connSettings = 'pgsql: dbname=tokeneditor';
+    static private $connSettings = 'pgsql: port=5432 user=postgres password=postgres';
     static private $pdo;
     static private $xml;
 
