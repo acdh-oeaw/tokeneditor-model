@@ -272,6 +272,7 @@ class TokenCollection {
 
         $order = [];
         foreach ($this->sorting as $h => $i) {
+            $i = (string) $i;
             $dir = substr($i, 0, 1) === '-' ? ' DESC' : '';
             $i   = substr($i, 0, 1) === '-' ? substr($i, 1) : $i;
             if (isset($this->propDict[$i])) {
@@ -302,7 +303,7 @@ class TokenCollection {
     private function skipSortDir(array $a): array {
         $r = [];
         foreach ($a as $i) {
-            $r[] = preg_replace('/^-/', '', $i);
+            $r[] = preg_replace('/^-/', '', (string) $i);
         }
         return $r;
     }
